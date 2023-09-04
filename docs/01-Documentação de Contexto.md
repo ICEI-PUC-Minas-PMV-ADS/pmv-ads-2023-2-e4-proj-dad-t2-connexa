@@ -1,46 +1,37 @@
 # Introdução
 
-Texto descritivo com a visão geral do projeto abordado. Inclui o contexto, o problema, os objetivos, a justificativa e o público-alvo do projeto.
+Com mudanças ocorrendo de modo rápido, a sincronização eficiente das atividades diárias se torna imperativa para otimizar recursos e tempo. Nesse contexto, o gerenciamento de compras surge como um ponto crucial, e a eficácia desse processo muitas vezes se relaciona diretamente ao compartilhamento organizado de informações.  
+
+A ausência de um sistema estruturado para compartilhar listas de compras entre membros de um grupo, como familiares, colegas de quarto ou amigos, frequentemente resulta em compras duplicadas, itens essenciais esquecidos e uma sensação geral de insatisfação. 
+
+ A crescente dependência dos dispositivos móveis para a gestão das tarefas cotidianas amplifica ainda mais a relevância de um aplicativo destinado ao compartilhamento de listas de compras. 
 
 ## Problema
-Nesse momento você deve apresentar o problema que a sua aplicação deve  resolver. No entanto, não é a hora de comentar sobre a aplicação.
-
-Descreva também o contexto em que essa aplicação será usada, se  houver: empresa, tecnologias, etc. Novamente, descreva apenas o que de  fato existir, pois ainda não é a hora de apresentar requisitos  detalhados ou projetos.
-
-Nesse momento, o grupo pode optar por fazer uso  de ferramentas como Design Thinking, que permite um olhar de ponta a ponta para o problema.
-
-> **Links Úteis**:
-> - [Objetivos, Problema de pesquisa e Justificativa](https://medium.com/@versioparole/objetivos-problema-de-pesquisa-e-justificativa-c98c8233b9c3)
-> - [Matriz Certezas, Suposições e Dúvidas](https://medium.com/educa%C3%A7%C3%A3o-fora-da-caixa/matriz-certezas-suposi%C3%A7%C3%B5es-e-d%C3%BAvidas-fa2263633655)
-> - [Brainstorming](https://www.euax.com.br/2018/09/brainstorming/)
+A falta de um compartilhamento adequado de listas de compras entre grupos é um problema.  Ao focar no aprimoramento do compartilhamento, abordamos a raiz do problema. Isso resulta em uma experiência de compras mais organizada, econômica e coesa, eliminando compras duplicadas e fortalecendo a colaboração entre os membros do grupo. 
 
 ## Objetivos
 
-Aqui você deve descrever os objetivos do trabalho indicando que o objetivo geral é desenvolver um software para solucionar o problema apresentado acima. 
+O objetivo é criar uma solução que simplifique o processo de compartilhamento e gerenciamento de listas de compras entre membros de um grupo, seja em dispositivos móveis ou em navegadores web. 
 
-Apresente também alguns (pelo menos 2) objetivos específicos dependendo de onde você vai querer concentrar a sua prática investigativa, ou como você vai aprofundar no seu trabalho.
- 
-> **Links Úteis**:
-> - [Objetivo geral e objetivo específico: como fazer e quais verbos utilizar](https://blog.mettzer.com/diferenca-entre-objetivo-geral-e-objetivo-especifico/)
+### Objetivos Específicos
+- Desenvolver um aplicativo móvel nativo e uma plataforma WEB que sejam intuitivos e eficazes no compartilhamento de listas de compras. 
+
+- Possibilitar que membros de um grupo adicionem, editem e removam itens da lista com facilidade. 
+
+- Implementar um sistema em tempo real, utilizando a tecnologia RabbitMQ ou Kafka, refletindo todas as alterações feitas pelos usuários.
 
 ## Justificativa
 
-Descreva a importância ou a motivação para trabalhar com esta aplicação que você escolheu. Indique as razões pelas quais você escolheu seus objetivos específicos ou as razões para aprofundar em certos aspectos do software.
-
-O grupo de trabalho pode fazer uso de questionários, entrevistas e dados estatísticos, que podem ser apresentados, com o objetivo de esclarecer detalhes do problema que será abordado pelo grupo.
-
-> **Links Úteis**:
-> - [Como montar a justificativa](https://guiadamonografia.com.br/como-montar-justificativa-do-tcc/)
+A solução proposta terá impactos positivos, ao facilitar o compartilhamento, esperamos fortalecer a comunicação e colaboração entre os membros do grupo, melhorando a organização e a harmonia tanto em famílias como em grupos diversos. A nossa solução abraça plenamente as necessidades atuais de uma gestão mais colaborativa e eficaz, realçando o compartilhamento como a chave para atingir objetivos, agilizar e tornar conveniente o processo de compartilhamento de listas entre os membros do grupo, aprimorar a coordenação e a eficiência das atividades do dia a dia e simplificar o processo de compras como um todo. 
 
 ## Público-Alvo
 
-Descreva quem serão as pessoas que usarão a sua aplicação indicando os diferentes perfis. O objetivo aqui não é definir quem serão os clientes ou quais serão os papéis dos usuários na aplicação. A ideia é, dentro do possível, conhecer um pouco mais sobre o perfil dos usuários: conhecimentos prévios, relação com a tecnologia, relações
-hierárquicas, etc.
+O público-alvo para a lista compartilhada é diversificado e abrange diferentes grupos e contextos. Podendo ser utilizado por: 
 
-Adicione informações sobre o público-alvo por meio de uma descrição textual, diagramas de personas e mapa de stakeholders.
+- **Famílias** que desejam manter uma gestão mais organizada das compras domésticas, garantindo que todos os membros estejam atualizados sobre o que é necessário. 
 
-> **Links Úteis**:
-> - [Público-alvo](https://blog.hotmart.com/pt-br/publico-alvo/)
-> - [Como definir o público alvo](https://exame.com/pme/5-dicas-essenciais-para-definir-o-publico-alvo-do-seu-negocio/)
-> - [Público-alvo: o que é, tipos, como definir seu público e exemplos](https://klickpages.com.br/blog/publico-alvo-o-que-e/)
-> - [Qual a diferença entre público-alvo e persona?](https://rockcontent.com/blog/diferenca-publico-alvo-e-persona/)
+- **Grupos de amigos** que frequentemente se unem, como em festas ou refeições, e desejam organizar para evitar compras duplicadas. 
+
+- Pessoas que compartilham moradia, como **estudantes universitários**, buscando uma forma eficaz de coordenar as compras do lar. 
+
+- **Equipes de trabalho** que precisam coordenar suprimentos, garantindo que todos estejam cientes do que é necessário para suas atividades. 

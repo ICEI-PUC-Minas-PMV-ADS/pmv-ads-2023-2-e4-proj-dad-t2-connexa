@@ -1,54 +1,60 @@
 # Especificações do Projeto
-
-<span style="color:red">Pré-requisitos: <a href="1-Documentação de Contexto.md"> Documentação de Contexto</a></span>
-
-Definição do problema e ideia de solução a partir da perspectiva do usuário. É composta pela definição do  diagrama de personas, histórias de usuários, requisitos funcionais e não funcionais além das restrições do projeto.
-
-Apresente uma visão geral do que será abordado nesta parte do documento, enumerando as técnicas e/ou ferramentas utilizadas para realizar a especificações do projeto
-
 ## Personas
 
-Pedro Paulo tem 26 anos, é arquiteto recém-formado e autônomo. Pensa em se desenvolver profissionalmente através de um mestrado fora do país, pois adora viajar, é solteiro e sempre quis fazer um intercâmbio. Está buscando uma agência que o ajude a encontrar universidades na Europa que aceitem alunos estrangeiros.
+| Nome: Lucas                           | Idade: 19 anos                   | Persona 1                             |
+| ------------------------------------- | -------------------------------- | ------------------------------------- |
+|![Persona Lucas](img/Lucas.jpeg)| Ocupação: Estudante  | Aplicativos: TikTok, WhatsApp, YouTube, Instagram, SnapChat |
+| Motivações:                           | Frustrações:                     | Hobbies:                              |
+| Lucas é um estudante universitário que compartilha um apartamento com três colegas de quarto. Ele costuma fazer diversas festas. | Com uma grande festa se aproximando, os amigos de Lucas percebem que a coordenação das compras está ficando complicada. | Escutar Músicas. |
 
-Enumere e detalhe as personas da sua solução. Para tanto, baseie-se tanto nos documentos disponibilizados na disciplina e/ou nos seguintes links:
 
-> **Links Úteis**:
-> - [Rock Content](https://rockcontent.com/blog/personas/)
-> - [Hotmart](https://blog.hotmart.com/pt-br/como-criar-persona-negocio/)
-> - [O que é persona?](https://resultadosdigitais.com.br/blog/persona-o-que-e/)
-> - [Persona x Público-alvo](https://flammo.com.br/blog/persona-e-publico-alvo-qual-a-diferenca/)
-> - [Mapa de Empatia](https://resultadosdigitais.com.br/blog/mapa-da-empatia/)
-> - [Mapa de Stalkeholders](https://www.racecomunicacao.com.br/blog/como-fazer-o-mapeamento-de-stakeholders/)
->
-Lembre-se que você deve ser enumerar e descrever precisamente e personalizada todos os clientes ideais que sua solução almeja.
+| Nome: Maria | Idade: 40 anos | Persona 2 |
+| ----------- | -------------- | --------- |
+| ![Persona Maria](img/Maria.jpg)| Ocupação: Faxineira | Aplicativos: WhatsApp, YouTube, Facebook. |
+| Motivações: | Frustrações: | Hobbies: |
+| Maria é uma mãe ocupada com três filhos e um marido que trabalha em tempo integral. Ela está constantemente fazendo compras para a casa. | Ela nota que às vezes compra coisas que já foram compradas por outros membros da família. | Sair com os filhos e marido para jantar fora. |
+
+
+| Nome: Ana                          | Idade: 30 anos                 | Persona 3                  |
+| ---------------------------------- | ------------------------------ | --------------------------- |
+| ![Persona Ana](img/Ana.jpg)| Ocupação: Tech Lead           | Aplicativos: WhatsApp, YouTube, Facebook, Instagram, Teams |
+| Motivações:                        | Frustrações:                   | Hobbies:                   |
+| Ana é a líder de uma equipe de projeto em uma empresa de tecnologia. Responsável por organizar as comemorações para a sua equipe. | Ela frequentemente precisa da ajuda de todos para definir o que será levado por cada um, mas não consegue compartilhar isso de uma maneira fácil. | Tocar guitarra |
+
+| Nome: Carlos | Idade: 25 anos | Persona 4 |
+| ------------ | -------------- | --------- |
+|![Persona Carlos](img/Carlos.jpg) | Ocupação: Atleta | Aplicativos: WhatsApp, YouTube, Facebook, Instagram |
+| Motivações: | Frustrações: | Hobbies: |
+| Carlos é um atleta amador e segue uma dieta específica. Ele precisa se certificar de que tem os alimentos certos em casa para atender às suas necessidades nutricionais. | Muitas vezes encontra dificuldades em se comunicar sobre o que precisa ser comprado, com seus familiares. | Ler livros de aventura. |
+
 
 ## Histórias de Usuários
 
-Com base na análise das personas forma identificadas as seguintes histórias de usuários:
+Registramos as narrativas das personas identificadas no projeto e realizamos uma análise aprofundada de suas histórias.
 
-|EU COMO... `PERSONA`| QUERO/PRECISO ... `FUNCIONALIDADE` |PARA ... `MOTIVO/VALOR`                 |
-|--------------------|------------------------------------|----------------------------------------|
-|Usuário do sistema  | Registrar minhas tarefas           | Não esquecer de fazê-las               |
-|Administrador       | Alterar permissões                 | Permitir que possam administrar contas |
+| EU COMO...  PERSONA | QUERO/PRECISO ... FUNCIONALIDADE                                                                                                                          | PARA ... MOTIVO/VALOR                                                                                                                                                                  |
+|:-------------------:| --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Lucas               | Possiblidade de criar uma lista eficiente e rápida para as compras das festas que faço.                                                                   | À medida que a festa se aproxima, o tempo é essencial. A capacidade de criar uma lista rapidamente permite que o grupo de amigos se concentre em outros aspectos importantes da festa. |
+| Maria               | Ter uma lista compartilhada com marcação para os itens que já foram comprados.                                                                            | A marcação dos itens já comprados pelos ouros membros da família assegura que nenhum item seja adquirido duas vezes, economizando dinheiro e evitando o excesso de estoque.            |
+| Ana                 | A possibilidade de compartilhar a lista de compras com todos os colegas de trabalho e permitir que eles adicionem, apaguem e editem os itens necessários. | A inclusão de todos os colegas ajuda a maximizar os recursos disponíveis, assegurando que todas as necessidades sejam atendidas de maneira eficaz.                                     |
+| Carlos              | Compartilhamento de uma lista de compras que atualiza em tempo real.                                                                                      | O compartilhamento em tempo real permite saber quais itens são necessários no momento exato. Isso simplifica a coordenação das compras com meus familiares.                            |
 
-Apresente aqui as histórias de usuário que são relevantes para o projeto de sua solução. As Histórias de Usuário consistem em uma ferramenta poderosa para a compreensão e elicitação dos requisitos funcionais e não funcionais da sua aplicação. Se possível, agrupe as histórias de usuário por contexto, para facilitar consultas recorrentes à essa parte do documento.
-
-> **Links Úteis**:
-> - [Histórias de usuários com exemplos e template](https://www.atlassian.com/br/agile/project-management/user-stories)
-> - [Como escrever boas histórias de usuário (User Stories)](https://medium.com/vertice/como-escrever-boas-users-stories-hist%C3%B3rias-de-usu%C3%A1rios-b29c75043fac)
-> - [User Stories: requisitos que humanos entendem](https://www.luiztools.com.br/post/user-stories-descricao-de-requisitos-que-humanos-entendem/)
-> - [Histórias de Usuários: mais exemplos](https://www.reqview.com/doc/user-stories-example.html)
-> - [9 Common User Story Mistakes](https://airfocus.com/blog/user-story-mistakes/)
 
 ## Modelagem do Processo de Negócio 
 
 ### Análise da Situação Atual
 
-Apresente aqui os problemas existentes que viabilizam sua proposta. Apresente o modelo do sistema como ele funciona hoje. Caso sua proposta seja inovadora e não existam processos claramente definidos, apresente como as tarefas que o seu sistema pretende implementar são executadas atualmente, mesmo que não se utilize tecnologia computacional. 
+O método manual de criação de listas de compras é um dos mais tradicionais e simples. Nele, as pessoas escrevem os itens que precisam comprar em papel, bloco de notas ou até mesmo em um quadro de avisos na cozinha. Cada membro da família anota manualmente o que percebe que está faltando.
+
+Alguns usam apps de mensagens, como WhatsApp, para compartilhar listas. Os itens são discutidos e adicionados às conversas, podendo ser marcados quando comprados.
+
+No entanto, o método manual tem suas limitações. Itens devem ser escritos um a um, e a lista pode não ser atualizada em tempo real, podendo levar a esquecimentos. Compartilhar a lista com quem não está presente pode ser difícil. Além disso, papéis e blocos de notas podem ser perdidos ou danificados, causando perda de informação.
+
+No caso de bate-papos, a lista pode se tornar desorganizada com o tempo, à medida que mais itens são adicionados. Apps de mensagens não são projetados especificamente para gerenciar lista de compras, o que pode levar a uma experiência menos eficiente.
 
 ### Descrição Geral da Proposta
 
-Apresente aqui uma descrição da sua proposta abordando seus limites e suas ligações com as estratégias e objetivos do negócio. Apresente aqui as oportunidades de melhorias.
+A proposta busca modernizar e otimizar a coordenação de compras em grupos e famílias. Através de uma abordagem digital, os membros podem compartilhar e atualizar a lista em tempo real, evitando duplicações e desorganização. Isso estimula a colaboração e simplifica o processo de compras, com acesso conveniente por dispositivos móveis ou web. Além disso, ela supera as limitações dos métodos tradicionais, como listas manuais em papel ou desorganização em apps de mensagens.
 
 ### Processo 1 – NOME DO PROCESSO
 

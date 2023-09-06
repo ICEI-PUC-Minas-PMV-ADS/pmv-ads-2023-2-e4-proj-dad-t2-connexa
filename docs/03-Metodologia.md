@@ -3,12 +3,16 @@
 
 <span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Documentação de Especificação</a></span>
 
-Descreva aqui a metodologia de trabalho do grupo para atacar o problema. Definições sobre os ambiente de trabalho utilizados pela  equipe para desenvolver o projeto. Abrange a relação de ambientes utilizados, a estrutura para gestão do código fonte, além da definição do processo e ferramenta através dos quais a equipe se organiza (Gestão de Times).
+O projeto será desenvolvido com a metodologia ágil SCRUM, com as divisões feitas em backlog. O sistema será criado de modo iterativo, com incrementos a cada fase do projeto. Cada desenvolvedor terá sua própria branch e seus próprios arquivos de edição, com exceção de issues que necessitarão de dois ou mais desenvolvedores atuando juntos.
 
 ## Relação de Ambientes de Trabalho
 
-Os artefatos do projeto são desenvolvidos a partir de diversas plataformas e a relação dos ambientes com seu respectivo propósito deverá ser apresentada em uma tabela que especifica que detalha Ambiente, Plataforma e Link de Acesso. 
-Nota: Vide documento modelo do estudo de caso "Portal de Notícias" e defina também os ambientes e frameworks que serão utilizados no desenvolvimento de aplicações móveis.
+Ambiente | Plataforma | Link de acesso
+--------- | ------ | -------
+Repositório de código fonte | Github | [Link Github](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e4-proj-dad-t2-connexa)
+Gerenciamento do projeto | Github Projects | [Conexxa Project](https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/570)
+Desenvolvimento da aplicação móvel | Expo.dev | [Expo.dev](https://expo.dev/)
+
 
 ## Controle de Versão
 
@@ -18,10 +22,10 @@ foi utilizado para hospedagem do repositório.
 
 O projeto segue a seguinte convenção para o nome de branches:
 
-- `main`: versão estável já testada do software
-- `unstable`: versão já testada do software, porém instável
-- `testing`: versão em testes do software
-- `dev`: versão de desenvolvimento do software
+- `bugfix/`: Correção de bugs simples;
+- `feature/`: Implementação de uma nova funcionalidade no código;
+- `hotfix/`: Correção de bugs que envolvam etapas mais complexas e arriscadas;
+- `improvement/`: melhoria de alguma funcionalidade;
 
 Quanto à gerência de issues, o projeto adota a seguinte convenção para
 etiquetas:

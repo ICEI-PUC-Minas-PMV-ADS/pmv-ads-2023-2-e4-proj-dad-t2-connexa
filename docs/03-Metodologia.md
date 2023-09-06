@@ -10,7 +10,7 @@ O projeto será desenvolvido com a metodologia ágil SCRUM, com as divisões fei
 Ambiente | Plataforma | Link de acesso
 --------- | ------ | -------
 Repositório de código fonte | Github | [Link Github](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e4-proj-dad-t2-connexa)
-Gerenciamento do projeto | Github Projects | [Conexxa Project](https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/570)
+Gerenciamento do projeto | Github Projects | [Connexa Project](https://github.com/orgs/ICEI-PUC-Minas-PMV-ADS/projects/570)
 Desenvolvimento da aplicação móvel | Expo.dev | [Expo.dev](https://expo.dev/)
 
 

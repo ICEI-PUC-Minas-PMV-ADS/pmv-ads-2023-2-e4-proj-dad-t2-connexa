@@ -76,13 +76,15 @@ Apresente aqui o nome e as oportunidades de melhorias para o processo 2. Em segu
 
 ### Processo 2 - Criação de uma lista compartilhada
 
+![cricao de lista](image-1.png)
 
 ### Processo 3 - Definição dos privilégios aos usuários da lista
 
+![privilegios de lista](image-3.png)
 
 ### Processo 4 - Atualização de uma lista compartilhada
 
-
+![atualiza de lista](image-4.png)
 
 ## Indicadores de Desempenho
 

@@ -91,7 +91,7 @@ Apresente aqui o nome e as oportunidades de melhorias para o processo 2. Em segu
 Os indicadores de desempenho são medições e avaliações dentro do fluxo, que ajudam a direcionar os processos e auxiliar as pessoas em relação aos objetivos e metas traçados no planejamento estratégico de um projeto. 
 
 
-![Indicadores de Desempenho](docs/img-indicadores.png)
+![Indicadores de Desempenho](img-indicadores.png)
 
 
 ## Requisitos

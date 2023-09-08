@@ -56,6 +56,7 @@ No caso de bate-papos, a lista pode se tornar desorganizada com o tempo, à medi
 
 A proposta busca modernizar e otimizar a coordenação de compras em grupos e famílias. Através de uma abordagem digital, os membros podem compartilhar e atualizar a lista em tempo real, evitando duplicações e desorganização. Isso estimula a colaboração e simplifica o processo de compras, com acesso conveniente por dispositivos móveis ou web. Além disso, ela supera as limitações dos métodos tradicionais, como listas manuais em papel ou desorganização em apps de mensagens.
 
+<!--
 ### Processo 1 – NOME DO PROCESSO
 
 Apresente aqui o nome e as oportunidades de melhorias para o processo 1. Em seguida, apresente o modelo do processo 1, descrito no padrão BPMN. 
@@ -67,6 +68,21 @@ Apresente aqui o nome e as oportunidades de melhorias para o processo 1. Em segu
 Apresente aqui o nome e as oportunidades de melhorias para o processo 2. Em seguida, apresente o modelo do processo 2, descrito no padrão BPMN.
 
 ![Processo 2](img/02-bpmn-proc2.png)
+-->
+
+### Processo 1 - Criação do Login
+
+![criacao do login](image.png)
+
+### Processo 2 - Criação de uma lista compartilhada
+
+
+### Processo 3 - Definição dos privilégios aos usuários da lista
+
+
+### Processo 4 - Atualização de uma lista compartilhada
+
+
 
 ## Indicadores de Desempenho
 

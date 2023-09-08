@@ -46,23 +46,20 @@ Entregar um arquivo banco.sql contendo os scripts de criação das tabelas do ba
 
 ## Hospedagem
 
-Explique como a hospedagem e o lançamento da plataforma foi feita.
-
-> **Links Úteis**:
->
-> - [Website com GitHub Pages](https://pages.github.com/)
-> - [Programação colaborativa com Repl.it](https://repl.it/)
-> - [Getting Started with Heroku](https://devcenter.heroku.com/start)
-> - [Publicando Seu Site No Heroku](http://pythonclub.com.br/publicando-seu-hello-world-no-heroku.html)
+O programa usará a aplicação de JSON SERVER como método de hospedagem do back-end da aplicação podendo, a depender da evolução do projeto, ser migrado para uma estrutura de back-end em ASP.NET Core. O planejamento é hospedar o back-end na infraestrutura local de um participante do grupo.
 
 ## Qualidade de Software
 
-Conceituar qualidade de fato é uma tarefa complexa, mas ela pode ser vista como um método gerencial que através de procedimentos disseminados por toda a organização, busca garantir um produto final que satisfaça às expectativas dos stakeholders.
+De acordo com a norma ISO/IEC 25010:2011, as características de qualidade do software são:
 
-No contexto de desenvolvimento de software, qualidade pode ser entendida como um conjunto de características a serem satisfeitas, de modo que o produto de software atenda às necessidades de seus usuários. Entretanto, tal nível de satisfação nem sempre é alcançado de forma espontânea, devendo ser continuamente construído. Assim, a qualidade do produto depende fortemente do seu respectivo processo de desenvolvimento.
-
-A norma internacional ISO/IEC 25010, que é uma atualização da ISO/IEC 9126, define oito características e 30 subcaracterísticas de qualidade para produtos de software.
-Com base nessas características e nas respectivas sub-características, identifique as sub-características que sua equipe utilizará como base para nortear o desenvolvimento do projeto de software considerando-se alguns aspectos simples de qualidade. Justifique as subcaracterísticas escolhidas pelo time e elenque as métricas que permitirão a equipe avaliar os objetos de interesse.
+Funcionalidade - Atende às necessidades do usuário
+Confiabilidade - Executa suas funções de forma correta e consistente
+Usabilidade - Fácil de usar e aprender
+Eficiência - Desempenho adequado em relação aos recursos utilizados
+Manutenibilidade - Capacidade de ser modificado e corrigido facilmente
+Portabilidade - Pode ser utilizado em diferentes ambientes
+Segurança - Protege informações e funcionalidades contra acesso não autorizado.
+Diante disso, nossa aplicação tem como meta de desenvolvimento ser capaz de cumprir todos esses requisitos de qualidade de software para que seus stakeholders sejam corretamente satisfeitos.
 
 > **Links Úteis**:
 >

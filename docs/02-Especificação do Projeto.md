@@ -194,6 +194,17 @@ O gerenciamento adequado de tarefas contribuirá para que o projeto alcance alto
 
 ## Gestão de Orçamento
 
-O processo de determinar o orçamento do projeto é uma tarefa que depende, além dos produtos (saídas) dos processos anteriores do gerenciamento de custos, também de produtos oferecidos por outros processos de gerenciamento, como o escopo e o tempo.
+O orçamento do projeto foi dividido em cinco partes: Recursos humanos, hardware, rede, software e serviços.
 
-![Orçamento](img/02-orcamento.png)
+Em recursos humanos consideramos uma equipe formada por sete membros, onde cada um possui um custo de aproximadamente R$30.000/mês. Em seis meses, o custo total dos sete funcionários seria de R$1.260.000.
+
+Em hardware consideramos um notebook e alguns periféricos, como mouse e teclado, para cada um. Nesse caso, teríamos um custo fixo de R$20000 por funcionário, dando um total de R$140.000.
+
+Em rede consideramos toda estrutura de rede interna do escritório, considerando internet e intranet. O custo ficaria em torno de R$3000/mês, totalizando ao final R$24.000.
+
+Em software consideramos todas as ferramentas utilizadas pela equipe para trabalhar, como IDE, MS Teams... O custo total dessas ferramentas para cada funcionário é de R$5.000/mês, totalizando ao final do projeto R$210.000.
+
+Em serviços podemos considerar tanto os que estão a disposição do funcionário, quanto a disposição do cliente e do projeto. Nesse caso, serviços para escritório, como limpeza, café, água, ou serviços como azure, estão inclusos. Teremos um custo aproximado de R$50.000/mês, totalizando R$300.000.
+
+
+![Orçamento](img/connexa-orcamento.png)

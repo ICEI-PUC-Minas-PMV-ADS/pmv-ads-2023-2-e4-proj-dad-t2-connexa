@@ -207,4 +207,4 @@ Em software consideramos todas as ferramentas utilizadas pela equipe para trabal
 Em serviços podemos considerar tanto os que estão a disposição do funcionário, quanto a disposição do cliente e do projeto. Nesse caso, serviços para escritório, como limpeza, café, água, ou serviços como azure, estão inclusos. Teremos um custo aproximado de R$50.000/mês, totalizando R$300.000.
 
 
-![Orçamento](img/connexa-orcamento.png)
+![Orçamento](img/connexa_orcamento.png)

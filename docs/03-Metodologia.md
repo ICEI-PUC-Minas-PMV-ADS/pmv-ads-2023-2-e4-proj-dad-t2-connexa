@@ -51,7 +51,7 @@ etiquetas:
 
 - Scrum Master: Diego;
 - Product Owner: Mikaelly;
-- Equipe de Desenvolvimento: Bruno, Diego, Mikaelly, Lucas, Thassia, Marina;
+- Equipe de Desenvolvimento: Bruno, Diego, Mikaelly, Lucas, Thassia, Marina, Gabriel
 - Equipe de Design: Lucas, Thassia.
 
 <!--
@@ -77,9 +77,11 @@ Nele podemos acompanhar o desenvolvimento do projeto.
 
 As ferramentas empregadas no projeto são:
 
-- Editor de código: VSCode
-- Ferramentas de comunicação: Discord, Teams, WhatsApp
-- Ferramentas de desenho de tela (_wireframing_): Lucidchart
+- Editor de código: VSCode, Visual Studio Community, LINQPad.
+- Ferramentas de comunicação: Discord, Teams, WhatsApp.
+- Ferramentas de desenho de tela (_wireframing_): Lucidchart.
+- Ferramenta de testes de api: Postman, Insomnia.
+- Ferramentas de testes unitários: C# Mock, AAA.
 
 O editor de código foi escolhido porque ele possui uma integração com o sistema de versão. As ferramentas de comunicação utilizadas possuem integração semelhante e por isso foram selecionadas. Por fim, para criar diagramas utilizamos essa ferramenta por melhor captar as necessidades da nossa solução.
 

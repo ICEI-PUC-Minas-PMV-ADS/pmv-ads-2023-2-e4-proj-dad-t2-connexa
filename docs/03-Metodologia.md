@@ -51,7 +51,7 @@ etiquetas:
 ### Divisão de Papéis
 
 - Scrum Master: Diego;
-- Product Owner: Mikaelly;
+- Product Owner: Leonardo Vilela Cardoso;
 - Equipe de Desenvolvimento: Bruno, Diego, Mikaelly, Lucas, Thassia, Marina, Gabriel
 - Equipe de Design: Lucas, Thassia.
 

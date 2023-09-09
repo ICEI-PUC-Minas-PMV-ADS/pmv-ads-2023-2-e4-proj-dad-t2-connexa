@@ -109,7 +109,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RF-005| Permitir que o usuário participe de várias listas | MEDIA |
 |RF-006| Permitir que o usuário acrescente pessoas à essa lista | MEDIA |
 |RF-007| O software deve ter sincronização em tempo real | MEDIA |
-|RF-005| Permitir que o usuário exclua a lista ou itens da lista | MEDIA |
+|RF-008| Permitir que o usuário exclua a lista ou itens da lista | MEDIA |
 
 ### Requisitos não Funcionais
 

@@ -30,6 +30,7 @@ O projeto segue a seguinte convenção para o nome de branches:
 Quanto à gerência de issues, o projeto adota a seguinte convenção para
 etiquetas:
 
+- `dev`: relacionado a devensolvimento de softwares.
 - `documentation`: melhorias ou acréscimos à documentação
 - `bug`: uma funcionalidade encontra-se com problemas
 - `enhancement`: uma funcionalidade precisa ser melhorada

@@ -110,6 +110,7 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 |RF-006| Permitir que o usuário acrescente pessoas à essa lista | MEDIA |
 |RF-007| O software deve ter sincronização em tempo real | MEDIA |
 |RF-008| Permitir que o usuário exclua a lista ou itens da lista | MEDIA |
+|RF-009| Permitir que o usuário atualize a lista | MEDIA |
 
 ### Requisitos não Funcionais
 
@@ -176,7 +177,7 @@ A matriz de rastreabilidade é uma ferramenta usada para facilitar a visualizaç
 
 A matriz deve contemplar todos os elementos relevantes que fazem parte do sistema, conforme a figura meramente ilustrativa apresentada a seguir.
 
-![Exemplo de matriz de rastreabilidade](img/02-matriz-rastreabilidade.png)
+![Exemplo de matriz de rastreabilidade](img/matriz-rastreabilidade-connexa.png)
 <!--
 > **Links Úteis**:
 > - [Artigo Engenharia de Software 13 - Rastreabilidade](https://www.devmedia.com.br/artigo-engenharia-de-software-13-rastreabilidade/12822/)

@@ -58,6 +58,3 @@ O fluxo de usuário (User Flow) mostra como o será a navegação pelas páginas
 ![Mobile Adicionar Participantes](img/Mobile-Adicionar-Participantes.png)
 ### Tela Editar Item
 ![Mobile Editar Item](img/Mobile-Editar-Item.png)
-
-
-

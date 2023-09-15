@@ -13,6 +13,29 @@ O fluxo de usuário (User Flow) mostra como o será a navegação pelas páginas
 
 # Wireframes
 
+## Web
+
+### Tela Cadastro
+![Web Cadastrar](img/cadastro-web.png)
+### Tela Login
+![Web Login](img/entrar-web.png)
+### Tela Recuperar Senha
+![Web Senha](img/recuperar-senha-web.png)
+### Tela Home (Minhas Listas)
+![Web Home](img/minhas-listas-web.png)
+### Tela Lista
+![Web Lista](img/marcas-itens-web.png)
+### Listas que contribuo
+![Web Lista que contribuo](img/listas-contribuo-web.png)
+### Tela Criar Lista
+![Web Criar Lista](img/criar-lista-web.png)
+### Tela Adicionar Item
+![Web Adicionar Item](img/add-itens-web.png)
+### Tela Adicionar Participante
+![Web Adicionar Participantes](img/compartilhar-lista-web.png)
+### Tela Editar Item
+![Web Editar Item](img/editar-lista-web.png)
+
 ## Mobile
 
 ### Tela Cadastro

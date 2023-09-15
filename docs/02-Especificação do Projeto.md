@@ -72,26 +72,26 @@ Apresente aqui o nome e as oportunidades de melhorias para o processo 2. Em segu
 
 ### Processo 1 - Criação do Login
 
-![criacao do login](image.png)
+![criacao do login](img/image.png)
 
 ### Processo 2 - Criação de uma lista compartilhada
 
-![cricao de lista](image-1.png)
+![cricao de lista](img/image-1.png)
 
 ### Processo 3 - Definição dos privilégios aos usuários da lista
 
-![privilegios de lista](image-3.png)
+![privilegios de lista](img/image-3.png)
 
 ### Processo 4 - Atualização de uma lista compartilhada
 
-![atualiza de lista](image-4.png)
+![atualiza de lista](img/image-4.png)
 
 ## Indicadores de Desempenho
 
 Os indicadores de desempenho são medições e avaliações dentro do fluxo, que ajudam a direcionar os processos e auxiliar as pessoas em relação aos objetivos e metas traçados no planejamento estratégico de um projeto. 
 
 
-![Indicadores de Desempenho](img-indicadores.png)
+![Indicadores de Desempenho](img/img-indicadores.png)
 
 
 ## Requisitos
@@ -193,17 +193,17 @@ De acordo com o PMBoK v6 as dez áreas que constituem os pilares para gerenciar 
 
 Com diagramas bem organizados que permitem gerenciar o tempo nos projetos, o gerente de projetos agenda e coordena tarefas dentro de um projeto para estimar o tempo necessário de conclusão.
 
-![Diagrama de rede simplificado notação francesa (método francês)](Cronograma.png.jpg)
+![Diagrama de rede simplificado notação francesa (método francês)](img/Cronograma.jpg)
 
 O gráfico de Gantt ou diagrama de Gantt é uma ferramenta visual utilizada para controlar e gerenciar o cronograma de atividades de um projeto. Com ele, é possível listar tudo que precisa ser feito para colocar o projeto em prática, dividir em atividades e estimar o tempo necessário para executá-las.
 
-![Gráfico de Gantt](gantt.png)
+![Gráfico de Gantt](img/gantt.png)
 
 ## Gerenciamento de Equipe
 
 O gerenciamento adequado de tarefas contribuirá para que o projeto alcance altos níveis de produtividade. Por isso, é fundamental que ocorra a gestão de tarefas e de pessoas, de modo que os times envolvidos no projeto possam ser facilmente gerenciados. 
 
-![Simple Project Timeline](EQUIPE.jpg)
+![Simple Project Timeline](img/EQUIPE.jpg)
 
 ## Gestão de Orçamento
 

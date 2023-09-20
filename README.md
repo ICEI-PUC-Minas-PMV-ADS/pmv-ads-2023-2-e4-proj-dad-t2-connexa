@@ -1,4 +1,4 @@
-# TÍTULO DO PROJETO
+# CONNEXA
 
 `Ánalise e desenvolvimento de Sistemas` 
 

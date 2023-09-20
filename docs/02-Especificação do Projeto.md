@@ -56,6 +56,7 @@ No caso de bate-papos, a lista pode se tornar desorganizada com o tempo, à medi
 
 A proposta busca modernizar e otimizar a coordenação de compras em grupos e famílias. Através de uma abordagem digital, os membros podem compartilhar e atualizar a lista em tempo real, evitando duplicações e desorganização. Isso estimula a colaboração e simplifica o processo de compras, com acesso conveniente por dispositivos móveis ou web. Além disso, ela supera as limitações dos métodos tradicionais, como listas manuais em papel ou desorganização em apps de mensagens.
 
+<!--
 ### Processo 1 – NOME DO PROCESSO
 
 Apresente aqui o nome e as oportunidades de melhorias para o processo 1. Em seguida, apresente o modelo do processo 1, descrito no padrão BPMN. 
@@ -67,15 +68,31 @@ Apresente aqui o nome e as oportunidades de melhorias para o processo 1. Em segu
 Apresente aqui o nome e as oportunidades de melhorias para o processo 2. Em seguida, apresente o modelo do processo 2, descrito no padrão BPMN.
 
 ![Processo 2](img/02-bpmn-proc2.png)
+-->
+
+### Processo 1 - Criação do Login
+
+![criacao do login](img/image.png)
+
+### Processo 2 - Criação de uma lista compartilhada
+
+![cricao de lista](img/image-1.png)
+
+### Processo 3 - Definição dos privilégios aos usuários da lista
+
+![privilegios de lista](img/image-3.png)
+
+### Processo 4 - Atualização de uma lista compartilhada
+
+![atualiza de lista](img/image-4.png)
 
 ## Indicadores de Desempenho
 
-Apresente aqui os principais indicadores de desempenho e algumas metas para o processo. Atenção: as informações necessárias para gerar os indicadores devem estar contempladas no diagrama de classe. Colocar no mínimo 5 indicadores. 
+Os indicadores de desempenho são medições e avaliações dentro do fluxo, que ajudam a direcionar os processos e auxiliar as pessoas em relação aos objetivos e metas traçados no planejamento estratégico de um projeto. 
 
-Usar o seguinte modelo: 
 
-![Indicadores de Desempenho](img/02-indic-desemp.png)
-Obs.: todas as informações para gerar os indicadores devem estar no diagrama de classe a ser apresentado a posteriori. 
+![Indicadores de Desempenho](img/img-indicadores.png)
+
 
 ## Requisitos
 
@@ -85,18 +102,26 @@ As tabelas que se seguem apresentam os requisitos funcionais e não funcionais q
 
 |ID    | Descrição do Requisito  | Prioridade |
 |------|-----------------------------------------|----|
-|RF-001| Permitir que o usuário cadastre tarefas | ALTA | 
-|RF-002| Emitir um relatório de tarefas no mês   | MÉDIA |
+|RF-001| Permitir o usuário criar uma conta | ALTA | 
+|RF-002| Permitir que o usuário faça login em uma conta | ALTA |
+|RF-003| Permitir que o usuário recupere sua conta | ALTA |
+|RF-004| Permitir que o usuário crie sua lista com seus objetos de escolha | ALTA |
+|RF-005| Permitir que o usuário participe de várias listas | MEDIA |
+|RF-006| Permitir que o usuário acrescente pessoas à essa lista | MEDIA |
+|RF-007| O software deve ter sincronização em tempo real | MEDIA |
+|RF-008| Permitir que o usuário exclua a lista ou itens da lista | MEDIA |
+|RF-009| Permitir que o usuário atualize a lista | MEDIA |
 
 ### Requisitos não Funcionais
 
 |ID     | Descrição do Requisito  |Prioridade |
 |-------|-------------------------|----|
-|RNF-001| O sistema deve ser responsivo para rodar em um dispositivos móvel | MÉDIA | 
-|RNF-002| Deve processar requisições do usuário em no máximo 3s |  BAIXA | 
+|RNF-001| O sistema deve ser responsivo para rodar em um dispositivos móvel, e desktop | MÉDIA |
+|RNF-002| Deve processar requisições do usuário em no máximo 5s |  BAIXA |
 
 Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Classifique esses requisitos em dois grupos:
 
+<!-- 
 - [Requisitos Funcionais
  (RF)](https://pt.wikipedia.org/wiki/Requisito_funcional):
  correspondem a uma funcionalidade que deve estar presente na
@@ -109,24 +134,32 @@ Com base nas Histórias de Usuário, enumere os requisitos da sua solução. Cla
 Lembre-se que cada requisito deve corresponder à uma e somente uma
 característica alvo da sua solução. Além disso, certifique-se de que
 todos os aspectos capturados nas Histórias de Usuário foram cobertos.
+-->
 
 ## Restrições
 
 O projeto está restrito pelos itens apresentados na tabela a seguir.
 
-|ID| Restrição                                             |
-|--|-------------------------------------------------------|
-|01| O projeto deverá ser entregue até o final do semestre |
-|02| Não pode ser desenvolvido um módulo de backend        |
+|ID| Restrição                                                              |
+|--|------------------------------------------------------------------------|
+|01| O projeto deverá ser entregue até o final do semestre                  |
+|02| Não pode ser desenvolvido um módulo de backend                         |
+|03| No projeto, não deve haver ajuda de terceiros. Somente da equipe       |
 
+
+<!-- 
 Enumere as restrições à sua solução. Lembre-se de que as restrições geralmente limitam a solução candidata.
 
 > **Links Úteis**:
 > - [O que são Requisitos Funcionais e Requisitos Não Funcionais?](https://codificar.com.br/requisitos-funcionais-nao-funcionais/)
 > - [O que são requisitos funcionais e requisitos não funcionais?](https://analisederequisitos.com.br/requisitos-funcionais-e-requisitos-nao-funcionais-o-que-sao/)
+-->
 
 ## Diagrama de Casos de Uso
 
+![Diagrama Casos de Uso](img/casos-de-uso.png)
+
+<!--
 O diagrama de casos de uso é o próximo passo após a elicitação de requisitos, que utiliza um modelo gráfico e uma tabela com as descrições sucintas dos casos de uso e dos atores. Ele contempla a fronteira do sistema e o detalhamento dos requisitos funcionais com a indicação dos atores, casos de uso e seus relacionamentos. 
 
 As referências abaixo irão auxiliá-lo na geração do artefato “Diagrama de Casos de Uso”.
@@ -137,20 +170,20 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagrama de
 > - [Lucidchart](https://www.lucidchart.com/)
 > - [Astah](https://astah.net/)
 > - [Diagrams](https://app.diagrams.net/)
-
+-->
 # Matriz de Rastreabilidade
 
 A matriz de rastreabilidade é uma ferramenta usada para facilitar a visualização dos relacionamento entre requisitos e outros artefatos ou objetos, permitindo a rastreabilidade entre os requisitos e os objetivos de negócio. 
 
 A matriz deve contemplar todos os elementos relevantes que fazem parte do sistema, conforme a figura meramente ilustrativa apresentada a seguir.
 
-![Exemplo de matriz de rastreabilidade](img/02-matriz-rastreabilidade.png)
-
+![Exemplo de matriz de rastreabilidade](img/matriz-rastreabilidade-connexa.png)
+<!--
 > **Links Úteis**:
 > - [Artigo Engenharia de Software 13 - Rastreabilidade](https://www.devmedia.com.br/artigo-engenharia-de-software-13-rastreabilidade/12822/)
 > - [Verificação da rastreabilidade de requisitos usando a integração do IBM Rational RequisitePro e do IBM ClearQuest Test Manager](https://developer.ibm.com/br/tutorials/requirementstraceabilityverificationusingrrpandcctm/)
 > - [IBM Engineering Lifecycle Optimization – Publishing](https://www.ibm.com/br-pt/products/engineering-lifecycle-optimization/publishing/)
-
+-->
 
 # Gerenciamento de Projeto
 
@@ -160,20 +193,31 @@ De acordo com o PMBoK v6 as dez áreas que constituem os pilares para gerenciar 
 
 Com diagramas bem organizados que permitem gerenciar o tempo nos projetos, o gerente de projetos agenda e coordena tarefas dentro de um projeto para estimar o tempo necessário de conclusão.
 
-![Diagrama de rede simplificado notação francesa (método francês)](img/02-diagrama-rede-simplificado.png)
+![Diagrama de rede simplificado notação francesa (método francês)](img/Cronograma.jpg)
 
-O gráfico de Gantt ou diagrama de Gantt também é uma ferramenta visual utilizada para controlar e gerenciar o cronograma de atividades de um projeto. Com ele, é possível listar tudo que precisa ser feito para colocar o projeto em prática, dividir em atividades e estimar o tempo necessário para executá-las.
+O gráfico de Gantt ou diagrama de Gantt é uma ferramenta visual utilizada para controlar e gerenciar o cronograma de atividades de um projeto. Com ele, é possível listar tudo que precisa ser feito para colocar o projeto em prática, dividir em atividades e estimar o tempo necessário para executá-las.
 
-![Gráfico de Gantt](img/02-grafico-gantt.png)
+![Gráfico de Gantt](img/gantt.png)
 
 ## Gerenciamento de Equipe
 
 O gerenciamento adequado de tarefas contribuirá para que o projeto alcance altos níveis de produtividade. Por isso, é fundamental que ocorra a gestão de tarefas e de pessoas, de modo que os times envolvidos no projeto possam ser facilmente gerenciados. 
 
-![Simple Project Timeline](img/02-project-timeline.png)
+![Simple Project Timeline](img/EQUIPE.jpg)
 
 ## Gestão de Orçamento
 
-O processo de determinar o orçamento do projeto é uma tarefa que depende, além dos produtos (saídas) dos processos anteriores do gerenciamento de custos, também de produtos oferecidos por outros processos de gerenciamento, como o escopo e o tempo.
+O orçamento do projeto foi dividido em cinco partes: Recursos humanos, hardware, rede, software e serviços.
 
-![Orçamento](img/02-orcamento.png)
+Em recursos humanos consideramos uma equipe formada por sete membros, onde cada um possui um custo de aproximadamente R$30.000/mês. Em seis meses, o custo total dos sete funcionários seria de R$1.260.000.
+
+Em hardware consideramos um notebook e alguns periféricos, como mouse e teclado, para cada um. Nesse caso, teríamos um custo fixo de R$20000 por funcionário, dando um total de R$140.000.
+
+Em rede consideramos toda estrutura de rede interna do escritório, considerando internet e intranet. O custo ficaria em torno de R$3000/mês, totalizando ao final R$24.000.
+
+Em software consideramos todas as ferramentas utilizadas pela equipe para trabalhar, como IDE, MS Teams... O custo total dessas ferramentas para cada funcionário é de R$5.000/mês, totalizando ao final do projeto R$210.000.
+
+Em serviços podemos considerar tanto os que estão a disposição do funcionário, quanto a disposição do cliente e do projeto. Nesse caso, serviços para escritório, como limpeza, café, água, ou serviços como azure, estão inclusos. Teremos um custo aproximado de R$50.000/mês, totalizando R$300.000.
+
+
+![Orçamento](img/connexa_orcamento.png)

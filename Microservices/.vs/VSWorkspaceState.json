@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\AuthenticationAPI",
+    "\\GatewayAPI",
+    "\\ListAPI",
+    "\\PermissionsAPI",
+    "\\SyncAPI"
+  ],
+  "SelectedNode": "\\GatewayAPI\\GatewayAPI",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "7Is61NjVMnjVUf/d01ZvVbXfk4QnBHOdNiHuJNrg/qg4Zk4Pe/1SLRFdARxBn055nPc+wwxRmqgv8L9Ub1pUjQ==",
+  "dgSpecHash": "eEoF2FfWEbxwSznOiuwUMGEioQQ2qI/1XaiQDuiMcH+F/NKua7vcd9Fs4jRNZBzu0vyNTR3eAfBzqJOZJQb+Gg==",
   "success": true,
   "projectFilePath": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\GatewayAPI\\GatewayAPI\\GatewayAPI.csproj",
   "expectedPackageFiles": [
@@ -14,7 +14,11 @@
     "C:\\Users\\diego\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
     "C:\\Users\\diego\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\diego\\.nuget\\packages\\ocelot\\19.0.2\\ocelot.19.0.2.nupkg.sha512",
-    "C:\\Users\\diego\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512"
+    "C:\\Users\\diego\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512",
+    "C:\\Users\\diego\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.9\\microsoft.windowsdesktop.app.ref.7.0.9.nupkg.sha512",
+    "C:\\Users\\diego\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.9\\microsoft.netcore.app.ref.7.0.9.nupkg.sha512",
+    "C:\\Users\\diego\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.9\\microsoft.aspnetcore.app.ref.7.0.9.nupkg.sha512",
+    "C:\\Users\\diego\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.9\\microsoft.netcore.app.host.win-x64.7.0.9.nupkg.sha512"
   ],
   "logs": []
 }

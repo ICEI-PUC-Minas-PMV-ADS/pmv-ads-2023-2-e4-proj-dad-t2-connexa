@@ -1,8 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "Iz4/SAyEtJk2R/N3i16W69A7EW6dZ5rNVqhrIJ6fvgbMfF3cRCCL7gqYO7VTih8zh3LwbBcLjloMYKjNhkRfuw==",
+  "dgSpecHash": "At2OXE2Wx8MRLrDK201uUqCxK6VB1mLQ84cYzK6hJPhYrJFpaUysNXLrIXL453Bmpu/rg6N1qrYJWAR80rCuYw==",
   "success": true,
   "projectFilePath": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\PermissionsAPI\\PermissionAPI\\PermissionAPI.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\diego\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\7.0.9\\microsoft.windowsdesktop.app.ref.7.0.9.nupkg.sha512",
+    "C:\\Users\\diego\\.nuget\\packages\\microsoft.netcore.app.ref\\7.0.9\\microsoft.netcore.app.ref.7.0.9.nupkg.sha512",
+    "C:\\Users\\diego\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\7.0.9\\microsoft.aspnetcore.app.ref.7.0.9.nupkg.sha512",
+    "C:\\Users\\diego\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\7.0.9\\microsoft.netcore.app.host.win-x64.7.0.9.nupkg.sha512"
+  ],
   "logs": []
 }

@@ -33,3 +33,13 @@ CREATE TABLE gfkhak_connexa.convite (
     FOREIGN KEY (user_id) REFERENCES gfkhak_connexa.user(user_id),
     FOREIGN KEY (lista_id) REFERENCES gfkhak_connexa.lista(lista_id)
 );
+
+CREATE TABLE gfkhak_connexa.user_lista (
+    user_lista_id INT AUTO_INCREMENT PRIMARY KEY,
+    lista_id INT,
+    user_id INT,
+    user_lista_status BOOLEAN NOT NULL,
+    user_lista_role INT,
+    FOREIGN KEY (user_id) REFERENCES gfkhak_connexa.user(user_id),
+    FOREIGN KEY (lista_id) REFERENCES gfkhak_connexa.lista(lista_id)
+);

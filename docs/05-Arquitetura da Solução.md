@@ -16,12 +16,15 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagrama de
 > - [O que é um diagrama de classe UML? | Lucidchart](https://www.lucidchart.com/pages/pt/o-que-e-diagrama-de-classe-uml)
 
 ## Modelo ER
-
+<!--
 O Modelo ER representa através de um diagrama como as entidades (coisas, objetos) se relacionam entre si na aplicação interativa.]
 
 As referências abaixo irão auxiliá-lo na geração do artefato “Modelo ER”.
 
 > - [Como fazer um diagrama entidade relacionamento | Lucidchart](https://www.lucidchart.com/pages/pt/como-fazer-um-diagrama-entidade-relacionamento)
+-->
+
+![image](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e4-proj-dad-t2-connexa/assets/16859514/3472a792-9b8f-446c-a370-2c0df2e4c089)
 
 ## Esquema Relacional
 
@@ -68,6 +71,16 @@ CREATE TABLE gfkhak_connexa.convite (
     user_id INT,
     lista_id INT,
     data_expiracao DATE,
+    FOREIGN KEY (user_id) REFERENCES gfkhak_connexa.user(user_id),
+    FOREIGN KEY (lista_id) REFERENCES gfkhak_connexa.lista(lista_id)
+);
+
+CREATE TABLE gfkhak_connexa.user_lista (
+    user_lista_id INT AUTO_INCREMENT PRIMARY KEY,
+    lista_id INT,
+    user_id INT,
+    user_lista_status BOOLEAN NOT NULL,
+    user_lista_admin INT,
     FOREIGN KEY (user_id) REFERENCES gfkhak_connexa.user(user_id),
     FOREIGN KEY (lista_id) REFERENCES gfkhak_connexa.lista(lista_id)
 );

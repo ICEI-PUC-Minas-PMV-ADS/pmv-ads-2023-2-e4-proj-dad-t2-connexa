@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj": {}
+    "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj": {
+    "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
+        "projectUniqueName": "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
         "projectName": "AuthenticationAPI",
-        "projectPath": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
-        "packagesPath": "C:\\Users\\diego\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\obj\\",
+        "projectPath": "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
+        "packagesPath": "C:\\Users\\bruno\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\diego\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\bruno\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -38,14 +34,33 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "default"
         }
       },
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "EntityFramework": {
+              "target": "Package",
+              "version": "[6.4.4, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -57,24 +72,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.9, 7.0.9]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[7.0.9, 7.0.9]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.9, 7.0.9]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[7.0.9, 7.0.9]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -83,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-preview.7.23376.3\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -4,7 +4,7 @@
 
 Definição de como o software é estruturado em termos dos componentes que fazem parte da solução e do ambiente de hospedagem da aplicação.
 
-![Arquitetura da Solução](img/arquitetura-solucao.jpeg)
+![image](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e4-proj-dad-t2-connexa/assets/16859514/b6fafd7a-4148-41c7-a73d-bb8a0b4ee37c)
 
 ## Diagrama de Classes
 
@@ -16,12 +16,15 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Diagrama de
 > - [O que é um diagrama de classe UML? | Lucidchart](https://www.lucidchart.com/pages/pt/o-que-e-diagrama-de-classe-uml)
 
 ## Modelo ER
-
+<!--
 O Modelo ER representa através de um diagrama como as entidades (coisas, objetos) se relacionam entre si na aplicação interativa.]
 
 As referências abaixo irão auxiliá-lo na geração do artefato “Modelo ER”.
 
 > - [Como fazer um diagrama entidade relacionamento | Lucidchart](https://www.lucidchart.com/pages/pt/como-fazer-um-diagrama-entidade-relacionamento)
+-->
+
+![image](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e4-proj-dad-t2-connexa/assets/16859514/d7b165e3-601e-4db2-8c20-e1426b1781e3)
 
 ## Esquema Relacional
 
@@ -34,6 +37,54 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Esquema Rel
 ## Modelo Físico
 
 Entregar um arquivo banco.sql contendo os scripts de criação das tabelas do banco de dados. Este arquivo deverá ser incluído dentro da pasta src\bd.
+
+``` SQL
+CREATE TABLE gfkhak_connexa.user (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_name VARCHAR(255) NOT NULL,
+    pswh_hash VARCHAR(255) NOT NULL,
+    user_email VARCHAR(255) NOT NULL,
+    user_status BOOLEAN NOT NULL
+);
+
+CREATE TABLE gfkhak_connexa.lista (
+    lista_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    lista_publica BOOLEAN NOT NULL,
+    lista_status BOOLEAN NOT NULL,
+    lista_descricao TEXT,
+    lista_titulo TEXT,
+    FOREIGN KEY (user_id) REFERENCES gfkhak_connexa.user(user_id)
+);
+
+CREATE TABLE gfkhak_connexa.item_lista (
+    item_id INT AUTO_INCREMENT PRIMARY KEY,
+    item_nome VARCHAR(255) NOT NULL,
+    item_descricao TEXT,
+    lista_id INT,
+    item_status BOOLEAN NOT NULL,
+    FOREIGN KEY (lista_id) REFERENCES gfkhak_connexa.lista(lista_id)
+);
+
+CREATE TABLE gfkhak_connexa.convite (
+    convite_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    lista_id INT,
+    data_expiracao DATE,
+    FOREIGN KEY (user_id) REFERENCES gfkhak_connexa.user(user_id),
+    FOREIGN KEY (lista_id) REFERENCES gfkhak_connexa.lista(lista_id)
+);
+
+CREATE TABLE gfkhak_connexa.user_lista (
+    user_lista_id INT AUTO_INCREMENT PRIMARY KEY,
+    lista_id INT,
+    user_id INT,
+    user_lista_status BOOLEAN NOT NULL,
+    user_lista_role INT,
+    FOREIGN KEY (user_id) REFERENCES gfkhak_connexa.user(user_id),
+    FOREIGN KEY (lista_id) REFERENCES gfkhak_connexa.lista(lista_id)
+);
+```
 
 ## Tecnologias Utilizadas
 

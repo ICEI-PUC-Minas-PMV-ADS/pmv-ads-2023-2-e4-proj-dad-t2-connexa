@@ -1,9 +1,8 @@
 using ListAPI.DataAccess;
+using ListAPI.DTOs;
 using ListAPI.Interfaces;
 using ListAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.DependencyInjection;
-using System.Collections;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +27,7 @@ var app = builder.Build();
 app.UsePathBase("/connexa/list/api");
 app.MapGet("/",() => "List API is running :)");
 app.MapGet("/test",() => "List Authentication API is running now, no problems...");
+
 app.MapGet("/lists", async ([FromServices] IServiceProvider provider) =>
 {
     using(var scope = provider.CreateScope()) {
@@ -52,5 +52,17 @@ app.MapPost("/lists", async ([FromServices] IServiceProvider provider, [FromBody
         return Results.NotFound();
     }
 });
+
+
+
+// Endpoints que ainda faltam...
+//GetListsByParticipantOrOwnerAsync(int idUser); /lists/relateds/{idUser}
+//GetListsByOwnerAsync(int idOwner); /lists/owner/{idOwner}
+//GetListsByParticipantAsync(int idParticipant); /lists/participant/{idParticipant}
+//GetListByIdAsync(int idList); /lists/{idList}
+//DeleteListAsync(int idList); /lists
+//DeleteMemberAsync(int idMember); /members
+//SaveMemberAsync(MemberListDTO listMember); /members
+//GetMembersByListAsync(int idList); /members
 
 app.Run();

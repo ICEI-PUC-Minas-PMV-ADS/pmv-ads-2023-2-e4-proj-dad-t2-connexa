@@ -9,7 +9,7 @@ namespace ListAPI.DataAccess
     public class ListDataAccess:ControllerBase, IListDataAccess
     {
         private readonly ConnexaContext _context;
-        public ListDataAccess([FromServices] ConnexaContext context)
+        public ListDataAccess ([FromServices] ConnexaContext context)
         {
             _context = context;
         }
@@ -309,6 +309,6 @@ namespace ListAPI.DataAccess
                 _context.ThrowException(ex.Message);
                 return Enumerable.Empty<MemberListDTO>();
             }
-        }     
+        }
     }
 }

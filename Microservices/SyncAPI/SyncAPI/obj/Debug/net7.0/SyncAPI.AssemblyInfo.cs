@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SyncAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3211f6efbfcd582e0335fea48b28e48cfb42a4ca")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e6d3ebac56ede6a8cc1fc14a7f4d371d20879f2")]
 [assembly: System.Reflection.AssemblyProductAttribute("SyncAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SyncAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -1,0 +1,8 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/Microservices/GatewayAPI/.vs/GatewayAPI/FileContentIndex/6f3b117e-9e8d-44d4-9003-775e7a33adb4.vsidx
+/Microservices/GatewayAPI/.vs/GatewayAPI/FileContentIndex/7805021f-2ce1-4154-bda0-c0022b540524.vsidx
+/Microservices/GatewayAPI/.vs/GatewayAPI/FileContentIndex/95e9b319-bcea-407b-8d20-857e63ed87e3.vsidx
+*.vsidx

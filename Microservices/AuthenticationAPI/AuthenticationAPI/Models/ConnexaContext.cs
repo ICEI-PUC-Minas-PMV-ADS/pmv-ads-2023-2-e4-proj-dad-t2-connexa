@@ -178,4 +178,10 @@ public partial class ConnexaContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+    public void ThrowException(string message)
+    {
+        Console.WriteLine(DateTime.Now + "Ouve uma exceção dentro do micro serviço de Autenticação:");
+        Console.WriteLine(DateTime.Now + ": " + message);
+    }
 }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj": {}
+    "C:\\Dev\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj": {
+    "C:\\Dev\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
+        "projectUniqueName": "C:\\Dev\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
         "projectName": "AuthenticationAPI",
-        "projectPath": "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
-        "packagesPath": "C:\\Users\\bruno\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bruno\\Documentos\\GitHub\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\obj\\",
+        "projectPath": "C:\\Dev\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
+        "packagesPath": "C:\\Users\\mikae\\.nuget\\packages\\",
+        "outputPath": "C:\\Dev\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\bruno\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mikae\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -80,7 +80,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

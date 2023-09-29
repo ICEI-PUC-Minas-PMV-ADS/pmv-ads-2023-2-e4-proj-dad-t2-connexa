@@ -91,6 +91,19 @@ app.MapPost("/lists/participant/{idParticipant}", async ([FromServices] IService
 		return Results.NotFound();
 	}
 });
+app.MapPost("/lists/{idList}", async ([FromServices] IServiceProvider provider, int idList) =>
+{
+    using (var scope = provider.CreateScope())
+    {
+
+        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+
+        if (listDataAccess != null)
+            return Results.Ok(await listDataAccess.GetListByIdAsync(idList));
+
+        return Results.NotFound();
+    }
+});
 
 //Feito
 //GetListsByParticipantOrOwnerAsync(int idUser); /lists/relateds/{idUser}

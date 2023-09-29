@@ -52,7 +52,7 @@ app.MapPost("/lists", async ([FromServices] IServiceProvider provider, [FromBody
         return Results.NotFound();
     }
 });
-app.MapPost("/lists/relateds/{idUser}", async ([FromServices] IServiceProvider provider, int idUser) =>
+app.MapGet("/lists/relateds/{idUser}", async ([FromServices] IServiceProvider provider, int idUser) =>
 {
 	using (var scope = provider.CreateScope())
 	{
@@ -65,7 +65,7 @@ app.MapPost("/lists/relateds/{idUser}", async ([FromServices] IServiceProvider p
 		return Results.NotFound();
 	}
 });
-app.MapPost("/lists/owner/{idOwner}", async ([FromServices] IServiceProvider provider, int idOwner) =>
+app.MapGet("/lists/owner/{idOwner}", async ([FromServices] IServiceProvider provider, int idOwner) =>
 {
 	using (var scope = provider.CreateScope())
 	{
@@ -78,7 +78,7 @@ app.MapPost("/lists/owner/{idOwner}", async ([FromServices] IServiceProvider pro
 		return Results.NotFound();
 	}
 });
-app.MapPost("/lists/participant/{idParticipant}", async ([FromServices] IServiceProvider provider, int idParticipant) =>
+app.MapGet("/lists/participant/{idParticipant}", async ([FromServices] IServiceProvider provider, int idParticipant) =>
 {
 	using (var scope = provider.CreateScope())
 	{
@@ -91,7 +91,7 @@ app.MapPost("/lists/participant/{idParticipant}", async ([FromServices] IService
 		return Results.NotFound();
 	}
 });
-app.MapPost("/lists/{idList}", async ([FromServices] IServiceProvider provider, int idList) =>
+app.MapGet("/lists/{idList}", async ([FromServices] IServiceProvider provider, int idList) =>
 {
     using (var scope = provider.CreateScope())
     {

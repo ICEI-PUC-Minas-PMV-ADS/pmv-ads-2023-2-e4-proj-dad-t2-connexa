@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\ListAPI.csproj": {}
+    "D:\\PUC\\connexa\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\ListAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\ListAPI.csproj": {
+    "D:\\PUC\\connexa\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\ListAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\ListAPI.csproj",
+        "projectUniqueName": "D:\\PUC\\connexa\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\ListAPI.csproj",
         "projectName": "ListAPI",
-        "projectPath": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\ListAPI.csproj",
-        "packagesPath": "C:\\Users\\diego\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\obj\\",
+        "projectPath": "D:\\PUC\\connexa\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\ListAPI.csproj",
+        "packagesPath": "C:\\Users\\lucas\\.nuget\\packages\\",
+        "outputPath": "D:\\PUC\\connexa\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\ListAPI\\ListAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\diego\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\lucas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +26,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
+          "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,9 +40,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "default"
         }
       },
       "frameworks": {
@@ -79,24 +78,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[7.0.9, 7.0.9]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[7.0.9, 7.0.9]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[7.0.9, 7.0.9]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[7.0.9, 7.0.9]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -105,7 +86,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-preview.7.23376.3\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
         }
       }
     }

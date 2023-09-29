@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\Microservices",
-    "\\Microservices\\Gateway"
+    "\\Microservices\\ListAPI",
+    "\\Microservices\\ListAPI\\ListAPI"
   ],
-  "SelectedNode": "\\Microservices\\Gateway",
+  "SelectedNode": "\\Microservices\\ListAPI\\ListAPI\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

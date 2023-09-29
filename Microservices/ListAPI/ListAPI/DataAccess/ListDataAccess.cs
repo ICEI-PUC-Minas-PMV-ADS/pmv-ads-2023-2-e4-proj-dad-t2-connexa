@@ -214,11 +214,11 @@ namespace ListAPI.DataAccess
             {
 
                 return await (from list in _context.Lista
-                          join listUser in _context.UserLista
-                          on list.ListaId equals listUser.UserId
-                          where listUser.UserId == idUser || list.UserId == idUser
-                          select new ListDTO
-                          {
+							  join listUser in _context.UserLista on list.ListaId equals listUser.UserListaId into listUserGroup
+							  from listUser in listUserGroup.DefaultIfEmpty()
+							  where list.UserId == idUser || (listUser != null && listUser.UserId == idUser)
+							  select new ListDTO
+							  {
                               ListaId = list.ListaId,
                               UserId = list.UserId,
                               ListaDescricao = list.ListaDescricao,

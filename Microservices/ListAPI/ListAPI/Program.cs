@@ -104,7 +104,7 @@ app.MapGet("/lists/{idList}", async ([FromServices] IServiceProvider provider, i
         return Results.NotFound();
     }
 });
-app.MapDelete("/lists", async ([FromServices] IServiceProvider provider, int idList) =>
+app.MapDelete("/lists/{idList}", async ([FromServices] IServiceProvider provider, int idList) =>
 {
     using (var scope = provider.CreateScope())
     {
@@ -137,7 +137,7 @@ app.MapDelete("/member", async ([FromServices] IServiceProvider provider, int id
 //GetListsByOwnerAsync(int idOwner); /lists/owner/{idOwner}
 //GetListsByParticipantAsync(int idParticipant); /lists/participant/{idParticipant}
 //GetListByIdAsync(int idList); /lists/{idList}
-//DeleteListAsync(int idList); /lists
+//DeleteListAsync(int idList); /lists/{idList}
 //DeleteMemberAsync(int idMember); /members
 
 // Endpoints que ainda faltam...

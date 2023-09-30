@@ -27,7 +27,7 @@ public partial class ConnexaContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=mysql-ag-br1-11.conteige.cloud;database=gfkhak_connexa;user=gfkhak_connexa;password=nDvZ$T!ItYDYPEC4", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.42-mysql"));
+        => optionsBuilder.UseMySql("server=mysql-ag-br1-11.conteige.cloud;database=zlbspi_connexa;user=zlbspi_connexa;password=nDvZ$T!ItYDYPEC4", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.42-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

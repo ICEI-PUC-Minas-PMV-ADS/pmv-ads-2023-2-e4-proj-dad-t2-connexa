@@ -117,16 +117,30 @@ app.MapDelete("/lists/{idList}", async ([FromServices] IServiceProvider provider
         return Results.NotFound();
     }
 });
+app.MapDelete("/member", async ([FromServices] IServiceProvider provider, int idMember) =>
+{
+    using (var scope = provider.CreateScope())
+    {
+
+        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+
+        if (listDataAccess != null)
+            return Results.Ok(await listDataAccess.DeleteMemberAsync(idMember));
+
+        return Results.NotFound();
+    }
+});
+
 
 //Feito
 //GetListsByParticipantOrOwnerAsync(int idUser); /lists/relateds/{idUser}
 //GetListsByOwnerAsync(int idOwner); /lists/owner/{idOwner}
 //GetListsByParticipantAsync(int idParticipant); /lists/participant/{idParticipant}
 //GetListByIdAsync(int idList); /lists/{idList}
+//DeleteListAsync(int idList); /lists/{idList}
+//DeleteMemberAsync(int idMember); /members
 
 // Endpoints que ainda faltam...
-//DeleteListAsync(int idList); /lists
-//DeleteMemberAsync(int idMember); /members
 //SaveMemberAsync(MemberListDTO listMember); /members
 //GetMembersByListAsync(int idList); /members
 

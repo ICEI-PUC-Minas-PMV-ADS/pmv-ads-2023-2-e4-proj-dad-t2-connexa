@@ -2060,24 +2060,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\diego\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Gabriel Oliveira\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Gabriel Oliveira\\Documents\\Faculdade\\connexa\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
       "projectName": "AuthenticationAPI",
-      "projectPath": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
-      "packagesPath": "C:\\Users\\diego\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\diego\\OneDrive\\Área de Trabalho\\QUARTO SEMESTRE\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\obj\\",
+      "projectPath": "C:\\Users\\Gabriel Oliveira\\Documents\\Faculdade\\connexa\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\AuthenticationAPI.csproj",
+      "packagesPath": "C:\\Users\\Gabriel Oliveira\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Gabriel Oliveira\\Documents\\Faculdade\\connexa\\pmv-ads-2023-2-e4-proj-dad-t2-connexa\\Microservices\\AuthenticationAPI\\AuthenticationAPI\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\diego\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\Gabriel Oliveira\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2143,7 +2138,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.1.23455.8\\RuntimeIdentifierGraph.json"
       }
     }
   }

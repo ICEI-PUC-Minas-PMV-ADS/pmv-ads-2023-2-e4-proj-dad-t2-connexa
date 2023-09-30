@@ -1,3 +1,4 @@
+using AuthenticationAPI.Clients;
 using AuthenticationAPI.DataAcess;
 using AuthenticationAPI.DTOs;
 using AuthenticationAPI.Interfaces;
@@ -90,6 +91,17 @@ app.MapPost("/users/validate", async ([Required][FromBody] LoginUserDTO LoginUse
         return Results.Problem(detail: "Não validado.", statusCode: StatusCodes.Status400BadRequest);
 
     return Results.StatusCode(StatusCodes.Status200OK);
+});
+
+app.MapGet("/redis", async ([FromServices] IServiceProvider provider) =>
+{
+    using var scope = provider.CreateScope();
+
+    var redis = new RedisCloud();
+
+    redis.SetRedisValue("chave", "valor");
+
+    return redis.GetRedisValue("chave");
 });
 
 app.Run();

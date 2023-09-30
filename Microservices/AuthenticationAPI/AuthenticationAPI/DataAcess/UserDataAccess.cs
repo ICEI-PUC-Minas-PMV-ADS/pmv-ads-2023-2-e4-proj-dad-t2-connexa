@@ -29,7 +29,7 @@ namespace AuthenticationAPI.DataAcess
                 {
                     UserId = user.UserId,
                     UserName = user.UserName,
-                    PswhHash = user.PswhHash,
+                    PswhHash = "", //user.PswhHash,
                     UserEmail = email,
                     UserStatus = user.UserStatus,
                 };
@@ -43,7 +43,6 @@ namespace AuthenticationAPI.DataAcess
                 };
             }
         }
-
         public async ValueTask<bool> SaveUserAsync(string email, string password, string nome, bool status = true)
         {
             try
@@ -84,7 +83,6 @@ namespace AuthenticationAPI.DataAcess
                 return false;
             }
         }
-
         public async ValueTask<bool> DeleteUserAsync(string email)
         {
             try
@@ -105,9 +103,25 @@ namespace AuthenticationAPI.DataAcess
                 return false;
             }
         }
-        public async ValueTask<bool> ValidateLoginUserAsync(UserDTO user)
+        public async ValueTask<bool> ValidateLoginUserAsync(LoginUserDTO loginUser)
         {
-            return false;
+            try
+            {
+                // TODO aplicar uma funcao de hash com salt aqui
+                var passHash = loginUser.Password;
+
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == loginUser.Email && u.PswhHash == passHash);
+
+                if (user == null)
+                    return false;
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _context.ThrowException(ex.Message);
+                return false;
+            }
         }
     }
 }

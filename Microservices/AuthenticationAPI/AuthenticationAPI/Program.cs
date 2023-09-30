@@ -27,9 +27,6 @@ var app = builder.Build();
 
 app.UsePathBase("/connexa/authentication/api");
 
-app.MapGet("/", () => "Authentication API is running :)");
-app.MapGet("/test", () => "Connexa Authentication API is running now, no problems...");
-
 app.MapGet("/users", async ([Required][FromQuery] string email, [FromServices] IServiceProvider provider) =>
 {
     using var scope = provider.CreateScope();
@@ -78,7 +75,7 @@ app.MapDelete("/users", async ([Required][FromQuery] string email, [FromServices
     return Results.StatusCode(StatusCodes.Status204NoContent);
 });
 
-app.MapPost("/users/validate", async ([Required][FromBody] UserDTO userDTO, [FromServices] IServiceProvider provider) =>
+app.MapPost("/users/validate", async ([Required][FromBody] LoginUserDTO LoginUserDTO, [FromServices] IServiceProvider provider) =>
 {
     using var scope = provider.CreateScope();
 
@@ -87,12 +84,12 @@ app.MapPost("/users/validate", async ([Required][FromBody] UserDTO userDTO, [Fro
     if (userDataAcess == null)
         return Results.Problem(detail: "Erro interno do servidor.", statusCode: StatusCodes.Status500InternalServerError);
 
-    var success = await userDataAcess.ValidateLoginUserAsync(userDTO);
+    var success = await userDataAcess.ValidateLoginUserAsync(LoginUserDTO);
 
     if (!success)
         return Results.Problem(detail: "Não validado.", statusCode: StatusCodes.Status400BadRequest);
 
-    return Results.StatusCode(StatusCodes.Status201Created);
+    return Results.StatusCode(StatusCodes.Status200OK);
 });
 
 app.Run();

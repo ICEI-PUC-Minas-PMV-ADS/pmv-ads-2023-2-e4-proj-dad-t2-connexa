@@ -130,6 +130,33 @@ app.MapDelete("/member", async ([FromServices] IServiceProvider provider, int id
         return Results.NotFound();
     }
 });
+app.MapSave("/member {idSaveMember}", async ([FromServices] IServiceProvider provider, int idSaveMember) =>
+{
+    using (var scope = provider.CreateScope())
+    {
+
+        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+
+        if (listDataAccess != null)
+            return Results.Ok(await listDataAccess.SaveMemberAsync(idMember));
+
+        return Results.NotFound();
+    }
+});
+app.MapGet("/member", async ([FromServices] IServiceProvider provider, int idGetMember) =>
+{
+    using (var scope = provider.CreateScope())
+    {
+
+        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+
+        if (listDataAccess != null)
+            return Results.Ok(await listDataAccess.GetMemberAsync(idMember));
+
+        return Results.NotFound();
+    }
+});
+
 
 
 //Feito

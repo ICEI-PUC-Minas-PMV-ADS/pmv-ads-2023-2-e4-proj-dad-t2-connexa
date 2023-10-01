@@ -44,9 +44,63 @@ Faça uma solicitação DELETE para a rota "/lists/{idList}" com o ID da lista a
 Verifique a resposta para garantir que o código de status seja 200 (OK) ou 204 (No Content).
 Verifique se a lista foi excluída corretamente.
 
-## Ferramentas de Testes (Opcional)
+## Plano de Testes de Unidade - API Autenticação
 
-Comente sobre as ferramentas de testes utilizadas.
+**Cenário de Teste 1** - Buscar Usuário por Email
+Objetivo: Validar o retorno do endpoint.
+Passos:
+Realizar a chamada da API. 
+Verificar a resposta para garantir que o código de status seja 200 (OK).
+
+**Cenário de Teste 2** - Cadastrar Usuário com Sucesso
+Objetivo: Validar o retorno do endpoint.
+Passos:
+Realizar a chamada da API. 
+Verificar a resposta para garantir que o código de status seja 201 (Created).
+
+**Cenário de Teste 3** - Erro ao Cadastrar Usuário 
+Objetivo: Validar o retorno do endpoint.
+Passos:
+Realizar a chamada da API.
+Simular erro ao cadastrar usuário.
+Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
+
+**Cenário de Teste 4** - Excluir Usuário 
+Objetivo: Validar o retorno do endpoint.
+Passos:
+Realizar a chamada da API. 
+Verificar a resposta para garantir que o código de status seja 204 (NoContent).
+
+**Cenário de Teste 5** - Erro ao Excluir Usuário 
+Objetivo: Validar o retorno do endpoint.
+Passos:
+Realizar a chamada da API.
+Simular erro ao excluir usuário.
+Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
+
+**Cenário de Teste 6** - Validar Email 
+Objetivo: Validar o retorno do endpoint.
+Passos:
+Realizar a chamada da API. 
+Verificar a resposta para garantir que o código de status seja 200 (OK).
+
+**Cenário de Teste 7** - Erro ao Validar Usuário 
+Objetivo: Validar o retorno do endpoint.
+Passos:
+Realizar a chamada da API.
+Simular erro na validação do usuário.
+Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
+
+## Ferramentas de Testes
+
+- [FluentAssertions](https://fluentassertions.com/): facilita a leitura e elaboração dos *asserts*.
+  - Nuget: https://www.nuget.org/packages/FluentAssertions
+- [FluentAssertions.Web](https://github.com/adrianiftode/FluentAssertions.Web): facilita a leitura e elaboração dos *asserts* em requisições HTTP.
+  - Nuget: https://www.nuget.org/packages/FluentAssertions.Web
+- [FakeItEasy](https://fakeiteasy.github.io/): é um *framework* para criação de todos os tipos de *fake objects*, *mocks*, *stubs* etc.
+  - Nuget: https://www.nuget.org/packages/FakeItEasy
+
+<!-- Comente sobre as ferramentas de testes utilizadas.
  
 > **Links Úteis**:
 > - [IBM - Criação e Geração de Planos de Teste](https://www.ibm.com/developerworks/br/local/rational/criacao_geracao_planos_testes_software/index.html)
@@ -54,4 +108,4 @@ Comente sobre as ferramentas de testes utilizadas.
 > -  [Teste de Software: Conceitos e tipos de testes](https://blog.onedaytesting.com.br/teste-de-software/)
 > - [Criação e Geração de Planos de Teste de Software](https://www.ibm.com/developerworks/br/local/rational/criacao_geracao_planos_testes_software/index.html)
 > - [Ferramentas de Test para Java Script](https://geekflare.com/javascript-unit-testing/)
-> - [UX Tools](https://uxdesign.cc/ux-user-research-and-user-testing-tools-2d339d379dc7)
+> - [UX Tools](https://uxdesign.cc/ux-user-research-and-user-testing-tools-2d339d379dc7) -->

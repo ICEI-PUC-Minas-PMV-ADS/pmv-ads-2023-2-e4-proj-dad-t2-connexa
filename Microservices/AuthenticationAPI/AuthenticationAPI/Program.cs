@@ -76,7 +76,7 @@ app.MapDelete("/users", async ([Required][FromQuery] string email, [FromServices
     return Results.StatusCode(StatusCodes.Status204NoContent);
 });
 
-app.MapPost("/users/validate", async ([Required][FromBody] LoginUserDTO LoginUserDTO, [FromServices] IServiceProvider provider) =>
+app.MapPost("/users/validate", async ([Required][FromBody] LoginUserDTO loginUserDTO, [FromServices] IServiceProvider provider) =>
 {
     using var scope = provider.CreateScope();
 
@@ -85,7 +85,7 @@ app.MapPost("/users/validate", async ([Required][FromBody] LoginUserDTO LoginUse
     if (userDataAcess == null)
         return Results.Problem(detail: "Erro interno do servidor.", statusCode: StatusCodes.Status500InternalServerError);
 
-    var success = await userDataAcess.ValidateLoginUserAsync(LoginUserDTO);
+    var success = await userDataAcess.ValidateLoginUserAsync(loginUserDTO);
 
     if (!success)
         return Results.Problem(detail: "Não validado.", statusCode: StatusCodes.Status400BadRequest);

@@ -7,7 +7,7 @@ namespace AuthenticationAPI.Tests.TestUtilities.TesteHost
     {
         private bool disposedValue;
 
-        public HttpClient HttpClient { get; set; }
+        public HttpClient HttpClient { get; }
 
         /// <summary>
         /// Cria um web host para execução dos testes da aplicação. Através desse web host, podemos fazer os testes em
@@ -17,7 +17,7 @@ namespace AuthenticationAPI.Tests.TestUtilities.TesteHost
         public TestServerContainer(Action<IServiceCollection>? additionIServiceConfiguration = null)
         {
             var application = new WebApplicationFactory<Program>()
-                .WithWebHostBuilder(builder => 
+                .WithWebHostBuilder(builder =>
                 {
                     builder.ConfigureServices(services =>
                     {

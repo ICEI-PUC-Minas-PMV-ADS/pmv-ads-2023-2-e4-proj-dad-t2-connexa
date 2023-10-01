@@ -2,7 +2,7 @@
 
 <span style="color:red">Pré-requisitos: <a href="2-Especificação do Projeto.md"> Especificação do Projeto</a></span>, <a href="3-Projeto de Interface.md"> Projeto de Interface</a>
 
-Testes unitários realizados e todos com retorno brm sucedido. Foram seguidos os seguintes passos para aplicação dos testes e verificação da funcionalidade.
+Testes unitários realizados e foram seguidos os seguintes passos para aplicação dos testes e verificação das funcionalidades.
 
 **Cenário de Teste 1** - Login Bem-sucedido e mal-sucedido, criação de novo login:
 

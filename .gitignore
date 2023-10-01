@@ -540,3 +540,5 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+/Microservices/AuthenticationAPI/AuthenticationAPI/Program.cs
+/Microservices/AuthenticationAPI/AuthenticationAPI/Program.cs

@@ -130,7 +130,7 @@ app.MapDelete("/member", async ([FromServices] IServiceProvider provider, int id
         return Results.NotFound();
     }
 });
-app.MapSave("/member {idSaveMember}", async ([FromServices] IServiceProvider provider, int idSaveMember) =>
+app.MapPost("/member/{listMember}", async ([FromServices] IServiceProvider provider,[FromBody] ListAPI.DTOs.MemberListDTO listMember) =>
 {
     using (var scope = provider.CreateScope())
     {
@@ -138,7 +138,7 @@ app.MapSave("/member {idSaveMember}", async ([FromServices] IServiceProvider pro
         var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
 
         if (listDataAccess != null)
-            return Results.Ok(await listDataAccess.SaveMemberAsync(idMember));
+            return Results.Ok(await listDataAccess.SaveMemberAsync(listMember));
 
         return Results.NotFound();
     }
@@ -151,7 +151,7 @@ app.MapGet("/member", async ([FromServices] IServiceProvider provider, int idGet
         var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
 
         if (listDataAccess != null)
-            return Results.Ok(await listDataAccess.GetMemberAsync(idMember));
+            return Results.Ok(await listDataAccess.GetMembersByListAsync(idGetMember));
 
         return Results.NotFound();
     }
@@ -166,9 +166,9 @@ app.MapGet("/member", async ([FromServices] IServiceProvider provider, int idGet
 //GetListByIdAsync(int idList); /lists/{idList}
 //DeleteListAsync(int idList); /lists/{idList}
 //DeleteMemberAsync(int idMember); /members
-
-// Endpoints que ainda faltam...
 //SaveMemberAsync(MemberListDTO listMember); /members
 //GetMembersByListAsync(int idList); /members
+
+// Endpoints que ainda faltam...
 
 app.Run();

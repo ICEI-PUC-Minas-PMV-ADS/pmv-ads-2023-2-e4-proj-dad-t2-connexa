@@ -31,7 +31,7 @@ namespace AuthenticationAPI.Tests.API
             // Usa o HttpClient que servirá para fazer requests no ambiente de testes.
             var httpClient = testServerContainer.HttpClient;
 
-            var resource = "/connexa/authentication/api/users?email=email@test.com";
+            var resource = "/connexa/api/authentication/users?email=email@test.com";
 
             // Act
             var response = await httpClient.GetAsync(resource);
@@ -63,7 +63,7 @@ namespace AuthenticationAPI.Tests.API
 
             var httpClient = testServerContainer.HttpClient;
 
-            var resource = "/connexa/authentication/api/users";
+            var resource = "/connexa/api/authentication/users";
 
             var body = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
@@ -97,7 +97,7 @@ namespace AuthenticationAPI.Tests.API
 
             var httpClient = testServerContainer.HttpClient;
 
-            var resource = "/connexa/authentication/api/users";
+            var resource = "/connexa/api/authentication/users";
 
             var body = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
@@ -123,7 +123,7 @@ namespace AuthenticationAPI.Tests.API
 
             var httpClient = testServerContainer.HttpClient;
 
-            var resource = "/connexa/authentication/api/users?email=email@test.com";
+            var resource = "/connexa/api/authentication/users?email=email@test.com";
 
             // Act
             var response = await httpClient.DeleteAsync(resource);
@@ -147,7 +147,7 @@ namespace AuthenticationAPI.Tests.API
 
             var httpClient = testServerContainer.HttpClient;
 
-            var resource = "/connexa/authentication/api/users?email=email@test.com";
+            var resource = "/connexa/api/authentication/users?email=email@test.com";
 
             // Act
             var response = await httpClient.DeleteAsync(resource);
@@ -179,7 +179,7 @@ namespace AuthenticationAPI.Tests.API
 
             var httpClient = testServerContainer.HttpClient;
 
-            var resource = "/connexa/authentication/api/users/validate";
+            var resource = "/connexa/api/authentication/users/validate";
 
             var body = new StringContent(requestJson, Encoding.UTF8, "application/json");
 
@@ -213,7 +213,7 @@ namespace AuthenticationAPI.Tests.API
 
             var httpClient = testServerContainer.HttpClient;
 
-            var resource = "/connexa/authentication/api/users/validate";
+            var resource = "/connexa/api/authentication/users/validate";
 
             var body = new StringContent(requestJson, Encoding.UTF8, "application/json");
 

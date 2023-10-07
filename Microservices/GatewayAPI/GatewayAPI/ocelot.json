@@ -2,9 +2,9 @@
   "Routes": [
     // AUTHENTICATION AREA - ENDPOINTS
     {
-      "UpstreamPathTemplate": "/connexa/authentication/api/test",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamPathTemplate": "/connexa/authentication/api/test",
+      "UpstreamPathTemplate": "/gateway/authentication/{path}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/connexa/api/authentication/{path}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -18,9 +18,9 @@
 
     // SYNC AREA - ENDPOINTS
     {
-      "UpstreamPathTemplate": "/connexa/sync/api/test",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamPathTemplate": "/connexa/sync/api/test",
+      "UpstreamPathTemplate": "/gateway/sync/{path}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/connexa/api/sync/{path}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -34,9 +34,9 @@
 
     // LIST AREA - ENDPOINTS
     {
-      "UpstreamPathTemplate": "/connexa/list/api/test",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamPathTemplate": "/connexa/list/api/test",
+      "UpstreamPathTemplate": "/gateway/list/{path}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/connexa/api/list/{path}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -50,9 +50,9 @@
 
     // PERMISSION AREA - ENDPOINTS
     {
-      "UpstreamPathTemplate": "/connexa/permission/api/test",
-      "UpstreamHttpMethod": [ "GET" ],
-      "DownstreamPathTemplate": "/connexa/permission/api/test",
+      "UpstreamPathTemplate": "/gateway/permission/{path}",
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
+      "DownstreamPathTemplate": "/connexa/api/permission/{path}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {

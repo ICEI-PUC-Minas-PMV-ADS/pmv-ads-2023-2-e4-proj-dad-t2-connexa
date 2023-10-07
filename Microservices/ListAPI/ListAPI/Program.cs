@@ -24,9 +24,9 @@ builder.Services.AddScoped<IListDataAccess, ListDataAccess>();
 
 var app = builder.Build();
 
-app.UsePathBase("/connexa/list/api");
+app.UsePathBase("/connexa/api/list");
 app.MapGet("/",() => "List API is running :)");
-app.MapGet("/test",() => "List Authentication API is running now, no problems...");
+app.MapGet("/test",() => "List API is running now, no problems...");
 
 app.MapGet("/lists", async ([FromServices] IServiceProvider provider) =>
 {

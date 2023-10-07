@@ -24,7 +24,7 @@ builder.Services.AddScoped<IPermissionDataAccess, PermissionDataAccess>();
 var app = builder.Build();
 
 
-app.UsePathBase("/connexa/permission/api");
+app.UsePathBase("/connexa/api/permission");
 
 app.MapGet("/",() => "Connexa Permission API is running :)");
 app.MapGet("test",() => "Connexa Permission API is running now, no problems...");

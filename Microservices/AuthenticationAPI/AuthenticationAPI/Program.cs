@@ -26,7 +26,9 @@ builder.Services.AddScoped<IUserDataAccess, UserDataAccess>();
 
 var app = builder.Build();
 
-app.UsePathBase("/connexa/authentication/api");
+app.UsePathBase("/connexa/api/authentication");
+app.MapGet("/",() => "Connexa Authentication API is running :)");
+app.MapGet("/test",() => "List Authentication API is running now, no problems...");
 
 app.MapGet("/users", async ([Required][FromQuery] string email, [FromServices] IServiceProvider provider) =>
 {

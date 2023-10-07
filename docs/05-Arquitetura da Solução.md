@@ -104,12 +104,19 @@ O programa usará a aplicação de JSON SERVER como método de hospedagem do bac
 De acordo com a norma ISO/IEC 25010:2011, as características de qualidade do software são:
 
 Funcionalidade - Atende às necessidades do usuário
+
 Confiabilidade - Executa suas funções de forma correta e consistente
+
 Usabilidade - Fácil de usar e aprender
+
 Eficiência - Desempenho adequado em relação aos recursos utilizados
+
 Manutenibilidade - Capacidade de ser modificado e corrigido facilmente
+
 Portabilidade - Pode ser utilizado em diferentes ambientes
+
 Segurança - Protege informações e funcionalidades contra acesso não autorizado.
+
 Diante disso, nossa aplicação tem como meta de desenvolvimento ser capaz de cumprir todos esses requisitos de qualidade de software para que seus stakeholders sejam corretamente satisfeitos.
 
 > **Links Úteis**:

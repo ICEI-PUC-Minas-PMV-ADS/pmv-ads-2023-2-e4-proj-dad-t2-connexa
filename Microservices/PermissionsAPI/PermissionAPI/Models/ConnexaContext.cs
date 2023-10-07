@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace ListAPI.Models;
+namespace PermissionAPI.Models;
 
 public partial class ConnexaContext : DbContext
 {
@@ -17,17 +17,17 @@ public partial class ConnexaContext : DbContext
 
     public virtual DbSet<Convite> Convites { get; set; }
 
-    public virtual DbSet<ItemListum> ItemLista { get; set; }
+    public virtual DbSet<ItemLista> ItemLista { get; set; }
 
-    public virtual DbSet<Listum> Lista { get; set; }
+    public virtual DbSet<Lista> Lista { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<UserListum> UserLista { get; set; }
+    public virtual DbSet<UserLista> UserLista { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql("server=mysql-ag-br1-11.conteige.cloud;database=zlbspi_connexa;user=zlbspi_connexa;password=nDvZ$T!ItYDYPEC4", 
-            Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.42-mysql"));
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=mysql-ag-br1-11.conteige.cloud;database=zlbspi_connexa;user=zlbspi_connexa;password=nDvZ$T!ItYDYPEC4", Microsoft.EntityFrameworkCore.ServerVersion.Parse("5.7.42-mysql"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -65,7 +65,7 @@ public partial class ConnexaContext : DbContext
                 .HasConstraintName("convite_ibfk_1");
         });
 
-        modelBuilder.Entity<ItemListum>(entity =>
+        modelBuilder.Entity<ItemLista>(entity =>
         {
             entity.HasKey(e => e.ItemId).HasName("PRIMARY");
 
@@ -92,7 +92,7 @@ public partial class ConnexaContext : DbContext
                 .HasConstraintName("item_lista_ibfk_1");
         });
 
-        modelBuilder.Entity<Listum>(entity =>
+        modelBuilder.Entity<Lista>(entity =>
         {
             entity.HasKey(e => e.ListaId).HasName("PRIMARY");
 
@@ -141,7 +141,7 @@ public partial class ConnexaContext : DbContext
             entity.Property(e => e.UserStatus).HasColumnName("user_status");
         });
 
-        modelBuilder.Entity<UserListum>(entity =>
+        modelBuilder.Entity<UserLista>(entity =>
         {
             entity.HasKey(e => e.UserListaId).HasName("PRIMARY");
 
@@ -181,7 +181,7 @@ public partial class ConnexaContext : DbContext
 
     public void ThrowException(string message)
     {
-        Console.WriteLine(DateTime.Now + "Ouve uma exceção dentro do micro serviço de Lista:");
+        Console.WriteLine(DateTime.Now + "Ouve uma exceção dentro do micro serviço de Autenticação:");
         Console.WriteLine(DateTime.Now + ": " + message);
     }
 }

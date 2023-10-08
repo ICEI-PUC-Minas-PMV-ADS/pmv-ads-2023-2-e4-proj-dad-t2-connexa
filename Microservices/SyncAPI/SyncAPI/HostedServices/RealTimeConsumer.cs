@@ -43,7 +43,7 @@ namespace SyncAPI.HostedServices
                     await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
                 }
 
-                CreateRealTimeListConsumer(stoppingToken);
+                CreateRealTimeUpdateListConsumer(stoppingToken);
 
                 while (!stoppingToken.IsCancellationRequested)
                     await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
@@ -65,7 +65,7 @@ namespace SyncAPI.HostedServices
             await Task.CompletedTask;
         }
 
-        private void CreateRealTimeListConsumer(CancellationToken cancellationToken)
+        private void CreateRealTimeUpdateListConsumer(CancellationToken cancellationToken)
         {
             ConfigureConsumer(_persistentConnection, "update-list-obj", "", ExchangeType.Direct, async ((ListDTO listObj, IModel model, BasicDeliverEventArgs ea) result) =>
             {
@@ -73,6 +73,8 @@ namespace SyncAPI.HostedServices
                 {
                     if (result.listObj == null)
                         return;
+
+                    _logger.LogInformation("opa" + DateTime.Now);
 
                     await SendToSignalRHub(method: UPDATE_LIST_OBJECT_HUB_METHOD,
                                         idGroup: result.listObj.IdUserTarget.ToString(),

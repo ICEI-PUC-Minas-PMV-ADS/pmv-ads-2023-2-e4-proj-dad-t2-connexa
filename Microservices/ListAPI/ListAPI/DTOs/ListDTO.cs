@@ -13,5 +13,6 @@
         public string? ListaDescricao { get; set; }
 
         public string? ListaTitulo { get; set; }
+        public int IdUserTarget { get; set; }
     }
 }

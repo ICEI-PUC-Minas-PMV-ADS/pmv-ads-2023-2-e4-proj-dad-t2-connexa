@@ -1,6 +1,7 @@
 ﻿using ListAPI.DTOs;
 using ListAPI.Interfaces;
 using ListAPI.Models;
+using ListAPI.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,10 +9,15 @@ namespace ListAPI.DataAccess
 {
     public class ListDataAccess:ControllerBase, IListDataAccess
     {
+        private readonly ConnexaRabbitMQClient _connexaRabbitMQClient;
         private readonly ConnexaContext _context;
-        public ListDataAccess ([FromServices] ConnexaContext context)
+
+        private readonly string UPDATE_LIST_QUEUE_NAME = "update-list-obj";
+
+        public ListDataAccess ([FromServices] ConnexaContext context, [FromServices] ConnexaRabbitMQClient connexaRabbitMQClient)
         {
             _context = context;
+            _connexaRabbitMQClient = connexaRabbitMQClient;
         }
 
         public async ValueTask<bool> DeleteListAsync (int idList)
@@ -164,37 +170,31 @@ namespace ListAPI.DataAccess
         {
             try
             {
-                var isEdit = false;
-                var itemModel = new Listum();
+                var item = await _context.Lista.FirstOrDefaultAsync(i => i.ListaId == list.ListaId);
 
-                if(list.ListaId > 0)
+                if(item != null)
                 {
-                    var item = await _context.Lista.FirstOrDefaultAsync(i => i.ListaId == list.ListaId);
-
-                    if(item != null)
-                    {
-                        itemModel = item;
-                        isEdit = true;
-                    }   
+                    _context.Entry(item).State = EntityState.Modified;
+                } else
+                {
+                    item = new Listum();
+                    _context.Entry(item).State = EntityState.Added;
                 }
 
-                itemModel.UserId = list.UserId;
-                itemModel.ListaDescricao = list.ListaDescricao;
-                itemModel.ListaPublica = list.ListaPublica;
-                itemModel.ListaStatus = list.ListaStatus;
-                itemModel.ListaTitulo = list.ListaTitulo;
+                item.UserId = list.UserId;
+                item.ListaDescricao = list.ListaDescricao;
+                item.ListaPublica = list.ListaPublica;
+                item.ListaStatus = list.ListaStatus;
+                item.ListaTitulo = list.ListaTitulo;
 
-                if(!isEdit)
-                    _context.Lista.Add(itemModel);
-                else
-                    _context.Lista.Update(itemModel);
-
-                _context.SavedChanges += (e,s) =>
+                _context.SavedChanges += async (e,s) =>
                 {
-                    list.ListaId = itemModel.ListaId;
+                    list.ListaId = item.ListaId;
                 };
 
                 await _context.SaveChangesAsync();
+
+                await DistributeListUpdatesToRelatedUsers(list);
 
                 return list;
             }
@@ -241,33 +241,25 @@ namespace ListAPI.DataAccess
         {
             try
             {
-                var isEdit = false;
-                var itemModel = new UserListum();
+                var item = await _context.UserLista.FirstOrDefaultAsync(i => i.UserListaId == listMember.UserListaId);
 
-                if(listMember.UserListaId > 0)
+                if(item == null)
                 {
-                    var item = await _context.UserLista.FirstOrDefaultAsync(i => i.UserListaId == listMember.UserListaId);
-
-                    if(item != null)
-                    {
-                        itemModel = item;
-                        isEdit = true;
-                    }
+                    item = new UserListum();
+                    _context.Entry(item).State = EntityState.Added;
+                } else
+                {
+                    _context.Entry(item).State = EntityState.Modified;
                 }
 
-                itemModel.ListaId = listMember.UserListaId;
-                itemModel.UserId = listMember.UserId;
-                itemModel.UserListaStatus = listMember.UserListaStatus;
-                itemModel.UserListaRole = listMember.UserListaRole;                
-
-                if(!isEdit)
-                    _context.UserLista.Add(itemModel);
-                else
-                    _context.UserLista.Update(itemModel);
+                item.ListaId = listMember.UserListaId;
+                item.UserId = listMember.UserId;
+                item.UserListaStatus = listMember.UserListaStatus;
+                item.UserListaRole = listMember.UserListaRole;                
 
                 _context.SavedChanges += (e,s) =>
                 {
-                    listMember.ListaId = itemModel.ListaId;
+                    listMember.ListaId = item.ListaId;
                 };
 
                 await _context.SaveChangesAsync();
@@ -309,6 +301,23 @@ namespace ListAPI.DataAccess
                 _context.ThrowException(ex.Message);
                 return Enumerable.Empty<MemberListDTO>();
             }
+        }
+
+
+        public async Task DistributeListUpdatesToRelatedUsers (ListDTO item)
+        {
+            var members = await _context.UserLista
+                                            .Where(w => w.ListaId == item.ListaId)
+                                            .Select(s => s.UserId ?? 0)
+                                            .ToArrayAsync();
+
+            if(members != null)
+                for(int i = 0; i < members.Length;i++)
+                {
+                    item.IdUserTarget = members[i];
+                    if(item.IdUserTarget > 0)
+                        _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE_NAME, item);
+                }
         }
     }
 }

@@ -24,7 +24,11 @@ namespace SyncAPI
                     HostName = _rbtMQConnexaHost,
                     Port = _rbtMQConnexaPort,
                     UserName = _rbtMQConnexaUserName,
-                    Password = _rbtMQConnexaPassword
+                    Password = _rbtMQConnexaPassword,
+                    Ssl = new RabbitMQ.Client.SslOption()
+                    {
+                        ServerName = _rbtMQConnexaHost
+                    }
                 };
 
                 var bus = new ServiceBusPersistentConnection(factory, logger, 5);

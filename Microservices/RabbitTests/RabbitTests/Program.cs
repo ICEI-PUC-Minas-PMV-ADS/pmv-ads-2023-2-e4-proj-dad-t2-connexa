@@ -1,10 +1,11 @@
 ﻿using System.Text;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 var factory = new ConnectionFactory { 
     HostName = "localhost",
     UserName = "connexarabbit",
-    Password = "12345678", 
+    Password = "12345678",
     Port = 5672
 };
 
@@ -33,14 +34,31 @@ var body = Encoding.UTF8.GetBytes(Newtonsoft.Json.JsonConvert.SerializeObject(me
 var properties = channel.CreateBasicProperties();
 properties.Persistent = true;
 
-channel.BasicPublish(exchange: string.Empty,
-                     routingKey: "update-list-obj",
-                     basicProperties: properties,
-                     body: body);
+//channel.BasicPublish(exchange: string.Empty,
+//                     routingKey: "update-list-obj",
+//                     basicProperties: properties,
+//                     body: body);
 
-Console.WriteLine($" [x] Sent {message}");
+var consumer = new EventingBasicConsumer(channel);
+consumer.Received += (model, ea) =>
+{
+    byte[] body = ea.Body.ToArray();
+    var message = Encoding.UTF8.GetString(body);
+    var obj = Newtonsoft.Json.JsonConvert.DeserializeObject<ListDTO>(message);
 
-Console.WriteLine(" Press [enter] to exit.");
+    Console.WriteLine("============= Dados atualizados =============");
+    Console.WriteLine("Id da lista:" + obj.ListaId);
+    Console.WriteLine("Titulo da lista:" + obj.ListaTitulo);
+    Console.WriteLine("Descrição da lista:" + obj.ListaDescricao);
+    Console.WriteLine("============= Dados atualizados =============");
+};
+
+channel.BasicConsume(queue: "update-list-obj",
+                     autoAck: true,
+                     consumer: consumer);
+
+Console.WriteLine("Aguardando atualizações...");
+Console.ReadKey();
 
 public class ListDTO
 {

@@ -2,6 +2,7 @@ using ListAPI.DataAccess;
 using ListAPI.DTOs;
 using ListAPI.Interfaces;
 using ListAPI.Models;
+using ListAPI.Utils;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +22,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<ConnexaContext>();
 builder.Services.AddScoped<IListDataAccess, ListDataAccess>();
+builder.Services.AddSingleton<ConnexaRabbitMQClient>();
 
 var app = builder.Build();
 
@@ -143,7 +145,7 @@ app.MapPost("/member/{listMember}", async ([FromServices] IServiceProvider provi
         return Results.NotFound();
     }
 });
-app.MapGet("/member", async ([FromServices] IServiceProvider provider, int idGetMember) =>
+app.MapGet("/member/{idList}", async (int idList, [FromServices] IServiceProvider provider) =>
 {
     using (var scope = provider.CreateScope())
     {
@@ -151,7 +153,7 @@ app.MapGet("/member", async ([FromServices] IServiceProvider provider, int idGet
         var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
 
         if (listDataAccess != null)
-            return Results.Ok(await listDataAccess.GetMembersByListAsync(idGetMember));
+            return Results.Ok(await listDataAccess.GetMembersByListAsync(idList));
 
         return Results.NotFound();
     }

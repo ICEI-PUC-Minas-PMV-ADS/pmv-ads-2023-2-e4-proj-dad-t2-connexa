@@ -6,6 +6,8 @@ using SyncAPI.Interface;
 using System.Text;
 using SyncAPI.Hubs;
 using SyncAPI.DTO;
+using System.Threading.Channels;
+using Microsoft.Extensions.Logging;
 
 namespace SyncAPI.HostedServices
 {
@@ -14,8 +16,17 @@ namespace SyncAPI.HostedServices
         ILogger<RealTimeConsumer> _logger;
         IServiceBusPersistentConnection _persistentConnection;
         IHubContext<RealTimeHub> _realTimeHub;
+        ConnectionFactory _connectionFactory;
+        IConnection _connection;
+        IModel _channel;
+
+        private readonly string _rbtMQHostName = "localhost";
+        private readonly string _rbtMQUserName = "connexarabbit";
+        private readonly string _rbtMQPassword = "12345678";
+        private readonly int _rbtMQPort = 5672;
 
         private readonly string UPDATE_LIST_OBJECT_HUB_METHOD = "UpdateListObjHub";
+        private readonly string UPDATE_LIST_OBJECT_RABBIT_QUEUE = "update-list-obj";
 
         public RealTimeConsumer(ILogger<RealTimeConsumer> logger, 
             IServiceBusPersistentConnection persistentConnection,
@@ -24,6 +35,19 @@ namespace SyncAPI.HostedServices
             _logger = logger;
             _persistentConnection = persistentConnection;
             _realTimeHub = realTimeHub;
+
+            _connectionFactory = new ConnectionFactory { 
+                HostName = _rbtMQHostName,
+                UserName = _rbtMQUserName,
+                Password = _rbtMQPassword,
+                Port = _rbtMQPort
+            };
+
+            _connection = _connectionFactory.CreateConnection();
+            _channel = _connection.CreateModel();
+
+            var properties = _channel.CreateBasicProperties();
+            properties.Persistent = true;
         }
 
         public async Task StartAsync (CancellationToken cancellationToken)
@@ -67,19 +91,19 @@ namespace SyncAPI.HostedServices
 
         private void CreateRealTimeUpdateListConsumer(CancellationToken cancellationToken)
         {
-            ConfigureConsumer(_persistentConnection, "update-list-obj", "", ExchangeType.Direct, async ((ListDTO listObj, IModel model, BasicDeliverEventArgs ea) result) =>
+            ConfigureConsumer(UPDATE_LIST_OBJECT_RABBIT_QUEUE, async ((ListDTO listObj, IModel model, BasicDeliverEventArgs ea) result) =>
             {
                 try
                 {
                     if (result.listObj == null)
                         return;
 
-                    _logger.LogInformation("opa" + DateTime.Now);
-
                     await SendToSignalRHub(method: UPDATE_LIST_OBJECT_HUB_METHOD,
                                         idGroup: result.listObj.IdUserTarget.ToString(),
                                         arg1: result.listObj,
                                         cancellationToken: cancellationToken);
+
+                    _logger.LogInformation("Updated List Id:" + result.listObj.ListaId + " was sended by SignalR to User Id: " + result.listObj.IdUserTarget + '.');
 
                 }
                 catch (Exception ex)
@@ -95,24 +119,21 @@ namespace SyncAPI.HostedServices
                 await _realTimeHub.Clients.Group(idGroup).SendAsync(method, arg1, cancellationToken);
         }
 
-        public static void ConfigureConsumer<T>(IServiceBusPersistentConnection persistentConnection, string queue, string exchange, string exchangeType,
+        public void ConfigureConsumer<T>(string queue,
             Func<(T, IModel, BasicDeliverEventArgs), Task> messageExecutor, ILogger logger)
         {
-            IModel model = persistentConnection.CreateModel();
-
-            model.QueueDeclare(queue, false, false, false);
-            model.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
-
-            AsyncEventingBasicConsumer consumer = new(model);
+            var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += async (sender, ea) =>
             {
                 try
                 {
-                    var body = ea.Body.ToArray();
-                    var message = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
+                    byte[] body = ea.Body.ToArray();
+                    var obj = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
 
-                    logger?.LogDebug($"Event received: {message}");
-                    await messageExecutor((message, model, ea));
+                    _channel.QueueDeclare(queue, false, false, false);
+                    _channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+                    
+                    await messageExecutor((obj, _channel, ea));
                 }
                 catch (Exception ex)
                 {
@@ -120,9 +141,11 @@ namespace SyncAPI.HostedServices
                 }
             };
 
-            model.BasicConsume(queue: queue,
-                autoAck: true,
-                consumer: consumer);
+            _channel.BasicConsume(queue: queue,
+                     autoAck: true,
+                     consumer: consumer);
+
+            logger.LogInformation("Queue: " + queue + " is awaiting updates from RabbitMQ...");
         }
     }
 }

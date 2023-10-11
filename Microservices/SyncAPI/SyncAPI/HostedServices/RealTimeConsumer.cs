@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using SyncAPI.Interface;
 using System.Text;
 using SyncAPI.Hubs;
 using SyncAPI.DTO;
@@ -14,7 +13,6 @@ namespace SyncAPI.HostedServices
     public class RealTimeConsumer:IHostedService
     {
         ILogger<RealTimeConsumer> _logger;
-        IServiceBusPersistentConnection _persistentConnection;
         IHubContext<RealTimeHub> _realTimeHub;
         ConnectionFactory _connectionFactory;
         IConnection _connection;
@@ -29,11 +27,9 @@ namespace SyncAPI.HostedServices
         private readonly string UPDATE_LIST_OBJECT_RABBIT_QUEUE = "update-list-obj";
 
         public RealTimeConsumer(ILogger<RealTimeConsumer> logger, 
-            IServiceBusPersistentConnection persistentConnection,
             IHubContext<RealTimeHub> realTimeHub)
         {
             _logger = logger;
-            _persistentConnection = persistentConnection;
             _realTimeHub = realTimeHub;
 
             _connectionFactory = new ConnectionFactory { 
@@ -61,11 +57,6 @@ namespace SyncAPI.HostedServices
         {
             try
             {
-                while (!_persistentConnection.IsConnected)
-                {
-                    _persistentConnection.TryConnect();
-                    await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
-                }
 
                 CreateRealTimeUpdateListConsumer(stoppingToken);
 
@@ -98,7 +89,9 @@ namespace SyncAPI.HostedServices
                     if (result.listObj == null)
                         return;
 
-                    await SendToSignalRHub(method: UPDATE_LIST_OBJECT_HUB_METHOD,
+                    await Task.Delay(2000);
+
+                    await SendToSignalRHub(method: "UpdateListObjHub",
                                         idGroup: result.listObj.IdUserTarget.ToString(),
                                         arg1: result.listObj,
                                         cancellationToken: cancellationToken);

@@ -1,5 +1,4 @@
 using ListAPI.DataAccess;
-using ListAPI.DTOs;
 using ListAPI.Interfaces;
 using ListAPI.Models;
 using ListAPI.Utils;

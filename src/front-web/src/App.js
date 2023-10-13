@@ -1,46 +1,16 @@
-import React, { useState } from "react";
-import "./App.css";
-import logo from "./img/logo.png";
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Login from "./Login";
+import Registration from "./Registration";
 
 function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isClicked, setIsClicked] = useState(false);
-
-  const handleLogin = () => {
-    setIsClicked(true);
-    // Implementar a lógica de autenticação aqui
-    setTimeout(() => {
-      setIsClicked(false);
-    }, 500);
-  };
-  
   return (
-    <div className="App">
-      <div className="login-container">
-      <h2>Login</h2>
-        <img src={logo} alt="Logo" className="logo" />
-        <input
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button
-          onClick={handleLogin}
-          className={`login-button ${isClicked ? "clicked" : ""}`}
-        >
-          Entrar
-        </button>
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />} /> {/* Rota de Login como página inicial */}
+        <Route path="/registration" element={<Registration />} />
+      </Routes>
+    </Router>
   );
 }
-
 export default App;

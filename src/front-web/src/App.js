@@ -8,8 +8,11 @@ import Home from "./pages/Home";
 function App() {
   const [isLogged, setIsLogged] = useState(false);
 
-  const handleLogin = (_isLogged, _isTeacher) => {
-    setIsLogged(_isLogged);
+  const handleLogin = (isLogged) => {
+    setIsLogged(isLogged);
+    
+    if (!isLogged)
+      alert("Usuário ou senha inválido!")
   }
 
   const handleLogout = () => {
@@ -21,7 +24,7 @@ function App() {
       <Routes>
         {!isLogged ?
           <>
-            <Route path="/" element={<Login />} /> {/* Rota de Login como página inicial */}
+            <Route path="/" element={<Login handleLogin={handleLogin} />} /> {/* Rota de Login como página inicial */}
             <Route path="/registration" element={<Registration />} />
             <Route path="/recovery" element={<Recovery />} />
           </>

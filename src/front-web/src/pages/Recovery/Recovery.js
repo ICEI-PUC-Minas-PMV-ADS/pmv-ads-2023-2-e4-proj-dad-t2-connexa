@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import "./Registration.css";
+import "./Recovery.css";
 import { Link } from "react-router-dom";
-import backArrowIcon from "./icon/icon-back.png";
-import TextField from '@mui/material/TextField';
+import backArrowIcon from "../../icon/icon-back.png";
 
-function Registration() {
+function Recovery() {
   const [fullName, setFullName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [email, setEmail] = useState("");
@@ -22,14 +21,14 @@ function Registration() {
   };
 
   return (
-    <div className="Registration">
-      <h2>Cadastrar</h2>
+    <div className="recovery">
+      <h2>Recuperar Senha</h2>
       <Link to="/" className="back-button">
         <img src={backArrowIcon} alt="Seta de Retorno" className="back-icon" />
         Voltar para o Login
       </Link>
       <form onSubmit={handleSubmit}>
-        <div className="registration-container">
+        <div className="recovery-container">
           <div>
             <label>Nome Completo:</label>
             <input
@@ -55,7 +54,7 @@ function Registration() {
             />
           </div>
           <div>
-            <label>Senha:</label>
+            <label>Nova Senha:</label>
             <input
               type="password"
               value={password}
@@ -65,9 +64,9 @@ function Registration() {
           <button
             type="submit"
             onClick={handleSubmit}
-            className={`registration-button ${isClicked ? "clicked" : ""}`}
+            className={`recovery-button ${isClicked ? "clicked" : ""}`}
           >
-            Cadastrar
+            Recuperar Senha
           </button>
         </div>
       </form>
@@ -75,5 +74,5 @@ function Registration() {
   );
 }
 
-export default Registration;
+export default Recovery;
 

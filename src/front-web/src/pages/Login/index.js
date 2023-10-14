@@ -1,26 +1,26 @@
 import React, { useState } from "react";
-import "./Login.css";
-import logo from "./img/logo.png";
+import "./styles.css";
+import logo from "../../img/logo.png";
 import { Link } from "react-router-dom";
-import Registration from "./Registration";
+import AuthenticationService from "../../services/AuthenticationService";
+import LoginDto from "../../services/AuthenticationService/dtos/LoginDto";
 
-function Login() {
+function Login({ handleLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isClicked, setIsClicked] = useState(false);
 
-  const handleLogin = () => {
-    setIsClicked(true);
-    // Implementar a lógica de autenticação aqui
-    setTimeout(() => {
-      setIsClicked(false);
-    }, 500);
+  const authenticationService = new AuthenticationService();
+
+  const handleLoginClick = async () => {
+    const loginDto = new LoginDto(email, password);
+    const success = await authenticationService.loginAsync(loginDto);
+    handleLogin(success);
   };
-  
+
   return (
-    <div className="Login">
+    <div className="login">
       <div className="login-container">
-      <h2>Login</h2>
+        <h2>Login</h2>
         <img src={logo} alt="Logo" className="logo" />
         <input
           type="email"
@@ -35,8 +35,8 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button
-          onClick={handleLogin}
-          className={`login-button ${isClicked ? "clicked" : ""}`}
+          onClick={handleLoginClick}
+          className="login-button"
         >
           Entrar
         </button>

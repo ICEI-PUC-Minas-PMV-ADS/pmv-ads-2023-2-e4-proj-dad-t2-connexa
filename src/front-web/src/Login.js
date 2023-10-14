@@ -41,6 +41,7 @@ function Login() {
           Entrar
         </button>
         <Link to="/registration">Cadastrar</Link>
+        <Link to="/recovery">Recuperar Senha</Link>
       </div>
     </div>
   );

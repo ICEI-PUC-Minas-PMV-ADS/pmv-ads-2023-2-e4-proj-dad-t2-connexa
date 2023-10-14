@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Registration.css";
+import "./styles.css";
 import { Link } from "react-router-dom";
 import backArrowIcon from "../../icon/icon-back.png";
 import TextField from '@mui/material/TextField';

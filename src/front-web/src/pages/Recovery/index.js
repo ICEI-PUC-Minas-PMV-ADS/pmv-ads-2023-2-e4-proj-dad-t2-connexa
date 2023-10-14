@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Recovery.css";
+import "./styles.css";
 import { Link } from "react-router-dom";
 import backArrowIcon from "../../icon/icon-back.png";
 

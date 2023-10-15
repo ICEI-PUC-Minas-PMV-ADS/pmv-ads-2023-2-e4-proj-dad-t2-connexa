@@ -23,9 +23,6 @@ function App() {
     setIsLogged(false);
   }
 
-  const handleSubmit = () => {
-
-  }
   return (
     <Router>
       <Routes>

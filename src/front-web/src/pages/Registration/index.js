@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "./styles.css";
-import AuthenticationService from "../../services/AuthenticationService";
-import CreateUserDto from "../../services/AuthenticationService/dtos/CreateUserDto";
-import ProblemDetails from '../../services/shared/models/ProblemDetails';
+import AuthenticationService from "../../services/authentication/AuthenticationService";
+import CreateUserDto from "../../services/authentication/dtos/CreateUserDto";
 
 const Registration = () => {
   const [formData, setFormData] = useState({
@@ -13,8 +12,6 @@ const Registration = () => {
 
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
-  const [apiResponse, setApiResponse] = useState(null);
-
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -64,18 +61,17 @@ const Registration = () => {
       console.info("Registration.handleSubmit -> Resposta do authenticationService.createUserAsync:", success);
 
       if (success) {
-        setApiResponse({});
+        setErrors({});
         return;
       }
 
-      const problemDetails = new ProblemDetails(null, "Erro ao Criar Usuário", null, "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde.", null);
-      setApiResponse({ problemDetails: problemDetails });
+      setErrors({ ...errors, createUser: "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde." });
+
       return;
 
     } catch (error) {
 
-      const problemDetails = new ProblemDetails(null, "Erro ao Criar Usuário", null, "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde.", null);
-      setApiResponse({ problemDetails: problemDetails });
+      setErrors({ ...errors, createUser: "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde." });
       return;
 
     } finally {
@@ -126,9 +122,9 @@ const Registration = () => {
 
         <button type="submit" disabled={submitting}>Enviar</button>
       </form>
-      {apiResponse && (
-        <div className={apiResponse.problemDetails ? 'error' : 'success'}>
-          {apiResponse.problemDetails ? `Título: ${apiResponse.problemDetails.title} | Detalhes: ${apiResponse.problemDetails.detail}` : 'Formulário enviado com sucesso!'}
+      {errors.createUser && (
+        <div className={errors.createUser ? 'error' : 'success'}>
+          {errors.createUser ? errors.createUser : 'Formulário enviado com sucesso!'}
         </div>
       )}
     </div>

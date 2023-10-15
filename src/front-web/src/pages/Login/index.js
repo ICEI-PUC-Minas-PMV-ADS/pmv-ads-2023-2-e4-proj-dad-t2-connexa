@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import "./styles.css";
 import logo from "../../img/logo.png";
 import { Link } from "react-router-dom";
-import AuthenticationService from "../../services/AuthenticationService";
-import LoginDto from "../../services/AuthenticationService/dtos/LoginDto";
+import AuthenticationService from "../../services/authentication/AuthenticationService";
+import LoginDto from "../../services/authentication/dtos/LoginDto";
 
 function Login({ handleLogin }) {
   const [email, setEmail] = useState("");

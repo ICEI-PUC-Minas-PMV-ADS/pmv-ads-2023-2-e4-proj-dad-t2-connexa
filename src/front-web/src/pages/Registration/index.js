@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import "./styles.css";
 import AuthenticationService from "../../services/authentication/AuthenticationService";
 import CreateUserDto from "../../services/authentication/dtos/CreateUserDto";
+import {useNavigate} from 'react-router-dom';
 
 const Registration = () => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    name: 'Amarilda',
-    email: 'amarilda@email.com',
-    password: '123456'
+    name: '',
+    email: '',
+    password: ''
   });
 
   const [errors, setErrors] = useState({});
@@ -62,6 +65,7 @@ const Registration = () => {
 
       if (success) {
         setErrors({});
+        redirectToLogin();
         return;
       }
 
@@ -77,6 +81,10 @@ const Registration = () => {
     } finally {
       setSubmitting(false);
     }
+  };
+
+  const redirectToLogin = () => {
+    navigate('/');
   };
 
   return (

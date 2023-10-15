@@ -43,9 +43,8 @@ h2 {
   align-items: center;
 }
 
-.registration-button {
-  width: 100%;
-  align-items: center;
+.login-button {
+  width: 93%;
   padding: 10px;
   margin: 5px 5px;
   background-color: #333;
@@ -55,14 +54,15 @@ h2 {
   cursor: pointer;
   font-weight: bold;
   transition: background-color 0.3s;
+  /* Adicione uma transição de cor para suavizar a mudança de cor */
 }
 
-.registration-button.clicked {
+.login-button:hover {
+  background-color: #000000;
+}
+
+.login-button:active {
   background-color: gray;
-}
-
-.registration-button:hover {
-  background-color: #555; /* Cor de fundo ao passar o mouse por cima */
 }
 
 .Registration-logo {
@@ -88,11 +88,18 @@ h2 {
   background-color: #eee; 
 }
 
-
 .back-icon {
   width: 20px; 
   height: 20px; 
   margin-right: 5px; 
   top: 10px; 
   left: 10px;
+}
+
+.error {
+  color: red;
+}
+
+.success {
+  color: green;
 }

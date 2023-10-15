@@ -10,7 +10,7 @@ function App() {
 
   const handleLogin = (isLogged) => {
     setIsLogged(isLogged);
-    
+
     if (!isLogged)
       alert("Usuário ou senha inválido!")
   }
@@ -19,6 +19,9 @@ function App() {
     setIsLogged(false);
   }
 
+  const handleSubmit = () =>{
+  
+  }
   return (
     <Router>
       <Routes>

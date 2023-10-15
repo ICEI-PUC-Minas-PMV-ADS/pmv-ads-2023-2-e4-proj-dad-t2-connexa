@@ -4,8 +4,12 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
 import Home from "./pages/Home";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function App() {
+  // TODO remove, this demo shouldn't need to reset the theme.
+  const defaultTheme = createTheme();
+
   const [isLogged, setIsLogged] = useState(false);
 
   const handleLogin = (isLogged) => {
@@ -19,15 +23,15 @@ function App() {
     setIsLogged(false);
   }
 
-  const handleSubmit = () =>{
-  
+  const handleSubmit = () => {
+
   }
   return (
     <Router>
       <Routes>
         {!isLogged ?
           <>
-            <Route path="/" element={<Login handleLogin={handleLogin} />} /> {/* Rota de Login como página inicial */}
+            <Route path="/" element={<Login defaultTheme={defaultTheme} handleLogin={handleLogin} />} /> {/* Rota de Login como página inicial */}
             <Route path="/registration" element={<Registration />} />
             <Route path="/recovery" element={<Recovery />} />
           </>

@@ -27,7 +27,6 @@ function Recovery(defaultTheme) {
     password: '',
   });
 
-  
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -36,7 +35,8 @@ function Recovery(defaultTheme) {
 
   const validateEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
-  }; 
+  };
+
   const validateForm = () => {
     let errors = {};
 
@@ -62,28 +62,32 @@ function Recovery(defaultTheme) {
     event.preventDefault();
     if (validateForm()) {
       try {
-  
         const createUserDto = new CreateUserDto(
           formData.fullName,
           formData.email,
           formData.password
         );
         const authenticationService = new AuthenticationService();
-        const response = await authenticationService.createUserAsync(createUserDto);
+        const success = await authenticationService.createUserAsync(createUserDto);
 
-        if (response.success) {
+        if (success) {
           setErrors({});
+          alert("Nova senha criada com sucesso!")
           redirectToLogin();
-        } else {
-          setErrors({ createUser: response.error || "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde." });
+          return;
         }
+        setErrors({ createUser: "Ocorreu um erro ao salvar Nova senha, tente novamente mais tarde." });
+        return;
       } catch (error) {
-        console.error("Erro ao criar o usuário:", error);
-        setErrors({ createUser: "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde." });
+        console.error("Recovery.handleSubmit -> Erro ao criar o usuário:", error);
+        setErrors({ createUser: "Ocorreu um erro ao salvar Nova senha, tente novamente mais tarde." });
+        return;
       }
     }
   };
+
   const redirectToLogin = () => {
+    console.info("Recovery.redirectToLogin -> Redirecionando para a tela de login.");
     navigate("/");
   };
 
@@ -182,7 +186,7 @@ function Recovery(defaultTheme) {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-              <Link to="/">Lembrou da senha? Entrar</Link>
+                <Link to="/">Lembrou da senha? Entrar</Link>
               </Grid>
             </Grid>
           </Box>
@@ -191,6 +195,5 @@ function Recovery(defaultTheme) {
     </ThemeProvider>
   );
 }
+
 export default Recovery;
-
-

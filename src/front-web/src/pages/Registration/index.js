@@ -3,7 +3,7 @@ import logo from "../../img/logo.png";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import { Link } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -27,7 +27,6 @@ function Registration(defaultTheme) {
     password: '',
   });
 
-  
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -36,7 +35,7 @@ function Registration(defaultTheme) {
 
   const validateEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
-  }; 
+  };
   const validateForm = () => {
     let errors = {};
 
@@ -60,33 +59,50 @@ function Registration(defaultTheme) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (validateForm()) {
-      try {
-        // Substitua a linha abaixo pela chamada da sua função de criação de usuário no backend
-        const createUserDto = new CreateUserDto(
-          formData.fullName,
-          formData.email,
-          formData.password
-        );
-        const authenticationService = new AuthenticationService();
-        const response = await authenticationService.createUserAsync(createUserDto);
+    console.info("Registration.handleSubmit -> Iniciando cadastro do usuário.");
 
-        if (response.success) {
-          setErrors({});
-          redirectToLogin();
-        } else {
-          setErrors({ createUser: response.error || "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde." });
-        }
-      } catch (error) {
-        console.error("Erro ao criar o usuário:", error);
-        setErrors({ createUser: "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde." });
+    if (!validateForm())
+      return;
+
+    try {
+      // Substitua a linha abaixo pela chamada da sua função de criação de usuário no backend
+      const createUserDto = new CreateUserDto(
+        formData.fullName,
+        formData.email,
+        formData.password
+      );
+
+    console.info("Registration.handleSubmit -> Chamando API para criar usuário.", createUserDto);
+
+      const authenticationService = new AuthenticationService();
+      const success = await authenticationService.createUserAsync(createUserDto);
+
+      console.info("Registration.handleSubmit -> Resposta API para criar usuário.", success);
+
+      if (success) {
+        setErrors({});
+        alert("Usuário criado com sucesso!")
+        redirectToLogin();
+        return;
       }
+
+      console.error("Registration.handleSubmit -> Erro ao cadastrar usuário.", success);
+
+      setErrors({ createUser: "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde." });
+      return;
+
+    } catch (error) {
+      console.error("Registration.handleSubmit -> Erro ao criar o usuário:", error);
+      setErrors({ createUser: "Ocorreu um erro ao salvar o usuário, tente novamente mais tarde." });
+      return;
     }
+
   };
+
   const redirectToLogin = () => {
+    console.info("Registration.redirectToLogin -> Redirecionando para a tela de login.");
     navigate("/");
   };
-
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -183,9 +199,7 @@ function Registration(defaultTheme) {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/" variant="body2">
-                  Já possui uma conta? Entrar
-                </Link>
+              <Link to="/">Já possui uma conta? Entrar</Link>
               </Grid>
             </Grid>
           </Box>

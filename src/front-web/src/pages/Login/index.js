@@ -2,12 +2,12 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
+import { Link } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 import logo from "../../img/logo.png";
 import AuthenticationService from "../../services/authentication/AuthenticationService";
 import LoginDto from "../../services/authentication/dtos/LoginDto";
@@ -90,14 +90,10 @@ export default function SignIn({ defaultTheme, handleLogin }) {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="/recovery" variant="body2">
-                  Esqueceu sua senha?
-                </Link>
+                <Link to="/recovery">Esqueceu sua senha?</Link>
               </Grid>
               <Grid item>
-                <Link href="/registration" variant="body2">
-                  {"Não tem uma conta? Cadastre-se"}
-                </Link>
+                <Link to="/registration">Não tem uma conta? Cadastre-se</Link>
               </Grid>
             </Grid>
           </Box>

@@ -7,7 +7,27 @@ import Home from "./pages/Home";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 function App() {
-  const defaultTheme = createTheme();
+  const primary = {
+    main: '#616161',
+    light: '#bdbdbd',
+    dark: '#424242',
+    contrastText: '#fff',
+  };
+
+  const secundary = {
+    main: '#455a64',
+    light: '#90a4ae',
+    dark: '#37474f',
+    contrastText: '#fff',
+  };
+
+  const defaultTheme = createTheme({
+    palette: {
+      primary: primary,
+      secondary: secundary,
+    },
+  });
+  
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
@@ -30,24 +50,27 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('isLogged');
     setIsLogged(false);
-  }
+  };
 
   return (
-    <Router>
-      <Routes>
-        {!isLogged ?
-          <>
-            <Route path="/" element={<Login defaultTheme={defaultTheme} handleLogin={handleLogin} />} />
-            <Route path="/registration" element={<Registration />} />
-            <Route path="/recovery" element={<Recovery />} />
-          </>
-          :
-          <>
-            <Route path="/" element={<Home handleLogout={handleLogout} />} />
-          </>
-        }
-      </Routes>
-    </Router>
+    <ThemeProvider theme={defaultTheme}>
+      <Router>
+        <Routes>
+
+          {!isLogged ?
+            <>
+              <Route path="/" element={<Login defaultTheme={defaultTheme} handleLogin={handleLogin} />} />
+              <Route path="/registration" element={<Registration />} />
+              <Route path="/recovery" element={<Recovery />} />
+            </>
+            :
+            <>
+              <Route path="/" element={<Home handleLogout={handleLogout} />} />
+            </>
+          }
+        </Routes>
+      </Router>
+    </ThemeProvider>
   );
 }
 

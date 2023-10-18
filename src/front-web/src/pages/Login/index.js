@@ -7,7 +7,6 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { ThemeProvider } from '@mui/material/styles';
 import logo from "../../img/logo.png";
 import AuthenticationService from "../../services/authentication/AuthenticationService";
 import LoginDto from "../../services/authentication/dtos/LoginDto";
@@ -78,7 +77,6 @@ function SignIn({ defaultTheme, handleLogin }) {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -164,7 +162,6 @@ function SignIn({ defaultTheme, handleLogin }) {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
   );
 }
 

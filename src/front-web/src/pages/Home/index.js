@@ -1,16 +1,35 @@
-import React, { useState } from "react";
-import "./styles.css";
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Importe o ícone de saída
+import { useNavigate } from 'react-router-dom';
 import logo from "../../img/logo.png";
 
-function Home() {
+function Home({ handleLogout }) {
+    const navigate = useNavigate();
+
+    const handleLogoutClick = () => {
+        localStorage.removeItem('isLogged');
+        handleLogout(false); // Chama a função handleLogout para atualizar o estado
+        navigate('/');
+    };
+
     return (
-        <div className="home">
-            <div className="home-container">
-                <h2>Home</h2>
-                <img src={logo} alt="Logo" className="logo" />
-            </div>
-        </div>
+        <AppBar position="static">
+            <Toolbar>
+                <Typography variant="h6" noWrap sx={{ flex: 1 }}>
+                    <Avatar src={logo} alt="Logo" sx={{ width: 40, height: 40, mr: 2 }} />
+                </Typography>
+                <IconButton color="inherit" onClick={handleLogoutClick}>
+                    <ExitToAppIcon />
+                </IconButton>
+            </Toolbar>
+        </AppBar>
     );
 }
 
 export default Home;
+

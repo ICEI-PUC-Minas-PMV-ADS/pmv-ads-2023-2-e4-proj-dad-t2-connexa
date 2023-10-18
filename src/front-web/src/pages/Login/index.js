@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -7,10 +7,13 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { ThemeProvider } from '@mui/material/styles';
 import logo from "../../img/logo.png";
 import AuthenticationService from "../../services/authentication/AuthenticationService";
 import LoginDto from "../../services/authentication/dtos/LoginDto";
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 function Copyright(props) {
   return (
@@ -25,24 +28,55 @@ function Copyright(props) {
   );
 }
 
-export default function SignIn({ defaultTheme, handleLogin }) {
+function SignIn({ defaultTheme, handleLogin }) {
   const authenticationService = new AuthenticationService();
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({ email: '', password: '' });
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const validateEmail = (email) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
+  const validateForm = () => {
+    let errors = {};
+
+    if (!formData.email) {
+      errors.email = 'Por favor, insira seu endereço de e-mail.';
+    } else if (!validateEmail(formData.email)) {
+      errors.email = 'Endereço de e-mail inválido.';
+    }
+
+    if (!formData.password) {
+      errors.password = 'Por favor, insira sua senha.';
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
 
-    const loginDto = new LoginDto(data.get('email'), data.get('password'));
+    if (!validateForm()) {
+      return;
+    }
+
+    const loginDto = new LoginDto(formData.email, formData.password);
     const success = await authenticationService.loginAsync(loginDto);
     handleLogin(success);
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -69,17 +103,45 @@ export default function SignIn({ defaultTheme, handleLogin }) {
               name="email"
               autoComplete="email"
               autoFocus
+              value={formData.email}
+              onChange={(e) => {
+                setFormData({ ...formData, email: e.target.value });
+                setErrors({ ...errors, email: '' });
+              }}
+              error={!!errors.email}
+              helperText={errors.email}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Senha"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="password"
+                label="Senha"
+                name="password"
+                autoComplete="new-password"
+                type={showPassword ? 'text' : 'password'}
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
+                error={!!errors.password}
+                helperText={errors.password}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+            </Grid>
             <Button
               type="submit"
               fullWidth
@@ -100,6 +162,7 @@ export default function SignIn({ defaultTheme, handleLogin }) {
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
-    </ThemeProvider>
   );
 }
+
+export default SignIn;

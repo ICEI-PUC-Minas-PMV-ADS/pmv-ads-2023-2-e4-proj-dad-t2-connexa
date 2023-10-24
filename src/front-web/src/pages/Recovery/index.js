@@ -75,11 +75,11 @@ function Recovery(defaultTheme) {
           redirectToLogin();
           return;
         }
-        setErrors({ createUser: "Ocorreu um erro ao salvar Nova senha, tente novamente mais tarde." });
+        setErrors({ createUser: "Não foi possível atualizar a senha." });
         return;
       } catch (error) {
         console.error("Recovery.handleSubmit -> Erro ao criar o usuário:", error);
-        setErrors({ createUser: "Ocorreu um erro ao salvar Nova senha, tente novamente mais tarde." });
+        setErrors({ createUser: "Não foi possível atualizar a senha." });
         return;
       }
     }

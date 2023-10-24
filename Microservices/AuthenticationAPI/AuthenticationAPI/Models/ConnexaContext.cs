@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationAPI.Models;
 
@@ -132,6 +130,22 @@ public partial class ConnexaContext : DbContext
             entity.Property(e => e.PswhHash)
                 .HasMaxLength(255)
                 .HasColumnName("pswh_hash");
+            entity.Property(e => e.Birthdate)
+                .HasColumnName("birthdate")
+                .HasColumnType("date")
+                .IsRequired();
+            entity.Property(e => e.Document)
+               .HasColumnName("document")
+               .HasColumnType("char(11)")
+               .IsRequired();
+            entity.Property(e => e.SecretQuestion)
+              .HasColumnName("secret_question")
+              .HasColumnType("varchar(75)")
+              .IsRequired();
+            entity.Property(e => e.SecretAnswer)
+             .HasColumnName("secret_answer")
+             .HasColumnType("varchar(75)")
+             .IsRequired();
             entity.Property(e => e.UserEmail)
                 .HasMaxLength(255)
                 .HasColumnName("user_email");

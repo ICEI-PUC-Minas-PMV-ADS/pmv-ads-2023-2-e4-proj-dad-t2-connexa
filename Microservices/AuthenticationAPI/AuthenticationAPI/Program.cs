@@ -3,6 +3,7 @@ using AuthenticationAPI.DataAcess;
 using AuthenticationAPI.DTOs;
 using AuthenticationAPI.Interfaces;
 using AuthenticationAPI.Models;
+using AuthenticationAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,6 +24,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<ConnexaContext>();
 builder.Services.AddScoped<IUserDataAccess, UserDataAccess>();
+builder.Services.AddScoped<ICpfService, CpfService>();
 
 var app = builder.Build();
 
@@ -45,7 +47,7 @@ app.MapGet("/users", async ([Required][FromQuery] string email, [FromServices] I
     return Results.Ok(user);
 });
 
-app.MapPost("/users", async ([Required][FromBody] CreateUserDTO createUserDTO, [FromServices] IServiceProvider provider) =>
+app.MapPost("/users", async ([Required][FromBody] CreateOrUpdateUserDTO createOrUpdateUserDTO, [FromServices] IServiceProvider provider) =>
 {
     using var scope = provider.CreateScope();
 
@@ -54,7 +56,7 @@ app.MapPost("/users", async ([Required][FromBody] CreateUserDTO createUserDTO, [
     if (userDataAcess == null)
         return Results.Problem(detail: "Erro interno do servidor.", statusCode: StatusCodes.Status500InternalServerError);
 
-    var success = await userDataAcess.SaveUserAsync(createUserDTO.Email, createUserDTO.Password, createUserDTO.Name, createUserDTO.Status);
+    var success = await userDataAcess.SaveUserAsync(createOrUpdateUserDTO);
 
     if (!success)
         return Results.Problem(detail: "Erro ao salvar usuário.", statusCode: StatusCodes.Status400BadRequest);

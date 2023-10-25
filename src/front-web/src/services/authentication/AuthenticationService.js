@@ -9,6 +9,7 @@ const apiInstance = axios.create({
 });
 
 class AuthenticationService {
+
     async loginAsync(loginDto) {
         try {
             console.info("ConexaService.loginAsync -> Chamou o endpoint de login na API.", loginDto);
@@ -26,7 +27,7 @@ class AuthenticationService {
 
     async createUserAsync(createUserDto) {
         try {
-            console.info("ConexaService.createUserAsync -> Chamou o endpoint de criar usuário na API.",createUserDto);
+            console.info("ConexaService.createUserAsync -> Chamou o endpoint de criar usuário na API.", createUserDto);
 
             const response = await apiInstance.post("/users", createUserDto);
 
@@ -38,7 +39,40 @@ class AuthenticationService {
             return false;
         }
     }
+
+    async getEmailAsync(email) {
+        try {
+            console.info("AuthenticationService.getEmailAsync -> Chamou o endpoint para buscar email na API.", email);
+
+            const response = await apiInstance.get("/users", email);
+
+            console.info('AuthenticationService.getEmailAsync -> Resposta da API.', response);
+
+            if (response.status === STATUS_OK) {
+                return response.data.email;
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('AuthenticationService.getEmailAsync -> Erro ao buscar email na API.', error);
+            return null;
+        }
+    }
+    async getSecretQuestion(email) {
+        try {
+            const response = await apiInstance.get(`/users/secret-question?email=${email}`);
+
+            if (response.status === 200)
+                return response.data;
+
+            throw new Error('Erro ao obter a pergunta secreta.');
+        } catch (error) {
+            console.error('Erro ao obter a pergunta secreta:', error);
+            throw error;
+        }
+    }
+
 }
 
-
 export default AuthenticationService;
+

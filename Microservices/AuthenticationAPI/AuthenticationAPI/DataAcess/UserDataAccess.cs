@@ -132,6 +132,17 @@ namespace AuthenticationAPI.DataAcess
                 return false;
             }
         }
+
+        public async ValueTask<string?> GetSecretQuestionAsync(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == email);
+
+            if (user == null)
+                return null;
+
+            return user.SecretQuestion;
+        }
+
         public async ValueTask<bool> ValidateLoginUserAsync(LoginUserDTO loginUser)
         {
             try

@@ -3,6 +3,7 @@ using AuthenticationAPI.Interfaces;
 using AuthenticationAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace AuthenticationAPI.DataAcess
 {
@@ -98,7 +99,7 @@ namespace AuthenticationAPI.DataAcess
                 UserName = createOrUpdateUserDTO.Name,
                 PswhHash = createOrUpdateUserDTO.Password,
                 UserEmail = createOrUpdateUserDTO.Email,
-                Document = createOrUpdateUserDTO.Document,
+                Document = ClearDocument(createOrUpdateUserDTO.Document),
                 Birthdate = createOrUpdateUserDTO.Birthdate,
                 SecretQuestion = createOrUpdateUserDTO.SecretQuestion,
                 SecretAnswer = createOrUpdateUserDTO.SecretAnswer,
@@ -110,6 +111,11 @@ namespace AuthenticationAPI.DataAcess
             await _context.SaveChangesAsync();
 
             return true;
+        }
+
+        private static string ClearDocument(string document)
+        {
+            return Regex.Replace(document, @"[^\d]", "");
         }
 
         public async ValueTask<bool> DeleteUserAsync(string email)

@@ -14,7 +14,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
 import logo from '../../img/logo.png';
 import AuthenticationService from '../../services/authentication/AuthenticationService';
-import CreateUserDto from '../../services/authentication/dtos/CreateUserDto';
+import CreateOrUpdateUserDto from '../../services/authentication/dtos/CreateOrUpdateUserDto';
 import InputMask from 'react-input-mask';
 
 const secretQuestions = [
@@ -70,7 +70,7 @@ function Registration() {
     if (!validateForm()) return;
 
     try {
-      const createUserDto = new CreateUserDto(
+      const createUserDto = new CreateOrUpdateUserDto(
         formData.name,
         formData.email,
         formData.password,

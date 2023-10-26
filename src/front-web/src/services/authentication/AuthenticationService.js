@@ -40,35 +40,23 @@ class AuthenticationService {
         }
     }
 
-    async getEmailAsync(email) {
+    async getSecretQuestionAsync(email) {
         try {
-            console.info("AuthenticationService.getEmailAsync -> Chamou o endpoint para buscar email na API.", email);
+            console.info("AuthenticationService.getSecretQuestionAsync -> Chamou o endpoint para buscar a pergunta secreta na API.", email);
 
-            const response = await apiInstance.get("/users", email);
+            const response = await apiInstance.get("/users/secret-question", {
+                params: { email: email }  // Configuração correta dos parâmetros de consulta
+            });
 
-            console.info('AuthenticationService.getEmailAsync -> Resposta da API.', response);
+            console.info('AuthenticationService.getSecretQuestionAsync -> Resposta da API.', response);
 
-            if (response.status === STATUS_OK) {
-                return response.data.email;
-            } else {
+            if (response.status != STATUS_OK)
                 return null;
-            }
+
+            return response.data;
         } catch (error) {
-            console.error('AuthenticationService.getEmailAsync -> Erro ao buscar email na API.', error);
+            console.error('AuthenticationService.getSecretQuestionAsync -> Erro ao buscar a pergunta secreta na API.', error);
             return null;
-        }
-    }
-    async getSecretQuestion(email) {
-        try {
-            const response = await apiInstance.get(`/users/secret-question?email=${email}`);
-
-            if (response.status === 200)
-                return response.data;
-
-            throw new Error('Erro ao obter a pergunta secreta.');
-        } catch (error) {
-            console.error('Erro ao obter a pergunta secreta:', error);
-            throw error;
         }
     }
 

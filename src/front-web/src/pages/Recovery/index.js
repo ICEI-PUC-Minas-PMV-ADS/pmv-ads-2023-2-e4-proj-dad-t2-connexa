@@ -11,9 +11,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Button from '@mui/material/Button';
+import InputMask from 'react-input-mask';
 import logo from "../../img/logo.png";
 import AuthenticationService from "../../services/authentication/AuthenticationService";
-import CreateUserDto from '../../services/authentication/dtos/CreateUserDto';
+import CreateOrUpdateUserDto from '../../services/authentication/dtos/CreateOrUpdateUserDto';
 
 function Recovery() {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,16 +22,14 @@ function Recovery() {
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
     email: '',
-    cpf: '',
+    document: '',
     secretQuestion: '',
     secretAnswer: '',
     newPassword: '',
-    confirmPassword: '',
-    document: '',
+    confirmPassword: ''
   });
 
   const [disableInputs, setDisableInputs] = useState(true);
-  const [secretQuestion, setSecretQuestion] = useState('');
 
   const navigate = useNavigate();
 
@@ -50,62 +49,30 @@ function Recovery() {
     return /\S+@\S+\.\S+/.test(email);
   };
 
-  const fetchEmailAndSecretQuestion = async (email) => {
-    try {
-      if (validateEmail(email)) {
-        const authenticationService = new AuthenticationService();
-        const emailResponse = await authenticationService.getEmailAsync(email);
+  const handleContinueClick = async () => {
 
-        if (emailResponse) {
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            email: emailResponse.email,
-          }));
-          fetchSecretQuestion(emailResponse.email);
-          setErrors({});
-        } else {
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-          }));
-          setErrors({ email: 'Email não encontrado' });
-        }
-      } else {
-        setErrors({ email: 'Endereço de e-mail inválido' });
-      }
-    } catch (error) {
-      console.error('Erro ao buscar email:', error);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-      }));
-      setErrors({ email: 'Erro ao buscar email' });
-    }
-  };
+    if (!validateEmailFromForm())
+      return;
 
-  const fetchSecretQuestion = async (email) => {
     try {
       const authenticationService = new AuthenticationService();
-      const secretQuestionResponse = await authenticationService.getSecretQuestion(email);
+      const secretQuestionResponse = await authenticationService.getSecretQuestionAsync(formData.email);
 
-      if (secretQuestionResponse) {
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          secretQuestion: secretQuestionResponse.secretQuestion,
-        }));
-        setErrors({});
-      } else {
-        setFormData((prevFormData) => ({
-          ...prevFormData,
-          secretQuestion: 'Pergunta secreta não encontrada',
-        }));
-        setErrors({ secretQuestion: 'Pergunta secreta não encontrada' });
+      if (!secretQuestionResponse) {
+        alert("Usuário não encontrado.");
+        return;
       }
-    } catch (error) {
-      console.error('Erro ao buscar pergunta secreta:', error);
+
       setFormData((prevFormData) => ({
         ...prevFormData,
-        secretQuestion: 'Erro ao buscar pergunta secreta',
+        secretQuestion: secretQuestionResponse,
       }));
-      setErrors({ secretQuestion: 'Erro ao buscar pergunta secreta' });
+
+      setDisableInputs(false);
+
+    } catch (error) {
+      console.error('Recovery.handleContinueClick -> Erro ao buscar pergunta secreta:', error);
+      alert("Erro ao buscar usuário, tente novamente mais tarde.");
     }
   };
 
@@ -119,34 +86,51 @@ function Recovery() {
     try {
       console.info("Recovery.handleSubmit -> Chamando API para recuperar senha.");
 
-      const createUserDto = new CreateUserDto(
+      // email, password, document, secretAnswer
+      const updateUserDto = CreateOrUpdateUserDto.CreateDtoToUpdate(
         formData.email,
         formData.newPassword,
         formData.document,
-        formData.secretQuestion,
-        formData.secretAnswer,
+        formData.secretAnswer
       );
 
       const authenticationService = new AuthenticationService();
-      const success = await authenticationService.recoverPasswordAsync(createUserDto);
+      const success = await authenticationService.createUserAsync(updateUserDto);
 
       console.info("Recovery.handleSubmit -> Resposta da API para recuperar senha.", success);
 
-      if (success) {
-        setErrors({});
-        alert("Nova senha criada com sucesso!")
-        redirectToLogin();
+      if (!success) {
+        console.error("Recovery.handleSubmit -> Erro ao recuperar senha.", success);
+        alert("Não foi possível recuperar a senha, confira os dados informados e tente novamente.");
         return;
       }
 
-      console.error("Recovery.handleSubmit -> Erro ao recuperar senha.");
+      setErrors({});
+      alert("Nova senha criada com sucesso!")
+      redirectToLogin();
+      return;
 
-      setErrors({ recoveryError: "Ocorreu um erro ao recuperar a senha, tente novamente mais tarde." });
     } catch (error) {
       console.error("Recovery.handleSubmit -> Erro ao recuperar senha:", error);
-      setErrors({ recoveryError: "Ocorreu um erro ao recuperar a senha, tente novamente mais tarde." });
+      alert("Não foi possível recuperar a senha, confira os dados informados e tente novamente.");
+      return;
     }
   };
+
+  const validateEmailFromForm = () => {
+    let errors = {};
+
+    if (!formData.email) {
+      errors.email = 'Por favor, insira seu endereço de e-mail.';
+    }
+
+    if (formData.email && !validateEmail(formData.email)) {
+      errors.email = 'Endereço de e-mail inválido.';
+    }
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  }
 
   const validateForm = () => {
     let errors = {};
@@ -159,8 +143,8 @@ function Recovery() {
       errors.email = 'Endereço de e-mail inválido.';
     }
 
-    if (!formData.cpf) {
-      errors.cpf = 'Por favor, insira seu CPF.';
+    if (!formData.document) {
+      errors.document = 'Por favor, insira seu CPF.';
     }
 
     if (!formData.secretAnswer) {
@@ -173,10 +157,6 @@ function Recovery() {
 
     if (formData.newPassword !== formData.confirmPassword) {
       errors.confirmPassword = 'As senhas não coincidem.';
-    }
-
-    if (!formData.document) {
-      errors.document = 'Por favor, insira seu documento (CPF, RG, etc.).';
     }
 
     setErrors(errors);
@@ -199,9 +179,6 @@ function Recovery() {
         </Box>
         <Typography component="h1" variant="h5">
           Recuperar Senha
-        </Typography>
-        <Typography variant="body1" color="textSecondary" sx={{ mb: 1 }}>
-          {formData.secretQuestion}
         </Typography>
         <form noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -229,6 +206,7 @@ function Recovery() {
                   variant="contained"
                   sx={{ mt: 2 }}
                   disabled={!disableInputs}
+                  onClick={handleContinueClick}
                 >
                   Prosseguir
                 </Button>
@@ -237,29 +215,38 @@ function Recovery() {
             {!disableInputs &&
               <>
                 <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="cpf"
-                    label="CPF"
-                    name="cpf"
-                    disabled={disableInputs}
-                    value={formData.cpf}
+                  <InputMask
+                    mask="999.999.999-99"
+                    maskChar={null}
                     onChange={(e) =>
-                      setFormData({ ...formData, cpf: e.target.value })
+                      setFormData({ ...formData, document: e.target.value })
                     }
-                    error={!!errors.cpf}
-                    helperText={errors.cpf}
-                  />
+                    disabled={disableInputs}
+                    value={formData.document}
+                  >
+                    {() => (
+                      <TextField
+                        required
+                        fullWidth
+                        id="document"
+                        label="CPF"
+                        name="document"
+                        error={!!errors.document}
+                        helperText={errors.document}
+                      />
+                    )}
+                  </InputMask>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    fullWidth
                     id="secretQuestion"
                     label="Pergunta Secreta"
                     name="secretQuestion"
-                    disabled={true}
-                    value={secretQuestion}
+                    fullWidth
+                    multiline
+                    maxRows={4}
+                    contentEditable={false}
+                    value={formData.secretQuestion}
                   />
                 </Grid>
                 <Grid item xs={12}>

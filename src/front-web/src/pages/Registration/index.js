@@ -16,6 +16,10 @@ import logo from '../../img/logo.png';
 import AuthenticationService from '../../services/authentication/AuthenticationService';
 import CreateOrUpdateUserDto from '../../services/authentication/dtos/CreateOrUpdateUserDto';
 import InputMask from 'react-input-mask';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { differenceInYears } from 'date-fns';
+
+const minAgeInYears = 12;
 
 const secretQuestions = [
   'Qual é o nome do seu primeiro animal de estimação?',
@@ -41,7 +45,7 @@ function Registration() {
     confirmPassword: '',
     secretAnswer: '',
     secretQuestion: '',
-    birthdate: '',
+    birthdate: null,
     document: '',
   });
 
@@ -63,6 +67,12 @@ function Registration() {
     return /\S+@\S+\.\S+/.test(email);
   };
 
+  const validateAge = (dateToCompare) => {
+    const currentDate = new Date();
+    const yearsDifference = differenceInYears(currentDate, dateToCompare);
+    return yearsDifference >= minAgeInYears;
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.info('Cadastro.handleSubmit -> Iniciando processo de cadastro.');
@@ -75,10 +85,12 @@ function Registration() {
         formData.email,
         formData.password,
         formData.document,
-        formData.birthdate,
+        formData.birthdate.toISOString().split('T')[0],
         formData.secretQuestion,
         formData.secretAnswer
       );
+
+      console.info('Cadastro.handleSubmit -> Iniciando cadastro do usuário.', createUserDto);
 
       const authService = new AuthenticationService();
       const success = await authService.createUserAsync(createUserDto);
@@ -133,9 +145,17 @@ function Registration() {
     }
 
     if (!formData.document) {
-      errors.document = 'Por favor, insira seu documento (CPF, RG, etc.).';
+      errors.document = 'Por favor, insira seu CPF.';
     }
 
+    if (!formData.birthdate) {
+      errors.birthdate = 'Por favor, insira a data de nascimento.';
+    }
+
+    if (formData.birthdate && !validateAge(formData.birthdate)) {
+      errors.birthdate = `Idade mínima para uso: ${minAgeInYears} anos.`;
+    }
+    
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -316,19 +336,23 @@ function Registration() {
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
+              <DatePicker
                 id="birthdate"
-                name="birthdate"
-                type="date"
+                label="Data de Nascimento"
                 value={formData.birthdate}
-                onChange={(e) =>
-                  setFormData({ ...formData, birthdate: e.target.value })
+                format="dd/MM/yyyy"
+                onChange={(date) =>
+                  setFormData({ ...formData, birthdate: date })
                 }
-                error={!!errors.birthdate}
-                helperText={errors.birthdate}
+                slotProps={{
+                  textField: {
+                    error: !!errors.birthdate,
+                    helperText: errors.birthdate,
+                    fullWidth: true
+                  },
+                }}
               />
+
             </Grid>
           </Grid>
           <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>

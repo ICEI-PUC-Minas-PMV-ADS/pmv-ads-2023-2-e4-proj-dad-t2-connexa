@@ -12,6 +12,7 @@ namespace AuthenticationAPI.Tests.API.Services
         [InlineData("123.456.789-10", false)]
         [InlineData("000.000.000-00", false)]
         [InlineData("111.222.333-44", false)]
+        [InlineData("09641749013", true)]
         public void Given_AValidCpfNumber_When_ValidatingCpf_Then_ReturnsExpected(string cpf, bool expected)
         {
             // Arrange

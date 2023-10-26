@@ -5,6 +5,8 @@ import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
 import Home from "./pages/Home";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 function App() {
   const primary = {
@@ -27,7 +29,7 @@ function App() {
       secondary: secundary,
     },
   });
-  
+
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
@@ -54,22 +56,24 @@ function App() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Router>
-        <Routes>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Router>
+          <Routes>
 
-          {!isLogged ?
-            <>
-              <Route path="/" element={<Login defaultTheme={defaultTheme} handleLogin={handleLogin} />} />
-              <Route path="/registration" element={<Registration />} />
-              <Route path="/recovery" element={<Recovery />} />
-            </>
-            :
-            <>
-              <Route path="/" element={<Home handleLogout={handleLogout} />} />
-            </>
-          }
-        </Routes>
-      </Router>
+            {!isLogged ?
+              <>
+                <Route path="/" element={<Login defaultTheme={defaultTheme} handleLogin={handleLogin} />} />
+                <Route path="/registration" element={<Registration />} />
+                <Route path="/recovery" element={<Recovery />} />
+              </>
+              :
+              <>
+                <Route path="/" element={<Home handleLogout={handleLogout} />} />
+              </>
+            }
+          </Routes>
+        </Router>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }

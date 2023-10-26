@@ -5,6 +5,10 @@ import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
 import Home from "./pages/Home";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const primary = {
@@ -27,7 +31,7 @@ function App() {
       secondary: secundary,
     },
   });
-  
+
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
@@ -42,7 +46,7 @@ function App() {
     if (isLogged) {
       localStorage.setItem('isLogged', 'true');
     } else {
-      alert("Usuário ou senha inválido!");
+      toast.error("Usuário ou senha inválido!");
     }
     setIsLogged(isLogged);
   }
@@ -54,22 +58,36 @@ function App() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Router>
-        <Routes>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Router>
+          <Routes>
 
-          {!isLogged ?
-            <>
-              <Route path="/" element={<Login defaultTheme={defaultTheme} handleLogin={handleLogin} />} />
-              <Route path="/registration" element={<Registration />} />
-              <Route path="/recovery" element={<Recovery />} />
-            </>
-            :
-            <>
-              <Route path="/" element={<Home handleLogout={handleLogout} />} />
-            </>
-          }
-        </Routes>
-      </Router>
+            {!isLogged ?
+              <>
+                <Route path="/" element={<Login defaultTheme={defaultTheme} handleLogin={handleLogin} />} />
+                <Route path="/registration" element={<Registration />} />
+                <Route path="/recovery" element={<Recovery />} />
+              </>
+              :
+              <>
+                <Route path="/" element={<Home handleLogout={handleLogout} />} />
+              </>
+            }
+          </Routes>
+        </Router>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }

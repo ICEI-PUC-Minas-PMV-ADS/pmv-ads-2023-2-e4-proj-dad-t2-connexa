@@ -49,12 +49,15 @@ namespace AuthenticationAPI.Tests.API
                     ""email"" : ""email@test.com"",
                     ""password"": ""123456789"",
                     ""name"":""TestUser"",
-                    ""status"": true
+                    ""document"":""111111111111"",
+                    ""birthdate"":""2023-10-23"",
+                    ""secretQuestion"":""test?"",
+                    ""secretAnswer"":""test""
                 }";
 
             var fakeUserDataAccess = A.Fake<IUserDataAccess>();
 
-            A.CallTo(() => fakeUserDataAccess.SaveUserAsync(A<string>.Ignored, A<string>.Ignored, A<string>.Ignored, A<bool>.Ignored)).Returns(true);
+            A.CallTo(() => fakeUserDataAccess.SaveUserAsync(A<CreateOrUpdateUserDTO>.Ignored)).Returns(true);
 
             using var testServerContainer = new TestServerContainer(serviceCollection =>
             {
@@ -83,12 +86,15 @@ namespace AuthenticationAPI.Tests.API
                     ""email"" : ""email@test.com"",
                     ""password"": ""123456789"",
                     ""name"":""TestUser"",
-                    ""status"": true
+                    ""document"":""111111111111"",
+                    ""birthdate"":""2023-10-23"",
+                    ""secretQuestion"":""test?"",
+                    ""secretAnswer"":""test""
                 }";
 
             var fakeUserDataAccess = A.Fake<IUserDataAccess>();
 
-            A.CallTo(() => fakeUserDataAccess.SaveUserAsync(A<string>.Ignored, A<string>.Ignored, A<string>.Ignored, A<bool>.Ignored)).Returns(false);
+            A.CallTo(() => fakeUserDataAccess.SaveUserAsync(A<CreateOrUpdateUserDTO>.Ignored)).Returns(false);
 
             using var testServerContainer = new TestServerContainer(serviceCollection =>
             {
@@ -162,10 +168,8 @@ namespace AuthenticationAPI.Tests.API
             // Arrange
             const string requestJson =
                 @"{
-                    
                      ""email"": ""email@test.com"",
                      ""password"": ""123456789""
-                    
                 }";
 
             var fakeUserDataAccess = A.Fake<IUserDataAccess>();
@@ -223,5 +227,32 @@ namespace AuthenticationAPI.Tests.API
             // Assert
             response.Should().Be400BadRequest();
         }
+        [Fact]
+        public async Task Given_AValidEmail_When_GettingSecretQuestion_Then_Returns200Ok()
+        {
+            // Arrange
+            var fakeUserDataAccess = A.Fake<IUserDataAccess>();
+
+            using var testServerContainer = new TestServerContainer(serviceCollection =>
+            {
+                serviceCollection.AddScoped(factory => fakeUserDataAccess);
+            });
+
+           
+            var httpClient = testServerContainer.HttpClient;
+
+            var email = "email@test.com";
+            var resource = $"/connexa/api/authentication/users/secret-question?email={email}";
+
+            // Act
+            var response = await httpClient.GetAsync(resource);
+
+            // Assert
+
+            Assert.Equal(200, (int)response.StatusCode);
+            var responseContent = await response.Content.ReadAsStringAsync();
+           
+        }
+
     }
 }

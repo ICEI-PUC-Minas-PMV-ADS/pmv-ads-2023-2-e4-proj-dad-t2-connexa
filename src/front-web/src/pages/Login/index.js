@@ -77,91 +77,91 @@ function SignIn({ defaultTheme, handleLogin }) {
   };
 
   return (
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Box>
-            <img src={logo} alt="Logo" className="logo" height={200} />
-          </Box>
-          <Typography component="h1" variant="h5">
-            Entrar
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Box>
+          <img src={logo} alt="Logo" className="logo" height={200} />
+        </Box>
+        <Typography component="h1" variant="h5">
+          Entrar
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={formData.email}
+            onChange={(e) => {
+              setFormData({ ...formData, email: e.target.value });
+              setErrors({ ...errors, email: '' });
+            }}
+            error={!!errors.email}
+            helperText={errors.email}
+          />
+          <Grid item xs={12}>
             <TextField
-              margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={formData.email}
-              onChange={(e) => {
-                setFormData({ ...formData, email: e.target.value });
-                setErrors({ ...errors, email: '' });
+              id="password"
+              label="Senha"
+              name="password"
+              autoComplete="new-password"
+              type={showPassword ? 'text' : 'password'}
+              value={formData.password}
+              onChange={(e) =>
+                setFormData({ ...formData, password: e.target.value })
+              }
+              error={!!errors.password}
+              helperText={errors.password}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
               }}
-              error={!!errors.email}
-              helperText={errors.email}
             />
-            <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
-                id="password"
-                label="Senha"
-                name="password"
-                autoComplete="new-password"
-                type={showPassword ? 'text' : 'password'}
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                error={!!errors.password}
-                helperText={errors.password}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
+          </Grid>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Entrar
+          </Button>
+          <Grid container>
+            <Grid item xs>
+              <Link to="/recovery">Esqueceu sua senha?</Link>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Entrar
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="/recovery">Esqueceu sua senha?</Link>
-              </Grid>
-              <Grid item>
-                <Link to="/registration">Não tem uma conta? Cadastre-se</Link>
-              </Grid>
+            <Grid item>
+              <Link to="/registration">Não tem uma conta? Cadastre-se</Link>
             </Grid>
-          </Box>
+          </Grid>
         </Box>
-        <Copyright sx={{ mt: 8, mb: 4 }} />
-      </Container>
+      </Box>
+      <Copyright sx={{ mt: 8, mb: 4 }} />
+    </Container>
   );
 }
 

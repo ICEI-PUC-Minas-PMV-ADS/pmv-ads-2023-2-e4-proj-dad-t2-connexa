@@ -9,6 +9,7 @@ const apiInstance = axios.create({
 });
 
 class AuthenticationService {
+
     async loginAsync(loginDto) {
         try {
             console.info("ConexaService.loginAsync -> Chamou o endpoint de login na API.", loginDto);
@@ -26,7 +27,7 @@ class AuthenticationService {
 
     async createUserAsync(createUserDto) {
         try {
-            console.info("ConexaService.createUserAsync -> Chamou o endpoint de criar usuário na API.",createUserDto);
+            console.info("ConexaService.createUserAsync -> Chamou o endpoint de criar usuário na API.", createUserDto);
 
             const response = await apiInstance.post("/users", createUserDto);
 
@@ -38,7 +39,28 @@ class AuthenticationService {
             return false;
         }
     }
+
+    async getSecretQuestionAsync(email) {
+        try {
+            console.info("AuthenticationService.getSecretQuestionAsync -> Chamou o endpoint para buscar a pergunta secreta na API.", email);
+
+            const response = await apiInstance.get("/users/secret-question", {
+                params: { email: email }  // Configuração correta dos parâmetros de consulta
+            });
+
+            console.info('AuthenticationService.getSecretQuestionAsync -> Resposta da API.', response);
+
+            if (response.status != STATUS_OK)
+                return null;
+
+            return response.data;
+        } catch (error) {
+            console.error('AuthenticationService.getSecretQuestionAsync -> Erro ao buscar a pergunta secreta na API.', error);
+            return null;
+        }
+    }
+
 }
 
-
 export default AuthenticationService;
+

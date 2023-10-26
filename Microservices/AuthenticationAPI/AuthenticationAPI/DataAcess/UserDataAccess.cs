@@ -3,16 +3,21 @@ using AuthenticationAPI.Interfaces;
 using AuthenticationAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 namespace AuthenticationAPI.DataAcess
 {
     public class UserDataAccess : ControllerBase, IUserDataAccess
     {
         private readonly ConnexaContext _context;
-        public UserDataAccess([FromServices] ConnexaContext context)
+        private readonly ICpfService _cpfService;
+
+        public UserDataAccess(ConnexaContext context, ICpfService cpfService)
         {
             _context = context;
+            _cpfService = cpfService;
         }
+
         public async ValueTask<UserDTO> GetUserByEmailAsync(string email)
         {
             try
@@ -29,7 +34,7 @@ namespace AuthenticationAPI.DataAcess
                 {
                     UserId = user.UserId,
                     UserName = user.UserName,
-                    PswhHash = "", //user.PswhHash,
+                    PswhHash = "",
                     UserEmail = email,
                     UserStatus = user.UserStatus,
                 };
@@ -43,46 +48,76 @@ namespace AuthenticationAPI.DataAcess
                 };
             }
         }
-        public async ValueTask<bool> SaveUserAsync(string email, string password, string nome, bool status = true)
+        public async ValueTask<bool> SaveUserAsync(CreateOrUpdateUserDTO createOrUpdateUserDTO)
         {
             try
             {
-                var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == email);
+                var userFromDatabase = await _context.Users.FirstOrDefaultAsync(u =>
+                    u.UserEmail == createOrUpdateUserDTO.Email
+                    || u.Document == createOrUpdateUserDTO.Document);
 
-                if (user == null) // user novo
-                {
-                    var newUser = new User()
-                    {
-                        UserName = nome,
-                        PswhHash = password,
-                        UserEmail = email,
-                        UserStatus = true,
-                    };
+                if (userFromDatabase == null)
+                    return await CreateAsync(createOrUpdateUserDTO);
 
-                    _context.Users.Add(newUser);
-                    await _context.SaveChangesAsync();
-
-                    return true;
-                }
-                else // user existente
-                {
-                    user.UserName = nome;
-                    user.UserEmail = email;
-                    user.PswhHash = password;
-                    user.UserStatus = status;
-
-                    _context.Users.Update(user);
-                    await _context.SaveChangesAsync();
-
-                    return true;
-                }
+                return await UpdateAsync(createOrUpdateUserDTO, userFromDatabase);
             }
             catch (Exception ex)
             {
-                _context.ThrowException("Erro ao salvar/editar o usuário.");
+                _context.ThrowException($"Erro ao salvar/editar o usuário: {ex}");
                 return false;
             }
         }
+
+        private async ValueTask<bool> UpdateAsync(CreateOrUpdateUserDTO createOrUpdateUserDTO, User userFromDatabase)
+        {
+            var matchCriteria = userFromDatabase.UserEmail.ToLower() == createOrUpdateUserDTO.Email.ToLower()
+                                    && userFromDatabase.Document == ClearDocument(createOrUpdateUserDTO.Document)
+                                    && userFromDatabase.SecretAnswer.ToLower() == createOrUpdateUserDTO.SecretAnswer.ToLower();
+
+            if (!matchCriteria)
+                return false;
+
+            userFromDatabase.PswhHash = createOrUpdateUserDTO.Password;
+            userFromDatabase.UserStatus = true;
+
+            _context.Users.Update(userFromDatabase);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        private async ValueTask<bool> CreateAsync(CreateOrUpdateUserDTO createOrUpdateUserDTO)
+        {
+            var isValidDocument = _cpfService.Validate(createOrUpdateUserDTO.Document);
+
+            if (!isValidDocument)
+                return false;
+
+            var newUser = new User()
+            {
+                UserName = createOrUpdateUserDTO.Name,
+                PswhHash = createOrUpdateUserDTO.Password,
+                UserEmail = createOrUpdateUserDTO.Email.ToLower(),
+                Document = ClearDocument(createOrUpdateUserDTO.Document),
+                Birthdate = createOrUpdateUserDTO.Birthdate,
+                SecretQuestion = createOrUpdateUserDTO.SecretQuestion,
+                SecretAnswer = createOrUpdateUserDTO.SecretAnswer,
+                UserStatus = true
+            };
+
+            _context.Users.Add(newUser);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
+        private static string ClearDocument(string document)
+        {
+            return Regex.Replace(document, @"[^\d]", "");
+        }
+
         public async ValueTask<bool> DeleteUserAsync(string email)
         {
             try
@@ -103,6 +138,17 @@ namespace AuthenticationAPI.DataAcess
                 return false;
             }
         }
+
+        public async ValueTask<string?> GetSecretQuestionAsync(string email)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == email);
+
+            if (user == null)
+                return null;
+
+            return user.SecretQuestion;
+        }
+
         public async ValueTask<bool> ValidateLoginUserAsync(LoginUserDTO loginUser)
         {
             try

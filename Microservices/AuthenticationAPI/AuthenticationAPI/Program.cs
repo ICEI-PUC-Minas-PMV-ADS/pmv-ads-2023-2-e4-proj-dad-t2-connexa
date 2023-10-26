@@ -3,6 +3,7 @@ using AuthenticationAPI.DataAcess;
 using AuthenticationAPI.DTOs;
 using AuthenticationAPI.Interfaces;
 using AuthenticationAPI.Models;
+using AuthenticationAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,13 +24,14 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddDbContext<ConnexaContext>();
 builder.Services.AddScoped<IUserDataAccess, UserDataAccess>();
+builder.Services.AddScoped<ICpfService, CpfService>();
 
 var app = builder.Build();
 
 app.UseCors(CONNEXA_ORIGIN);
 app.UsePathBase("/connexa/api/authentication");
-app.MapGet("/",() => "Connexa Authentication API is running :)");
-app.MapGet("/test",() => "List Authentication API is running now, no problems...");
+app.MapGet("/", () => "Connexa Authentication API is running :)");
+app.MapGet("/test", () => "List Authentication API is running now, no problems...");
 
 app.MapGet("/users", async ([Required][FromQuery] string email, [FromServices] IServiceProvider provider) =>
 {
@@ -45,7 +47,7 @@ app.MapGet("/users", async ([Required][FromQuery] string email, [FromServices] I
     return Results.Ok(user);
 });
 
-app.MapPost("/users", async ([Required][FromBody] CreateUserDTO createUserDTO, [FromServices] IServiceProvider provider) =>
+app.MapPost("/users", async ([Required][FromBody] CreateOrUpdateUserDTO createOrUpdateUserDTO, [FromServices] IServiceProvider provider) =>
 {
     using var scope = provider.CreateScope();
 
@@ -54,7 +56,7 @@ app.MapPost("/users", async ([Required][FromBody] CreateUserDTO createUserDTO, [
     if (userDataAcess == null)
         return Results.Problem(detail: "Erro interno do servidor.", statusCode: StatusCodes.Status500InternalServerError);
 
-    var success = await userDataAcess.SaveUserAsync(createUserDTO.Email, createUserDTO.Password, createUserDTO.Name, createUserDTO.Status);
+    var success = await userDataAcess.SaveUserAsync(createOrUpdateUserDTO);
 
     if (!success)
         return Results.Problem(detail: "Erro ao salvar usuário.", statusCode: StatusCodes.Status400BadRequest);
@@ -105,6 +107,17 @@ app.MapGet("/redis", async ([FromServices] IServiceProvider provider) =>
     redis.SetRedisValue("chave", "valor");
 
     return redis.GetRedisValue("chave");
+});
+
+app.MapGet("/users/secret-question", async ([Required][FromQuery] string email, [FromServices] IUserDataAccess userDataAccess) =>
+{
+    // Verifique se o email existe no banco de dados
+    var secretQuestion = await userDataAccess.GetSecretQuestionAsync(email);
+
+    if (secretQuestion == null)
+        return Results.NotFound("O usuário não existe.");
+
+    return Results.Ok(secretQuestion);
 });
 
 app.Run();

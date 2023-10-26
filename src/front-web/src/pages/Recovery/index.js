@@ -15,6 +15,8 @@ import InputMask from 'react-input-mask';
 import logo from "../../img/logo.png";
 import AuthenticationService from "../../services/authentication/AuthenticationService";
 import CreateOrUpdateUserDto from '../../services/authentication/dtos/CreateOrUpdateUserDto';
+import DocumentValidationService from '../../services/shared/DocumentValidationService';
+import { toast } from 'react-toastify';
 
 function Recovery() {
   const [showPassword, setShowPassword] = useState(false);
@@ -59,7 +61,7 @@ function Recovery() {
       const secretQuestionResponse = await authenticationService.getSecretQuestionAsync(formData.email);
 
       if (!secretQuestionResponse) {
-        alert("Usuário não encontrado.");
+        toast.error("Usuário não encontrado.");
         return;
       }
 
@@ -72,7 +74,7 @@ function Recovery() {
 
     } catch (error) {
       console.error('Recovery.handleContinueClick -> Erro ao buscar pergunta secreta:', error);
-      alert("Erro ao buscar usuário, tente novamente mais tarde.");
+      toast.error("Erro ao buscar usuário, tente novamente mais tarde.");
     }
   };
 
@@ -101,18 +103,18 @@ function Recovery() {
 
       if (!success) {
         console.error("Recovery.handleSubmit -> Erro ao recuperar senha.", success);
-        alert("Não foi possível recuperar a senha, confira os dados informados e tente novamente.");
+        toast.error("Não foi possível recuperar a senha, confira os dados informados e tente novamente.");
         return;
       }
 
       setErrors({});
-      alert("Nova senha criada com sucesso!")
+      toast.success("Nova senha criada com sucesso!")
       redirectToLogin();
       return;
 
     } catch (error) {
       console.error("Recovery.handleSubmit -> Erro ao recuperar senha:", error);
-      alert("Não foi possível recuperar a senha, confira os dados informados e tente novamente.");
+      toast.error("Não foi possível recuperar a senha, confira os dados informados e tente novamente.");
       return;
     }
   };
@@ -145,6 +147,10 @@ function Recovery() {
 
     if (!formData.document) {
       errors.document = 'Por favor, insira seu CPF.';
+    }
+
+    if (formData.document && !DocumentValidationService.isValidCpf(formData.document)) {
+      errors.document = 'CPF inválido.';
     }
 
     if (!formData.secretAnswer) {

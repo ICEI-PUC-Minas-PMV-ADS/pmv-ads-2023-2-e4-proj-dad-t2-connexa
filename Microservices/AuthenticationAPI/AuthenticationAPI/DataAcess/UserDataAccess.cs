@@ -70,9 +70,9 @@ namespace AuthenticationAPI.DataAcess
 
         private async ValueTask<bool> UpdateAsync(CreateOrUpdateUserDTO createOrUpdateUserDTO, User userFromDatabase)
         {
-            var matchCriteria = userFromDatabase.UserEmail == createOrUpdateUserDTO.Email
-                                    && userFromDatabase.Document == createOrUpdateUserDTO.Document
-                                    && userFromDatabase.SecretAnswer == createOrUpdateUserDTO.SecretAnswer;
+            var matchCriteria = userFromDatabase.UserEmail.ToLower() == createOrUpdateUserDTO.Email.ToLower()
+                                    && userFromDatabase.Document == ClearDocument(createOrUpdateUserDTO.Document)
+                                    && userFromDatabase.SecretAnswer.ToLower() == createOrUpdateUserDTO.SecretAnswer.ToLower();
 
             if (!matchCriteria)
                 return false;
@@ -98,7 +98,7 @@ namespace AuthenticationAPI.DataAcess
             {
                 UserName = createOrUpdateUserDTO.Name,
                 PswhHash = createOrUpdateUserDTO.Password,
-                UserEmail = createOrUpdateUserDTO.Email,
+                UserEmail = createOrUpdateUserDTO.Email.ToLower(),
                 Document = ClearDocument(createOrUpdateUserDTO.Document),
                 Birthdate = createOrUpdateUserDTO.Birthdate,
                 SecretQuestion = createOrUpdateUserDTO.SecretQuestion,

@@ -18,6 +18,8 @@ import CreateOrUpdateUserDto from '../../services/authentication/dtos/CreateOrUp
 import InputMask from 'react-input-mask';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { differenceInYears } from 'date-fns';
+import DocumentValidationService from '../../services/shared/DocumentValidationService';
+import { toast } from 'react-toastify';
 
 const minAgeInYears = 12;
 
@@ -99,18 +101,18 @@ function Registration() {
 
       if (success) {
         setErrors({});
-        alert('Cadastro realizado com sucesso!');
+        toast.success('Cadastro realizado com sucesso!');
         redirectToLogin();
         return;
       }
 
       console.error('Cadastro.handleSubmit -> Erro no processo de cadastro.');
 
-      setErrors({ registrationError: 'Ocorreu um erro no processo de cadastro, tente novamente mais tarde.' });
+      toast.error('Ocorreu um erro no processo de cadastro, tente novamente mais tarde.');
       return;
     } catch (error) {
       console.error('Cadastro.handleSubmit -> Erro no processo de cadastro:', error);
-      setErrors({ registrationError: 'Ocorreu um erro no processo de cadastro, tente novamente mais tarde.' });
+      toast.error('Ocorreu um erro no processo de cadastro, tente novamente mais tarde.');
       return;
     }
   };
@@ -148,6 +150,10 @@ function Registration() {
       errors.document = 'Por favor, insira seu CPF.';
     }
 
+    if (formData.document && !DocumentValidationService.isValidCpf(formData.document)) {
+      errors.document = 'CPF inválido.';
+    }
+
     if (!formData.birthdate) {
       errors.birthdate = 'Por favor, insira a data de nascimento.';
     }
@@ -155,7 +161,7 @@ function Registration() {
     if (formData.birthdate && !validateAge(formData.birthdate)) {
       errors.birthdate = `Idade mínima para uso: ${minAgeInYears} anos.`;
     }
-    
+
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };

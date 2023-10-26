@@ -7,6 +7,8 @@ import Home from "./pages/Home";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const primary = {
@@ -44,7 +46,7 @@ function App() {
     if (isLogged) {
       localStorage.setItem('isLogged', 'true');
     } else {
-      alert("Usuário ou senha inválido!");
+      toast.error("Usuário ou senha inválido!");
     }
     setIsLogged(isLogged);
   }
@@ -73,6 +75,18 @@ function App() {
             }
           </Routes>
         </Router>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </LocalizationProvider>
     </ThemeProvider>
   );

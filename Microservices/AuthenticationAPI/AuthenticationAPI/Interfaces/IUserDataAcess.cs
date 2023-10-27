@@ -8,7 +8,7 @@ namespace AuthenticationAPI.Interfaces
         ValueTask<bool> SaveUserAsync(CreateOrUpdateUserDTO createOrUpdateUserDTO);
         ValueTask<bool> DeleteUserAsync(string email);
         ValueTask<UserDTO> GetUserByEmailAsync(string email);
-        ValueTask<bool> ValidateLoginUserAsync(LoginUserDTO loginUser);
+        ValueTask<int?> ValidateLoginUserAsync(LoginUserDTO loginUser);
         ValueTask<string?> GetSecretQuestionAsync(string email);
     }
 }

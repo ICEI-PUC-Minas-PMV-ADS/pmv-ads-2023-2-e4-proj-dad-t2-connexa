@@ -44,52 +44,86 @@ Faça uma solicitação DELETE para a rota "/lists/{idList}" com o ID da lista a
 Verifique a resposta para garantir que o código de status seja 200 (OK) ou 204 (No Content).
 Verifique se a lista foi excluída corretamente.
 
-## Plano de Testes de Unidade - API Autenticação
+# Plano de Testes de Unidade - API Autenticação
 
-**Cenário de Teste 1** - Buscar Usuário por Email
-Objetivo: Validar o retorno do endpoint.
-Passos:
-Realizar a chamada da API. 
-Verificar a resposta para garantir que o código de status seja 200 (OK).
+## Cenário de Teste 1 - Buscar Usuário por Email
+**Objetivo:** Validar o retorno do endpoint.
+**Passos:**
+- Realizar a chamada da API.
+- Verificar a resposta para garantir que o código de status seja 200 (OK).
 
-**Cenário de Teste 2** - Cadastrar Usuário com Sucesso
-Objetivo: Validar o retorno do endpoint.
-Passos:
-Realizar a chamada da API. 
-Verificar a resposta para garantir que o código de status seja 201 (Created).
+## Cenário de Teste 2 - Cadastrar Usuário com Sucesso
+**Objetivo:** Validar o retorno do endpoint.
+**Passos:**
+- Realizar a chamada da API.
+- Verificar a resposta para garantir que o código de status seja 201 (Created).
 
-**Cenário de Teste 3** - Erro ao Cadastrar Usuário 
-Objetivo: Validar o retorno do endpoint.
-Passos:
-Realizar a chamada da API.
-Simular erro ao cadastrar usuário.
-Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
+## Cenário de Teste 3 - Erro ao Cadastrar Usuário
+**Objetivo:** Validar o retorno do endpoint.
+**Passos:**
+- Realizar a chamada da API.
+- Simular erro ao cadastrar usuário.
+- Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
 
-**Cenário de Teste 4** - Excluir Usuário 
-Objetivo: Validar o retorno do endpoint.
-Passos:
-Realizar a chamada da API. 
-Verificar a resposta para garantir que o código de status seja 204 (NoContent).
+## Cenário de Teste 4 - Excluir Usuário
+**Objetivo:** Validar o retorno do endpoint.
+**Passos:**
+- Realizar a chamada da API.
+- Verificar a resposta para garantir que o código de status seja 204 (NoContent).
 
-**Cenário de Teste 5** - Erro ao Excluir Usuário 
-Objetivo: Validar o retorno do endpoint.
-Passos:
-Realizar a chamada da API.
-Simular erro ao excluir usuário.
-Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
+## Cenário de Teste 5 - Erro ao Excluir Usuário
+**Objetivo:** Validar o retorno do endpoint.
+**Passos:**
+- Realizar a chamada da API.
+- Simular erro ao excluir usuário.
+- Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
 
-**Cenário de Teste 6** - Validar Email 
-Objetivo: Validar o retorno do endpoint.
-Passos:
-Realizar a chamada da API. 
-Verificar a resposta para garantir que o código de status seja 200 (OK).
+## Cenário de Teste 6 - Validar Email
+**Objetivo:** Validar o retorno do endpoint.
+**Passos:**
+- Realizar a chamada da API.
+- Verificar a resposta para garantir que o código de status seja 200 (OK).
 
-**Cenário de Teste 7** - Erro ao Validar Usuário 
-Objetivo: Validar o retorno do endpoint.
-Passos:
-Realizar a chamada da API.
-Simular erro na validação do usuário.
-Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
+## Cenário de Teste 7 - Erro ao Validar Usuário
+**Objetivo:** Validar o retorno do endpoint.
+**Passos:**
+- Realizar a chamada da API.
+- Simular erro na validação do usuário.
+- Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
+
+## Cenário de Teste 8 - Validar CPF com Sucesso
+**Objetivo:** Validar o retorno do endpoint de validação de CPF.
+**Passos:**
+- Realizar a chamada da API de validação de CPF.
+- Enviar um CPF válido como parâmetro.
+- Verificar a resposta para garantir que o código de status seja 200 (OK).
+- Verificar se a resposta indica que o CPF é válido.
+
+## Cenário de Teste 9 - Erro ao Validar CPF
+**Objetivo:** Validar o retorno do endpoint de validação de CPF.
+**Passos:**
+- Realizar a chamada da API de validação de CPF.
+- Enviar um CPF inválido como parâmetro.
+- Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
+- Verificar se a resposta indica que o CPF é inválido.
+
+## Cenário de Teste 10 - Validar E-mail Adicional
+**Objetivo:** Validar o retorno do endpoint de validação de e-mail.
+**Passos:**
+- Realizar a chamada da API de validação de e-mail.
+- Enviar um e-mail válido como parâmetro.
+- Verificar a resposta para garantir que o código de status seja 200 (OK).
+- Verificar se a resposta indica que o e-mail é válido.
+
+## Cenário de Teste 11 - Erro ao Validar E-mail
+**Objetivo:** Validar o retorno do endpoint de validação de e-mail.
+**Passos:**
+- Realizar a chamada da API de validação de e-mail.
+- Enviar um e-mail inválido como parâmetro.
+- Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
+- Verificar se a resposta indica que o e-mail é inválido.
+
+
 
 ## Ferramentas de Testes
 

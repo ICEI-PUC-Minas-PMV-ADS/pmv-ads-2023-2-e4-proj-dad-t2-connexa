@@ -24,8 +24,9 @@ As referências abaixo irão auxiliá-lo na geração do artefato “Modelo ER�
 > - [Como fazer um diagrama entidade relacionamento | Lucidchart](https://www.lucidchart.com/pages/pt/como-fazer-um-diagrama-entidade-relacionamento)
 -->
 
-![image](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e4-proj-dad-t2-connexa/assets/16859514/d7b165e3-601e-4db2-8c20-e1426b1781e3)
+<!-- ![image](https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e4-proj-dad-t2-connexa/assets/16859514/d7b165e3-601e-4db2-8c20-e1426b1781e3) -->
 
+![Modelo ER](img/Modelo-ER.png)
 ## Esquema Relacional
 
 O Esquema Relacional corresponde à representação dos dados em tabelas juntamente com as restrições de integridade e chave primária.
@@ -44,7 +45,12 @@ CREATE TABLE zlbspi_connexa.user (
     user_name VARCHAR(255) NOT NULL,
     pswh_hash VARCHAR(255) NOT NULL,
     user_email VARCHAR(255) NOT NULL,
-    user_status BOOLEAN NOT NULL
+    user_status BOOLEAN NOT NULL,
+    document CHAR(11) NOT NULL,
+    birthdate date NOT NULL,
+    secretQuestion VARCHAR(75) NOT NULL,
+    secretAnswer VARCHAR(75) NOT NULL
+    
 );
 
 CREATE TABLE zlbspi_connexa.lista (

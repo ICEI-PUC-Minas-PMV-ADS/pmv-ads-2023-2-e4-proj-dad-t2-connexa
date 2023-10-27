@@ -149,7 +149,7 @@ namespace AuthenticationAPI.DataAcess
             return user.SecretQuestion;
         }
 
-        public async ValueTask<bool> ValidateLoginUserAsync(LoginUserDTO loginUser)
+        public async ValueTask<int?>  ValidateLoginUserAsync(LoginUserDTO loginUser)
         {
             try
             {
@@ -158,15 +158,12 @@ namespace AuthenticationAPI.DataAcess
 
                 var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == loginUser.Email && u.PswhHash == passHash);
 
-                if (user == null)
-                    return false;
-
-                return true;
+                return user?.UserId;
             }
             catch (Exception ex)
             {
                 _context.ThrowException(ex.Message);
-                return false;
+                return null;
             }
         }
     }

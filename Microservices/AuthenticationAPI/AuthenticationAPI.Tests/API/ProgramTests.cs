@@ -1,7 +1,9 @@
 ﻿using AuthenticationAPI.Auth;
 using AuthenticationAPI.DTOs;
 using AuthenticationAPI.Interfaces;
+using AuthenticationAPI.Models;
 using AuthenticationAPI.Tests.TestUtilities.TesteHost;
+using AutoFixture;
 using FakeItEasy;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,10 +32,16 @@ namespace AuthenticationAPI.Tests.API
                 serviceCollection.AddScoped(factory => fakeUserDataAccess);
             });
 
-            const int TestUserId = 999;
+            var fixture = new Fixture(); // Biblioteca que facilita os testes, utilizada para gerar objetos autmaticamente, sem a necessidade de ficar
+                                         // se preocupando com o preenchimento das propriedades. Ela permite personlização com o "With".
+
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            fixture.Customize<DateOnly>(composer => composer.FromFactory<DateTime>(DateOnly.FromDateTime));
+
+            var testUser = fixture.Build<User>().With(x => x.UserName, "My Test User").Create();
 
             var jwtGenerator = new JwtHandler();
-            var jwtToken = jwtGenerator.GenerateToken(TestUserId);
+            var jwtToken = jwtGenerator.GenerateToken(testUser);
 
             // Usa o HttpClient que servirá para fazer requests no ambiente de testes.
             var httpClient = testServerContainer.HttpClient;
@@ -136,11 +144,14 @@ namespace AuthenticationAPI.Tests.API
                 serviceCollection.AddScoped(factory => fakeUserDataAccess);
             });
 
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            fixture.Customize<DateOnly>(composer => composer.FromFactory<DateTime>(DateOnly.FromDateTime));
 
-            const int TestUserId = 999;
+            var testUser = fixture.Build<User>().With(x => x.UserName, "My Test User").Create();
 
             var jwtGenerator = new JwtHandler();
-            var jwtToken = jwtGenerator.GenerateToken(TestUserId);
+            var jwtToken = jwtGenerator.GenerateToken(testUser);
 
             var httpClient = testServerContainer.HttpClient;
 
@@ -168,10 +179,14 @@ namespace AuthenticationAPI.Tests.API
                 serviceCollection.AddScoped(factory => fakeUserDataAccess);
             });
 
-            const int TestUserId = 999;
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            fixture.Customize<DateOnly>(composer => composer.FromFactory<DateTime>(DateOnly.FromDateTime));
+
+            var testUser = fixture.Build<User>().With(x => x.UserName, "My Test User").Create();
 
             var jwtGenerator = new JwtHandler();
-            var jwtToken = jwtGenerator.GenerateToken(TestUserId);
+            var jwtToken = jwtGenerator.GenerateToken(testUser);
 
             var httpClient = testServerContainer.HttpClient;
 
@@ -190,17 +205,21 @@ namespace AuthenticationAPI.Tests.API
         public async Task Given_AValidUser_When_ValidatingUser_Then_Returns200Ok()
         {
             // Arrange
-            const int UserId = 999;
-
             const string requestJson =
                 @"{
                      ""email"": ""email@test.com"",
                      ""password"": ""123456789""
                 }";
 
+            var fixture = new Fixture();
+            fixture.Behaviors.Add(new OmitOnRecursionBehavior());
+            fixture.Customize<DateOnly>(composer => composer.FromFactory<DateTime>(DateOnly.FromDateTime));
+
+            var testUser = fixture.Build<User>().With(x => x.UserName, "My Test User").Create();
+
             var fakeUserDataAccess = A.Fake<IUserDataAccess>();
 
-            A.CallTo(() => fakeUserDataAccess.ValidateLoginUserAsync(A<LoginUserDTO>.Ignored)).Returns(UserId);
+            A.CallTo(() => fakeUserDataAccess.ValidateLoginUserAsync(A<LoginUserDTO>.Ignored)).Returns(testUser);
 
             using var testServerContainer = new TestServerContainer(serviceCollection =>
             {

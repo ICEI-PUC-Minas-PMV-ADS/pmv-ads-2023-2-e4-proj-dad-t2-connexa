@@ -57,12 +57,12 @@ namespace AuthenticationAPI.Controllers
 		[HttpPost("validate")]
 		public async Task<ActionResult> ValidateUser([Required][FromBody] LoginUserDTO loginUserDTO)
 		{
-			var userId = await _userDataAccess.ValidateLoginUserAsync(loginUserDTO);
+			var user = await _userDataAccess.ValidateLoginUserAsync(loginUserDTO);
 
-			if (userId == null)
+			if (user == null)
 				return Problem(detail: "Não validado.", statusCode: StatusCodes.Status400BadRequest);
 
-			var token = _jwtHandler.GenerateToken(userId);
+			var token = _jwtHandler.GenerateToken(user);
 
 			return Ok(token);
 		}

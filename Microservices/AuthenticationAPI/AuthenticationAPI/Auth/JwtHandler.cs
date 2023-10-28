@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 
 using System.Security.Claims;
@@ -10,9 +7,9 @@ using System.Text;
 
 namespace AuthenticationAPI.Auth
 {
-    public class JwtHandler 
+	public class JwtHandler 
     {
-		public string GenerateToken(int? user)
+		public string GenerateToken(int? userId)
 		{
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var key = Encoding.ASCII.GetBytes("sua_chave_secreta");
@@ -20,7 +17,7 @@ namespace AuthenticationAPI.Auth
 			{
 				Subject = new ClaimsIdentity(new[]
 				{
-					new Claim(ClaimTypes.Sid, $"{user}")
+					new Claim(ClaimTypes.Sid, $"{userId}")
 			}),
 				Expires = DateTime.UtcNow.AddHours(1),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

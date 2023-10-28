@@ -12,16 +12,19 @@ class AuthenticationService {
 
     async loginAsync(loginDto) {
         try {
-            console.info("ConexaService.loginAsync -> Chamou o endpoint de login na API.", loginDto);
+            console.info("ConexaService.loginAsync -> Chamou o endpoint de login na API.");
 
             const response = await apiInstance.post("/users/validate", loginDto);
 
             console.info('ConexaService.loginAsync -> Resposta da API Connexa.', response);
 
-            return response.status == STATUS_OK;
+            if (response.status != STATUS_OK)
+                return null;
+
+            return response.data;
         } catch (error) {
             console.error('ConexaService.loginAsync -> Erro ao chamar o endpoint de login da API Connexa.', error);
-            return false;
+            return null;
         }
     }
 

@@ -28,7 +28,7 @@ function Copyright(props) {
   );
 }
 
-function SignIn({ defaultTheme, handleLogin }) {
+function SignIn({ handleLogin }) {
   const authenticationService = new AuthenticationService();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -72,8 +72,8 @@ function SignIn({ defaultTheme, handleLogin }) {
     }
 
     const loginDto = new LoginDto(formData.email, formData.password);
-    const success = await authenticationService.loginAsync(loginDto);
-    handleLogin(success);
+    const accessToken = await authenticationService.loginAsync(loginDto);
+    handleLogin(accessToken);
   };
 
   return (

@@ -1,15 +1,10 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using AuthenticationAPI.Auth;
+﻿using AuthenticationAPI.Auth;
 using AuthenticationAPI.DTOs;
 using AuthenticationAPI.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using System.ComponentModel.DataAnnotations;
 
 namespace AuthenticationAPI.Controllers
 {
@@ -26,7 +21,8 @@ namespace AuthenticationAPI.Controllers
 			_jwtHandler = new JwtHandler();
 		}
 
-		[HttpGet()]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)] //Autorização JWT
+        [HttpGet()]
 		public async Task<ActionResult> UserByEmail([Required][FromQuery] string email)
 		{
 			var response = await _userDataAccess.GetUserByEmailAsync(email);

@@ -9,6 +9,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { jwtDecode } from "jwt-decode";
 
 function App() {
   const primary = {
@@ -35,24 +36,34 @@ function App() {
   const [isLogged, setIsLogged] = useState(false);
 
   useEffect(() => {
-    const isLoggedString = localStorage.getItem('isLogged');
-    const isLogged = isLoggedString === "true";
-    localStorage.getItem('rememberUser');
-
+    const accessToken = localStorage.getItem('accessToken');
+    const isLogged = accessToken != null;
     setIsLogged(isLogged);
   }, []);
 
-  const handleLogin = (isLogged) => {
-    if (isLogged) {
-      localStorage.setItem('isLogged', 'true');
-    } else {
+  const handleLogin = (accessToken) => {
+
+    if (!accessToken) {
+      setIsLogged(false);
       toast.error("Usuário ou senha inválido!");
+      return;
     }
-    setIsLogged(isLogged);
+
+    const decodedToken = jwtDecode(accessToken);
+    const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"];
+    const userName = decodedToken["unique_name"];
+
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('userName', userName);
+
+    setIsLogged(true);
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('isLogged');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userName');
     setIsLogged(false);
   };
 

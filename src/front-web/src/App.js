@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
+import ItemList from "./pages/ItemList";
 import Home from "./pages/Home";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -72,7 +73,6 @@ function App() {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Router>
           <Routes>
-
             {!isLogged ?
               <>
                 <Route path="/" element={<Login defaultTheme={defaultTheme} handleLogin={handleLogin} />} />
@@ -82,6 +82,7 @@ function App() {
               :
               <>
                 <Route path="/" element={<Home handleLogout={handleLogout} />} />
+                <Route path="/itemList" element={<ItemList handleLogout={handleLogout} />} />
               </>
             }
           </Routes>

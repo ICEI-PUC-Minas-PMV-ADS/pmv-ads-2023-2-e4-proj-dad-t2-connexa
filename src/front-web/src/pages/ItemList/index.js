@@ -7,15 +7,28 @@ import Avatar from '@mui/material/Avatar';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Importe o ícone de saída
 import { useNavigate } from 'react-router-dom';
 import logo from "../../img/logo.png";
+import ListsService from '../../services/lists/ListsService';
 
-function ItemList({ handleLogout }) {
+function ItemList({ handleLogout, idList }) {
     const navigate = useNavigate();
+
+    const [items, setItems] = React.useState([]);
+
+    const listService = new ListsService();
 
     const handleLogoutClick = () => {
         localStorage.removeItem('isLogged');
         handleLogout(false); // Chama a função handleLogout para atualizar o estado
         navigate('/');
     };
+
+    React.useEffect(async () => {
+        var itemDb = await listService.getListItemsAsync(idList);
+        if(itemDb){
+            setItems(items);
+            console.log(items);
+        }
+    }, [idList])
 
     return (
         <div>

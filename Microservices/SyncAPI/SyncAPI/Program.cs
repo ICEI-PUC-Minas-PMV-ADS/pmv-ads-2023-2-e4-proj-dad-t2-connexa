@@ -1,7 +1,5 @@
-using Microsoft.Extensions.Configuration;
 using SyncAPI;
 using SyncAPI.Hubs;
-using SyncAPI.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +9,9 @@ builder.Services.AddSignalR();
 
 var app = builder.Build();
 
-app.MapHub<RealTimeHub>("/RealTime");
-
 app.UsePathBase("/connexa/api/sync");
+
+app.MapHub<RealTimeHub>("/RealTime");
 
 app.MapGet("/",() => "Connexa Sync API is running :)");
 app.MapGet("/test",() => "Connexa Sync API is running now, no problems...");

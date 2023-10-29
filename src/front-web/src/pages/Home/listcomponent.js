@@ -1,24 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import ListsService from '../../services/lists/ListsService'
+
 
 const ListaItens = () => {
   const [itens, setItens] = useState([]);
+  const listsService = new ListsService();
 
   useEffect(() => {
     const idOwner = localStorage.getItem('userId');
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://localhost:7150/gateway/list/lists/owner/${idOwner}`);
-        setItens(response.data);
+        if (idOwner) {
+          const response = await listsService.getListByOwner(idOwner);
+
+          if (response) {
+            setItens(response);
+          }
+        }
       } catch (error) {
         console.error('Erro ao obter os itens:', error);
       }
     };
 
-    if (idOwner) {
-      fetchData();
-    }
+    fetchData();
   }, []);
 
   return (

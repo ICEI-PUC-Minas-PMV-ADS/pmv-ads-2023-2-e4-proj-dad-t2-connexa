@@ -82,7 +82,7 @@ function App() {
               :
               <>
                 <Route path="/" element={<Home handleLogout={handleLogout} />} />
-                <Route path="/itemList" element={<ItemList handleLogout={handleLogout} />} />
+                <Route path="/itemList" element={<ItemList handleLogout={handleLogout} idList={1} />} />
               </>
             }
           </Routes>

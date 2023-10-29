@@ -8,6 +8,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Importe o ícone d
 import { useNavigate, Link } from 'react-router-dom';
 import logo from "../../img/logo.png";
 import ListaItens from './listcomponent';
+import { Button } from '@mui/material';
 
 function Home({ handleLogout }) {
     const navigate = useNavigate();
@@ -16,6 +17,10 @@ function Home({ handleLogout }) {
         localStorage.removeItem('isLogged');
         handleLogout(false); // Chama a função handleLogout para atualizar o estado
         navigate('/');
+    };
+
+    const openListItemPage = () => {
+        navigate('/itemList');
     };
 
     return (
@@ -43,9 +48,18 @@ function Home({ handleLogout }) {
             </Typography>
 
             <ListaItens/>
+            <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 2 }}
+                    onClick={openListItemPage}>
+                    open list
+            </Button>
         </div>
     </div>
     );
+        
 }
 
 export default Home;

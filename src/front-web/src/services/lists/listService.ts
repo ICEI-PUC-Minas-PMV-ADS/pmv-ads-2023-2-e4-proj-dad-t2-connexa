@@ -6,7 +6,7 @@ const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150'
+    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150/gateway'
 });
 
 
@@ -14,7 +14,7 @@ export const getListItemsAsync = async (id : number) => {
     try {
         console.info("ListsService.getListItemsAsync -> Chamou o endpoint para buscar os items da lista na API", id);
 
-        const response = await apiInstance.get<ListItemDTO[]>(`/lists/${id}/items`);
+        const response = await apiInstance.get<ListItemDTO[]>(`/list/lists/${id}/items`);
 
         console.info('ListsService.getListItemsAsync -> Resposta da API.', response);
 
@@ -31,7 +31,7 @@ export const checkListItem = async (idItem : number, checked : boolean) => {
     try {
         console.info("ListsService.checkListItem -> Chamou o endpoint para buscar os items da lista na API", idItem);
 
-        const response = await apiInstance.put<boolean>(`/lists/itemList/${idItem}/${checked}`);
+        const response = await apiInstance.put<boolean>(`/list/lists/itemList/${idItem}/${checked}`);
 
         console.info('ListsService.checkListItem -> Resposta da API.', response);
 
@@ -49,7 +49,7 @@ export const getListByOwner = async (idOwner : number) => {
     try {
         console.info("ListsService.getListByOwner -> Chamou o endpoint para buscar as listas usando o ID do criador dela na API", idOwner);
 
-        const response = await apiInstance.get<number>(`/gateway/list/lists/owner/${idOwner}`);
+        const response = await apiInstance.get<number>(`/list/lists/owner/${idOwner}`);
 
         console.info('ListsService.getListByOwner -> Resposta da API.', response);
 

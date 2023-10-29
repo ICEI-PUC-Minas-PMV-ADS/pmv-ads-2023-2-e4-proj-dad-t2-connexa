@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { ListItemDTO } from './dtos/ListItem';
 
+const IS_PROD = false;
 const STATUS_OK = 200;
+const STATUS_CREATED = 201;
 
 const apiInstance = axios.create({
-    baseURL: 'https://localhost:7150/gateway/list'
+    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150'
 });
 
 
@@ -38,6 +40,25 @@ export const checkListItem = async (idItem : number, checked : boolean) => {
         return response.data;
     } catch (error) {
         console.error('ListsService.checkListItem -> Erro ao buscar os items da API.', error);
+        return null;
+    }
+
+}
+
+export const getListByOwner = async (idOwner : number) => {
+    try {
+        console.info("ListsService.getListByOwner -> Chamou o endpoint para buscar as listas usando o ID do criador dela na API", idOwner);
+
+        const response = await apiInstance.get<number>(`/gateway/list/lists/owner/${idOwner}`);
+
+        console.info('ListsService.getListByOwner -> Resposta da API.', response);
+
+        if (response.status != STATUS_OK)
+            return null;
+
+        return response.data;
+    } catch (error) {
+        console.error('ListsService.getListByOwner -> Erro ao buscar as listas da API.', error);
         return null;
     }
 }

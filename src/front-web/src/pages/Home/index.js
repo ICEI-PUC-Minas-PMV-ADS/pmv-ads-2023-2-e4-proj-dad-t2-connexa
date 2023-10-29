@@ -9,6 +9,8 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate } from 'react-router-dom';
 import logo from "../../img/logo.png";
 import Popup from "reactjs-popup";
+import ListsService from "../../services/lists/ListsService"
+import NewUserListDTO from "../../services/lists/dtos/NewUserListaDTO";
 
 function Home({ handleLogout }) {
     const navigate = useNavigate();
@@ -26,13 +28,11 @@ function Home({ handleLogout }) {
     };
 
     const handleSubmit = async () => {
-        const response = await fetch("https://api.example.com/participants", {
-            method: "POST",
-            body: JSON.stringify({ email }),
-        });
+        const listsService = new ListsService();
+        const newUserListDTO = new NewUserListDTO(1, 34);
+        const response = await listsService.addParticipant(newUserListDTO);
 
-        if (response.status === 200) {
-            setIsPopupOpen(false);
+        if (response) {
             setEmail("");
             alert("Participante adicionado a lista");
         } else {
@@ -53,8 +53,9 @@ function Home({ handleLogout }) {
                 </Toolbar>
             </AppBar>
             <div>
-                <button onClick={handleClick}>Adicionar participante</button>
+                <Button onClick={handleClick}>Adicionar participante</Button>
                 <Popup
+                    class="my-popup"
                     open={isPopupOpen}
                     onClose={() => setIsPopupOpen(false)}
                     width={400}

@@ -46,6 +46,23 @@ class ListsService {
         }
     }
 
+    async addParticipant(newUserListaDTO) {
+        try {
+            console.info("ConexaService.loginAsync -> Chamou o endpoint de newUserLista na API.");
+
+            const response = await apiInstance.post("/gateway/permission/permission", newUserListaDTO);
+
+            console.info('ConexaService.loginAsync -> Resposta da API Connexa.', response);
+
+            if (response.status != STATUS_OK)
+                return null;
+
+            return response.data;
+        } catch (error) {
+            console.error('ConexaService.loginAsync -> Erro ao chamar o endpoint de newUserLista da API Connexa.', error);
+            return null;
+        }
+    }
 }
 
 export default ListsService;

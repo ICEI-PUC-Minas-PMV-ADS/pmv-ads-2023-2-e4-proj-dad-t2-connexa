@@ -14,7 +14,11 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.5.1",
     "date-fns": "^2.30.0",
+<<<<<<< HEAD
+    "jsonwebtoken": "^9.0.2",
+=======
     "jwt-decode": "^4.0.0",
+>>>>>>> 8e60150cfda4b6daaa81e998694c8fab2730387a
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
     "react-input-mask": "^2.0.4",

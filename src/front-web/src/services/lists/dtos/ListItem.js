@@ -4,6 +4,6 @@ export default class ListItemDTO {
         this.ListaId = listaId,
         this.Descricao = descricao,
         this.Nome = nome,
-        this.Status = sttaus
+        this.Status = status
     }
 }

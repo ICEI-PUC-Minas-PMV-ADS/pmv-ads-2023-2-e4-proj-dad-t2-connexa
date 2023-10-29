@@ -4,15 +4,16 @@ namespace ListAPI.DTOs
 {
     public class ItemListaDTO : ErrorRequestBase
     {
-        public int ItemId { get; set; }
+        public int Id { get; set; }
 
-        public string ItemNome { get; set; } = null!;
+        public string Nome { get; set; } = null!;
 
-        public string? ItemDescricao { get; set; }
+        public string? Descricao { get; set; }
 
         public int? ListaId { get; set; }
 
-        public bool ItemStatus { get; set; }
+        public bool Status { get; set; }
+        public string NomeLista { get; set; }
 
     }
 }

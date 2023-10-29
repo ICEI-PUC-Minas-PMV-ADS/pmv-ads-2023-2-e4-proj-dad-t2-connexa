@@ -19,5 +19,6 @@ namespace ListAPI.Interfaces
         ValueTask<IEnumerable<ItemListaDTO>> GetItemListAsync(int idList);
         ValueTask<ItemListaDTO> SaveItemListAsync(ItemListaDTO ItemLista);
         ValueTask<bool> DeleteItemListaAsync(int idItemLista);
+        ValueTask<bool> CheckItemListaAsync(int idItemLista, bool checkedItem);
     }
 }

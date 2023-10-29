@@ -158,7 +158,7 @@ app.MapGet("/member/{idList}", async (int idList, [FromServices] IServiceProvide
         return Results.NotFound();
     }
 });
-app.MapGet("/lists/{idList}/itemList", async ([FromServices] IServiceProvider provider, int idList) =>
+app.MapGet("/lists/{idList}/items", async ([FromServices] IServiceProvider provider, int idList) =>
 {
     using (var scope = provider.CreateScope())
     {
@@ -171,7 +171,7 @@ app.MapGet("/lists/{idList}/itemList", async ([FromServices] IServiceProvider pr
         return Results.NotFound();
     }
 });
-app.MapPost("/lists/{idList}/itemList", async ([FromServices] IServiceProvider provider, [FromBody] ListAPI.DTOs.ItemListaDTO itemLista) =>
+app.MapPost("/lists/{idList}/items", async ([FromServices] IServiceProvider provider, [FromBody] ListAPI.DTOs.ItemListaDTO itemLista) =>
 {
     using (var scope = provider.CreateScope())
     {
@@ -193,6 +193,20 @@ app.MapDelete("/lists/itemList/{idItemLista}", async ([FromServices] IServicePro
 
         if (listDataAccess != null)
             return Results.Ok(await listDataAccess.DeleteItemListaAsync(idItemLista));
+
+        return Results.NotFound();
+    }
+});
+
+app.MapPut("/lists/itemList/{idItemLista}/{checkedItem}", async ([FromServices] IServiceProvider provider, int idItemLista, bool checkedItem) =>
+{
+    using (var scope = provider.CreateScope())
+    {
+
+        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+
+        if (listDataAccess != null)
+            return Results.Ok(await listDataAccess.CheckItemListaAsync(idItemLista, checkedItem));
 
         return Results.NotFound();
     }

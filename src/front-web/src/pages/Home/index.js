@@ -18,7 +18,7 @@ function Home({ handleLogout }) {
         navigate('/');
     };
 
-    const openListItemPage = () => {
+    const openListItemPage = async () => {
         navigate('/itemList');
     };
 

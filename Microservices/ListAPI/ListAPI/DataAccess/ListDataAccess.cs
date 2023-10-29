@@ -321,11 +321,12 @@ namespace ListAPI.DataAccess
                               where itemLista.ListaId == idList
                               select new ItemListaDTO
                               {
-                                  ItemId = itemLista.ItemId,
-                                  ItemNome = itemLista.ItemNome,
-                                  ItemDescricao = itemLista.ItemDescricao,
+                                  Id = itemLista.ItemId,
+                                  Nome = itemLista.ItemNome,
+                                  Descricao = itemLista.ItemDescricao,
                                   ListaId = itemLista.ListaId,
-                                  ItemStatus = itemLista.ItemStatus
+                                  Status = itemLista.ItemStatus,
+                                  NomeLista = itemLista.Lista.ListaTitulo ?? "Nome da lista"
                               }).ToListAsync();
             }
             catch (Exception ex)
@@ -338,7 +339,7 @@ namespace ListAPI.DataAccess
         {
             try
             {
-                var item = await _context.ItemLista.FirstOrDefaultAsync(i => i.ItemId == ItemLista.ItemId);
+                var item = await _context.ItemLista.FirstOrDefaultAsync(i => i.ItemId == ItemLista.Id);
 
                 if (item != null)
                 {
@@ -350,11 +351,11 @@ namespace ListAPI.DataAccess
                     _context.Entry(item).State = EntityState.Added;
                 }
 
-                item.ItemId = ItemLista.ItemId;
-                item.ItemNome = ItemLista.ItemNome;
-                item.ItemDescricao = ItemLista.ItemDescricao;
+                item.ItemId = ItemLista.Id;
+                item.ItemNome = ItemLista.Nome;
+                item.ItemDescricao = ItemLista.Descricao;
                 item.ListaId = ItemLista.ListaId;
-                item.ItemStatus = ItemLista.ItemStatus;
+                item.ItemStatus = ItemLista.Status;
 
                 _context.SavedChanges += async (e, s) =>
                 {
@@ -392,6 +393,21 @@ namespace ListAPI.DataAccess
                 _context.ThrowException(ex.Message);
                 return false;
             }
+        }
+
+        public async ValueTask<bool> CheckItemListaAsync (int idItemLista,bool checkedItem)
+        {
+            var item = await _context.ItemLista.FirstOrDefaultAsync(i => i.ItemId == idItemLista);
+
+            if(item != null)
+            {
+                item.ItemStatus = checkedItem;
+                _context.Entry(item);
+
+                return await _context.SaveChangesAsync() > 0;
+            }
+
+            return false;
         }
     }
 }

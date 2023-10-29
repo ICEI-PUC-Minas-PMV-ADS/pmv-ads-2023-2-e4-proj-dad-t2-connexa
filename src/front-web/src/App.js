@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
-import ItemList from "./pages/ItemList";
+import ItemList from "./pages/ItemList/ItemList.tsx"
 import Home from "./pages/Home";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';

@@ -157,7 +157,19 @@ app.MapGet("/member/{idList}", async (int idList, [FromServices] IServiceProvide
         return Results.NotFound();
     }
 });
+app.MapGet("/lists/{idList}/items", async (int idList, [FromServices] IServiceProvider provider) =>
+{
+    using (var scope = provider.CreateScope())
+    {
 
+        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+
+        if (listDataAccess != null)
+            return Results.Ok(await listDataAccess.GetListItemsByListID(idList));
+
+        return Results.NotFound();
+    }
+});
 
 
 //Feito

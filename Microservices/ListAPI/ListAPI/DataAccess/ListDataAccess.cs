@@ -319,5 +319,29 @@ namespace ListAPI.DataAccess
                         _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE_NAME, item);
                 }
         }
+
+        public async ValueTask<IEnumerable<ItemListDTO>> GetListItemsByListID (int idList)
+        {
+            try
+            {
+
+                return await (from item in _context.ItemLista
+                        where item.ListaId == idList
+                        select new ItemListDTO
+                        {
+                            Descricao = item.ItemDescricao,
+                            Id = item.ItemId,
+                            ListaId = item.ListaId,
+                            Nome = item.ItemNome,
+                            Status = item.ItemStatus
+                        }).ToListAsync();
+
+            }
+            catch (Exception ex)
+            {
+                _context.ThrowException(ex.Message);
+                return Enumerable.Empty<ItemListDTO>();
+            }
+        }
     }
 }

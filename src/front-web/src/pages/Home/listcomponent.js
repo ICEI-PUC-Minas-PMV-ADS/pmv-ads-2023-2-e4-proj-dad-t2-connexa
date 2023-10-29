@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import {getListByOwner} from "../../services/lists/listService"
+import {getListByOwner} from "../../services/lists/listService";
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { Link } from 'react-router-dom';
 
 
 const ListaItens = () => {
@@ -35,6 +37,11 @@ const ListaItens = () => {
             <p>Descrição: {item.listaDescricao}</p>
             <p>Status: {item.listaStatus ? 'Ativa' : 'Inativa'}</p>
             <p>Pública: {item.listaPublica ? 'Sim' : 'Não'}</p>
+            <div>
+              <Link to={`list/${item.listaId}/itemListedit`}>
+                <ModeEditIcon/>
+              </Link>
+            </div>
           </li>
         ))}
       </ul>

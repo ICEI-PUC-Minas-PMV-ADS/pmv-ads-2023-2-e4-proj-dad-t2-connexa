@@ -7,10 +7,8 @@ import Avatar from '@mui/material/Avatar';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'; // Importe o ícone de saída
 import { useNavigate, Link } from 'react-router-dom';
 import logo from "../../img/logo.png";
-import ListaItens from './listcomponent';
-import { Button } from '@mui/material';
 
-function Home({ handleLogout }) {
+function CreateLists({ handleLogout }) {
     const navigate = useNavigate();
 
     const handleLogoutClick = () => {
@@ -29,33 +27,15 @@ function Home({ handleLogout }) {
                 <Link to="/listas-contribuo" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
                     Listas que Contribuo
                 </Link>
-                <Link to="/criar-lista" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
-                    Criar Lista
+                <Link to="/Home" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
+                    Minhas Listas
                 </Link>
                 <IconButton color="inherit" onClick={handleLogoutClick}>
                     <ExitToAppIcon />
                 </IconButton>
             </Toolbar>
         </AppBar>
-
-        <div>
-            <Typography variant="h4" component="h2" gutterBottom>
-                Minhas Listas
-            </Typography>
-
-            <ListaItens/>
-            <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 2 }}
-                    onClick={openListItemPage}>
-                    open list
-            </Button>
-        </div>
     </div>
     );
-        
 }
-
-export default Home;
+export default CreateLists;

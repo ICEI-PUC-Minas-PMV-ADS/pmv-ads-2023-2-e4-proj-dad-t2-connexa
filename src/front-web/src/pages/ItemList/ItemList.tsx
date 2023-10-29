@@ -5,18 +5,18 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ListItemDTO } from '../../services/lists/dtos/ListItem';
 import { getListItemsAsync } from '../../services/lists/listService';
 import Item from './Item/item';
 
 interface ItemListProps {
     handleLogout(bool : boolean) : void;
-    idList : number;
 }
 
-function ItemList({ handleLogout, idList } : ItemListProps) {
+function ItemList({ handleLogout, } : ItemListProps) {
     const navigate = useNavigate();
+    const { idList } = useParams();
 
     const [items, setItems] = useState<ListItemDTO[]>([]);
 
@@ -28,7 +28,7 @@ function ItemList({ handleLogout, idList } : ItemListProps) {
 
     useEffect(() => {
         const getItems = async () => { 
-            let itemsDb = await getListItemsAsync(idList);
+            let itemsDb = await getListItemsAsync(Number(idList));
             console.log(itemsDb);
             if (itemsDb) {
                 setItems(itemsDb);

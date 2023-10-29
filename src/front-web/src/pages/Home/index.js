@@ -18,10 +18,6 @@ function Home({ handleLogout }) {
         navigate('/');
     };
 
-    const openListItemPage = async () => {
-        navigate('/itemList');
-    };
-
     return (
         <div>
             <AppBar position="static">
@@ -34,14 +30,6 @@ function Home({ handleLogout }) {
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 2 }}
-                    onClick={openListItemPage}>
-                    open list
-            </Button>
         </div>
     );
         

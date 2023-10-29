@@ -45,7 +45,7 @@ function ItemList({ handleLogout, } : ItemListProps) {
                         <Avatar src='../../img/logo.png' alt="Logo" sx={{ width: 40, height: 40, mr: 2 }} />
                     </Typography>
                     <IconButton color="inherit" onClick={handleLogoutClick}>
-                        <ExitToAppIcon />
+                        <ExitToAppIcon style={{color:'#D62828'}}/>
                     </IconButton>
                 </Toolbar>
             </AppBar>

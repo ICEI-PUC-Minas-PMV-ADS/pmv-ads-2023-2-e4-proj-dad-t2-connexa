@@ -158,7 +158,7 @@ app.MapGet("/member/{idList}", async (int idList, [FromServices] IServiceProvide
         return Results.NotFound();
     }
 });
-app.MapGet("/lists/itemList/{idList}", async ([FromServices] IServiceProvider provider, int idList) =>
+app.MapGet("/lists/{idList}/itemList", async ([FromServices] IServiceProvider provider, int idList) =>
 {
     using (var scope = provider.CreateScope())
     {
@@ -171,7 +171,7 @@ app.MapGet("/lists/itemList/{idList}", async ([FromServices] IServiceProvider pr
         return Results.NotFound();
     }
 });
-app.MapPost("/lists/itemList", async ([FromServices] IServiceProvider provider, [FromBody] ListAPI.DTOs.ItemListaDTO itemLista) =>
+app.MapPost("/lists/{idList}/itemList", async ([FromServices] IServiceProvider provider, [FromBody] ListAPI.DTOs.ItemListaDTO itemLista) =>
 {
     using (var scope = provider.CreateScope())
     {

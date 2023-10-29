@@ -5,6 +5,7 @@ import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
 import ItemList from "./pages/ItemList";
 import Home from "./pages/Home";
+import ItemListEdit from "./pages/ItemListEdit";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -82,6 +83,7 @@ function App() {
               :
               <>
                 <Route path="/" element={<Home handleLogout={handleLogout} />} />
+                <Route path="list/:idList/itemListEdit" element={<ItemListEdit handleLogout={handleLogout} />} />
                 <Route path="/itemList" element={<ItemList handleLogout={handleLogout} idList={1} />} />
               </>
             }

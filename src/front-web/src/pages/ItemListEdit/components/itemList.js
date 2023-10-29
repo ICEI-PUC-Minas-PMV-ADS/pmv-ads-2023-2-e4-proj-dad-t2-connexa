@@ -9,7 +9,7 @@ const ListaItens = ({idList}) => {
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://localhost:7150/gateway/list/lists/${idList}/itemList/`);
+        const response = await axios.get(`https://localhost:7150/gateway/list/lists/${idList}/items`);
         setItens(response.data);
       } catch (error) {
         console.error('Erro ao obter os itens:', error);
@@ -19,7 +19,7 @@ const ListaItens = ({idList}) => {
     if (idOwner) {
       fetchData();
     }
-  }, []);
+  }, [idList]);
 
   return (
     <div>
@@ -28,8 +28,8 @@ const ListaItens = ({idList}) => {
           <li key={item.itemId}>
             <h2>{item.itemNome}</h2>
             <p>ID da Lista: {item.listaId}</p>
-            <p>Descrição: {item.itemDescricao}</p>
-            <p>Status: {item.itemStatus ? 'Ativa' : 'Inativa'}</p>
+            <p>Descrição: {item.descricao}</p>
+            <p>Status: {item.status ? 'Ativa' : 'Inativa'}</p>
           </li>
         ))}
       </ul>

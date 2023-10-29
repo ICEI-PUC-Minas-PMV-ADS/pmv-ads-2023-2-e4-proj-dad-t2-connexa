@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import {getListByOwner} from "../../services/lists/listService";
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import React, { useState, useEffect } from 'react';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import {getListByOwner} from "../../services/lists/listService";
 
 
 const ListaItens = () => {
@@ -40,6 +41,11 @@ const ListaItens = () => {
             <div>
               <Link to={`list/${item.listaId}/itemListedit`}>
                 <ModeEditIcon/>
+              </Link>
+              <Link to={`list/${item.listaId}/itemlist`}>
+                <Button variant="outlined" size="small">
+                  Ver Lista
+                </Button>
               </Link>
             </div>
           </li>

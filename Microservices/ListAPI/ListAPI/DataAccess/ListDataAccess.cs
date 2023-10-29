@@ -165,7 +165,6 @@ namespace ListAPI.DataAccess
             }
             
         }
-
         public async ValueTask<ListDTO> SaveListAsync (ListDTO list)
         {
             try
@@ -207,7 +206,6 @@ namespace ListAPI.DataAccess
                 };
             }
         }
-
         public async ValueTask<IEnumerable<ListDTO>> GetListsByParticipantOrOwnerAsync(int idUser)
         {
             try
@@ -236,7 +234,6 @@ namespace ListAPI.DataAccess
             }
             
         }
-
         public async ValueTask<MemberListDTO> SaveMemberAsync (MemberListDTO listMember)
         {
             try
@@ -276,7 +273,6 @@ namespace ListAPI.DataAccess
                 };
             }  
         }
-
         public async ValueTask<IEnumerable<MemberListDTO>> GetMembersByListAsync (int idList)
         {
             try
@@ -302,8 +298,6 @@ namespace ListAPI.DataAccess
                 return Enumerable.Empty<MemberListDTO>();
             }
         }
-
-
         public async Task DistributeListUpdatesToRelatedUsers (ListDTO item)
         {
             var members = await _context.UserLista
@@ -318,6 +312,86 @@ namespace ListAPI.DataAccess
                     if(item.IdUserTarget > 0)
                         _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE_NAME, item);
                 }
+        }
+        public async ValueTask<IEnumerable<ItemListaDTO>> GetItemListAsync(int idList)
+        {
+            try
+            {
+                return await (from itemLista in _context.ItemLista
+                              where itemLista.ListaId == idList
+                              select new ItemListaDTO
+                              {
+                                  ItemId = itemLista.ItemId,
+                                  ItemNome = itemLista.ItemNome,
+                                  ItemDescricao = itemLista.ItemDescricao,
+                                  ListaId = itemLista.ListaId,
+                                  ItemStatus = itemLista.ItemStatus
+                              }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _context.ThrowException(ex.Message);
+                return Enumerable.Empty<ItemListaDTO>();
+            }
+        }
+        public async ValueTask<ItemListaDTO> SaveItemListAsync(ItemListaDTO ItemLista)
+        {
+            try
+            {
+                var item = await _context.ItemLista.FirstOrDefaultAsync(i => i.ItemId == ItemLista.ItemId);
+
+                if (item != null)
+                {
+                    _context.Entry(item).State = EntityState.Modified;
+                }
+                else
+                {
+                    item = new ItemListum();
+                    _context.Entry(item).State = EntityState.Added;
+                }
+
+                item.ItemId = ItemLista.ItemId;
+                item.ItemNome = ItemLista.ItemNome;
+                item.ItemDescricao = ItemLista.ItemDescricao;
+                item.ListaId = ItemLista.ListaId;
+                item.ItemStatus = ItemLista.ItemStatus;
+
+                _context.SavedChanges += async (e, s) =>
+                {
+                    ItemLista.ListaId = item.ListaId;
+                };
+
+                await _context.SaveChangesAsync();
+
+                return ItemLista;
+            }
+            catch (Exception ex)
+            {
+                _context.ThrowException(ex.Message);
+                return new ItemListaDTO()
+                {
+                    Message = ex.Message,
+                };
+            }
+        }
+        public async ValueTask<bool> DeleteItemListaAsync(int idItemLista)
+        {
+            try
+            {
+                var item = await _context.ItemLista.FirstOrDefaultAsync(i => i.ItemId == idItemLista);
+
+                if (item == null)
+                    return true;
+
+                _context.Remove(item);
+
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                _context.ThrowException(ex.Message);
+                return false;
+            }
         }
     }
 }

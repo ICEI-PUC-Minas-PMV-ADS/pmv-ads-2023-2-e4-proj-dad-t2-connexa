@@ -158,6 +158,45 @@ app.MapGet("/member/{idList}", async (int idList, [FromServices] IServiceProvide
         return Results.NotFound();
     }
 });
+app.MapGet("/lists/itemList/{idList}", async ([FromServices] IServiceProvider provider, int idList) =>
+{
+    using (var scope = provider.CreateScope())
+    {
+
+        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+
+        if (listDataAccess != null)
+            return Results.Ok(await listDataAccess.GetItemListAsync(idList));
+
+        return Results.NotFound();
+    }
+});
+app.MapPost("/lists/itemList", async ([FromServices] IServiceProvider provider, [FromBody] ListAPI.DTOs.ItemListaDTO itemLista) =>
+{
+    using (var scope = provider.CreateScope())
+    {
+
+        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+
+        if (listDataAccess != null)
+            return Results.Ok(await listDataAccess.SaveItemListAsync(itemLista));
+
+        return Results.NotFound();
+    }
+});
+app.MapDelete("/lists/itemList/{idItemLista}", async ([FromServices] IServiceProvider provider, int idItemLista) =>
+{
+    using (var scope = provider.CreateScope())
+    {
+
+        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+
+        if (listDataAccess != null)
+            return Results.Ok(await listDataAccess.DeleteItemListaAsync(idItemLista));
+
+        return Results.NotFound();
+    }
+});
 
 
 

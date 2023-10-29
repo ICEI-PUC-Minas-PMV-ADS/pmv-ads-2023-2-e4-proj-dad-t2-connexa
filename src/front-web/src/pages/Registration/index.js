@@ -180,7 +180,7 @@ function Registration() {
         <Box>
           <img src={logo} alt="Logo" className="logo" height={200} />
         </Box>
-        <Typography component="h1" variant="h5">
+        <Typography style={{color:'#003049'}} component="h1" variant="h5">
           Cadastrar
         </Typography>
         <form noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -361,13 +361,13 @@ function Registration() {
 
             </Grid>
           </Grid>
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
+          <Button style={{backgroundColor:'#003049'}} type="submit" fullWidth variant="contained" sx={{ mt: 2 }}>
             Cadastrar
           </Button>
         </form>
         <Grid container>
           <Grid item xs={12}>
-            <Link to="/" style={{ float: 'right' }}>
+            <Link to="/" style={{ float: 'right', color:'#003049' }}>
               Já tem uma conta? Entrar
             </Link>
           </Grid>

@@ -183,7 +183,7 @@ function Recovery() {
         <Box>
           <img src={logo} alt="Logo" className="logo" height={200} />
         </Box>
-        <Typography component="h1" variant="h5">
+        <Typography style={{color:'#003049'}} component="h1" variant="h5">
           Recuperar Senha
         </Typography>
         <form noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -207,6 +207,7 @@ function Recovery() {
             {disableInputs &&
               <Grid item xs={12}>
                 <Button
+                  style={{backgroundColor:'#003049'}}
                   type="button"
                   fullWidth
                   variant="contained"
@@ -352,7 +353,7 @@ function Recovery() {
         </form>
         <Grid container>
           <Grid item xs={12} mt={1}>
-            <Link to="/" style={{ float: 'right' }}>
+            <Link to="/" style={{ float: 'right', color:'#003049'}}>
               Lembrou sua senha? Entrar
             </Link>
           </Grid>

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import ListsService from '../../services/lists/ListsService'
+import {getListByOwner} from "../../services/lists/listService"
 
 
 const ListaItens = () => {
   const [itens, setItens] = useState([]);
-  const listsService = new ListsService();
 
   useEffect(() => {
     const idOwner = localStorage.getItem('userId');
@@ -12,7 +11,7 @@ const ListaItens = () => {
     const fetchData = async () => {
       try {
         if (idOwner) {
-          const response = await listsService.getListByOwner(idOwner);
+          const response = await getListByOwner(Number(idOwner));
 
           if (response) {
             setItens(response);

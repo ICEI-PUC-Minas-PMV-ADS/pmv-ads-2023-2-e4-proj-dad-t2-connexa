@@ -1,41 +1,22 @@
 .home {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-  }
-  
-  .home-container {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 900px;
-  }
-  
-  .home-container h2 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  .my-popup-content {
-    margin: auto;
-    background: rgb(255, 255, 255);
-    width: 50%;
-    padding: 5px;
-  }
-  .my-popup-arrow {
-    color: rgb(255, 255, 255);
-  }
-  [role='tooltip'].my-popup-content {
-    width: 200px;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 0px 3px;
-  }
-  
-  .my-popup-overlay {
-    background: rgba(0, 0, 0, 0.5);
-  }
-  [data-popup='tooltip'].my-popup-overlay {
-    background: black;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.home-container {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 20px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 900px;
+}
+
+.home-container h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+

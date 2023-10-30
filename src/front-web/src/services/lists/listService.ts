@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ListItemDTO } from './dtos/ListItem';
+import { CreateListDTO } from './dtos/CreateListDTO';
 
 const IS_PROD = false;
 const STATUS_OK = 200;
@@ -8,7 +9,6 @@ const STATUS_CREATED = 201;
 const apiInstance = axios.create({
     baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150/gateway'
 });
-
 
 export const getListItemsAsync = async (id : number) => {
     try {
@@ -62,3 +62,22 @@ export const getListByOwner = async (idOwner : number) => {
         return null;
     }
 }
+
+
+export const postCreateList = async (newList: CreateListDTO) => { 
+    try {
+        console.log("Chamou o endpoint para criar uma nova lista na API");
+
+        const response = await apiInstance.post('/list/lists', newList);
+        console.log('Resposta da API:', response.data);
+
+        if (response.status === 200) {
+            return response.data;
+        }
+
+        return null;
+    } catch (error) {
+        console.error('Erro ao criar a lista na API:', error);
+        return null;
+    }
+};

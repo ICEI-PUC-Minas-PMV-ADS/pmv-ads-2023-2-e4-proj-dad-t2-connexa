@@ -26,19 +26,19 @@ function ItemListEdit({ handleLogout }) {
 
     return (
         <div>
-            <AppBar position="static">
+            <AppBar style={{backgroundColor:'#003049'}} position="static">
                 <Toolbar>
                     <Typography variant="h6" noWrap sx={{ flex: 1 }}>
                         <Avatar src={logo} alt="Logo" sx={{ width: 40, height: 40, mr: 2 }} />
                     </Typography>
-                    <Link to="/listas-contribuo" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
+                    <Link to="/" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
                         Listas que Contribuo
                     </Link>
-                    <Link to="/criar-lista" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
+                    <Link to="/CreateLists" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
                         Criar Lista
                     </Link>
                     <IconButton color="inherit" onClick={handleLogoutClick}>
-                        <ExitToAppIcon />
+                        <ExitToAppIcon style={{color:'#D62828'}} />
                     </IconButton>
                 </Toolbar>
             </AppBar>

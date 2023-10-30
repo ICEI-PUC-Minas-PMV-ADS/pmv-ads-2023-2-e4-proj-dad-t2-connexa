@@ -19,7 +19,7 @@ function CreateLists({ handleLogout }) {
 
     return (
         <div>
-        <AppBar position="static">
+        <AppBar style={{backgroundColor:'#003049'}} position="static">
             <Toolbar>
                 <Typography variant="h6" noWrap sx={{ flex: 1 }}>
                     <Avatar src={logo} alt="Logo" sx={{ width: 40, height: 40, mr: 2 }} />
@@ -31,7 +31,7 @@ function CreateLists({ handleLogout }) {
                     Minhas Listas
                 </Link>
                 <IconButton color="inherit" onClick={handleLogoutClick}>
-                    <ExitToAppIcon />
+                    <ExitToAppIcon style={{color:'#D62828'}}/>
                 </IconButton>
             </Toolbar>
         </AppBar>

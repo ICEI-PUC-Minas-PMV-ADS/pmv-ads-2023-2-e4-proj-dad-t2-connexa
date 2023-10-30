@@ -90,11 +90,12 @@ function SignIn({ handleLogin }) {
         <Box>
           <img src={logo} alt="Logo" className="logo" height={200} />
         </Box>
-        <Typography component="h1" variant="h5">
+        <Typography style={{ color: '#003049' }} component="h1" variant="h5">
           Entrar
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <TextField
+            style={{ borderColor: '#003049'}}
             margin="normal"
             required
             fullWidth
@@ -112,7 +113,8 @@ function SignIn({ handleLogin }) {
             helperText={errors.email}
           />
           <Grid item xs={12}>
-            <TextField
+            <TextField 
+              style={{ borderColor: '#003049' }}
               required
               fullWidth
               id="password"
@@ -143,6 +145,7 @@ function SignIn({ handleLogin }) {
             />
           </Grid>
           <Button
+          style={{backgroundColor:'#003049'}} 
             type="submit"
             fullWidth
             variant="contained"
@@ -150,14 +153,18 @@ function SignIn({ handleLogin }) {
           >
             Entrar
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link to="/recovery">Esqueceu sua senha?</Link>
+          <Grid container spacing={2}>
+            <Grid item xs={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <Link style={{ color: '#003049' }} to="/recovery">
+                Esqueceu sua senha?
+              </Link>
             </Grid>
-            <Grid item>
-              <Link to="/registration">Não tem uma conta? Cadastre-se</Link>
-            </Grid>
+            <Grid item xs={6} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+              <Link style={{ color: '#003049' }} to="/registration">
+                Não tem uma conta? Cadastre-se
+              </Link>
           </Grid>
+</Grid>
         </Box>
       </Box>
       <Copyright sx={{ mt: 8, mb: 4 }} />

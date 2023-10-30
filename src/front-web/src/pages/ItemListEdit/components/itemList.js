@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Typography, IconButton } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const ListaItens = ({idList}) => {
+const ListaItens = ({ idList }) => {
   const [itens, setItens] = useState([]);
 
   useEffect(() => {
@@ -22,17 +25,38 @@ const ListaItens = ({idList}) => {
   }, [idList]);
 
   return (
-    <div>
-      <ul>
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
         {itens.map(item => (
-          <li key={item.itemId}>
-            <h2>{item.itemNome}</h2>
-            <p>ID da Lista: {item.listaId}</p>
-            <p>Descrição: {item.descricao}</p>
-            <p>Status: {item.status ? 'Ativa' : 'Inativa'}</p>
-          </li>
+          <div
+            key={item.itemId}
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              textAlign: 'center',
+              alignContent: 'center',
+              justifyContent: 'space-between',
+              width : '80vw',
+              margin: '5px 50px',
+              borderRadius: '10px',
+              backgroundColor: 'whitesmoke',
+              justifyContent: 'space-between',
+              padding: '10px'}}
+          >
+            <Typography component="h1" variant="h5">
+              {item.nome}
+            </Typography>
+            <div style={{ display: 'flex' }}>
+              <IconButton>
+                <EditIcon />
+              </IconButton>
+              <IconButton>
+                <DeleteIcon />
+              </IconButton>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

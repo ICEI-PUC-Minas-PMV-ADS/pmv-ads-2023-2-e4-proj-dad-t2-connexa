@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ListItemDTO } from './dtos/ListItem';
-import { CreateListDTO } from './dtos/CreateListDTO';
+import { CreateListDTO } from './dtos/CreateListDto';
 
 const IS_PROD = false;
 const STATUS_OK = 200;

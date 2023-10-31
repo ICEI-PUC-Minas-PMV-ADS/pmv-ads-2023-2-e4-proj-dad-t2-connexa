@@ -4,8 +4,9 @@ import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
 import ItemList from "./pages/ItemList/ItemList.tsx"
-import ItemListEdit from "./pages/ItemListEdit";
 import Home from "./pages/Home";
+import CreateLists from "../src/pages/CreateLists/CreateLists";
+import ItemListEdit from "./pages/ItemListEdit";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -83,6 +84,7 @@ function App() {
               :
               <>
                 <Route path="/" element={<Home handleLogout={handleLogout} />} />
+                <Route path="/CreateLists" element={<CreateLists handleLogout={handleLogout} />} />
                 <Route path="list/:idList/itemListEdit" element={<ItemListEdit handleLogout={handleLogout} />} />
                 <Route path="list/:idList/itemlist" element={<ItemList handleLogout={handleLogout} />} />
               </>

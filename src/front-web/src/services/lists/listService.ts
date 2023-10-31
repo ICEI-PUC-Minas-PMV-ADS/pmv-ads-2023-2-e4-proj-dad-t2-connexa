@@ -4,7 +4,6 @@ import { CreateListDTO } from './dtos/CreateListDto';
 
 const IS_PROD = false;
 const STATUS_OK = 200;
-const STATUS_CREATED = 201;
 
 const apiInstance = axios.create({
     baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150/gateway'
@@ -63,6 +62,26 @@ export const getListByOwner = async (idOwner : number) => {
     }
 }
 
+export const getListParticipant = async (idparticipant: number) => {
+    try {   
+        console.info("ListsService.getListParticipant -> Chamou o endpoint para buscar as listas usando o ID do membro na API", idparticipant);
+
+        const response = await apiInstance.get(`/list/lists/participant/${idparticipant}`);
+
+        console.info('ListsService.getListParticipant -> Resposta da API.', response);
+
+        if (response.status === STATUS_OK) {
+            return response.data;
+        }
+
+        return null;
+    } catch (error) {
+        console.error('ListsService.getListParticipant -> Erro ao buscar as listas da API.', error);
+        return null;
+    }
+}
+
+
 
 export const postCreateList = async (newList: CreateListDTO) => { 
     try {
@@ -71,7 +90,7 @@ export const postCreateList = async (newList: CreateListDTO) => {
         const response = await apiInstance.post('/list/lists', newList);
         console.log('Resposta da API:', response.data);
 
-        if (response.status === 200) {
+        if (response.status === STATUS_OK) {
             return response.data;
         }
 

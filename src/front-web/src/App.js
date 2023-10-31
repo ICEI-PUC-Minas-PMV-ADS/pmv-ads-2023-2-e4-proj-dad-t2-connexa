@@ -6,6 +6,7 @@ import Recovery from "./pages/Recovery";
 import ItemList from "./pages/ItemList/ItemList.tsx"
 import Home from "./pages/Home";
 import CreateLists from "../src/pages/CreateLists/CreateLists";
+import ContributeList from "../src/pages/ContributeList/ContributeList"
 import ItemListEdit from "./pages/ItemListEdit";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -85,6 +86,7 @@ function App() {
               <>
                 <Route path="/" element={<Home handleLogout={handleLogout} />} />
                 <Route path="/CreateLists" element={<CreateLists handleLogout={handleLogout} />} />
+                <Route path="/ContributeList" element={<ContributeList handleLogout={handleLogout} />} />
                 <Route path="list/:idList/itemListEdit" element={<ItemListEdit handleLogout={handleLogout} />} />
                 <Route path="list/:idList/itemlist" element={<ItemList handleLogout={handleLogout} />} />
               </>

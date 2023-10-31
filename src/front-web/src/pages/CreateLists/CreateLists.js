@@ -9,7 +9,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import logo from "../../img/logo.png";
 import CreateList from './createcomponent'
 
-function CreateLists({ handleLogout, isInputVisible, setIsInputVisible, inputText, setInputText, descriptionText, setDescriptionText, createList }) {
+function CreateLists({ handleLogout}) {
     const navigate = useNavigate();
 
     const handleLogoutClick = () => {
@@ -25,18 +25,18 @@ function CreateLists({ handleLogout, isInputVisible, setIsInputVisible, inputTex
                 <Typography variant="h6" noWrap sx={{ flex: 1 }}>
                     <Avatar src={logo} alt="Logo" sx={{ width: 40, height: 40, mr: 2 }} />
                 </Typography>
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
+                <Link to="/ContributeList" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
                     Listas que Contribuo
                 </Link>
-                <Link to="/CreateLists" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
-                    Criar Lista
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
+                    Minhas Listas
                 </Link>
                 <IconButton color="inherit" onClick={handleLogoutClick}>
                     <ExitToAppIcon style={{color:'#D62828'}} />
                 </IconButton>
             </Toolbar>
         </AppBar>
-            <div class="container">
+            <div>
                 <CreateList/>
             </div>
         </div>

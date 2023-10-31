@@ -7,9 +7,9 @@ import Avatar from '@mui/material/Avatar';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from "../../img/logo.png";
-import ListaItens from './listcomponent';
+import ContributeList from './ContributeComponent';
 
-function Home({ handleLogout }) {
+function ContributeLists({ handleLogout }) {
     const navigate = useNavigate();
 
     const handleLogoutClick = () => {
@@ -25,8 +25,8 @@ function Home({ handleLogout }) {
                 <Typography variant="h6" noWrap sx={{ flex: 1 }}>
                     <Avatar src={logo} alt="Logo" sx={{ width: 40, height: 40, mr: 2 }} />
                 </Typography>
-                <Link to="/ContributeList" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
-                    Listas que Contribuo
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
+                    Minhas Listas
                 </Link>
                 <Link to="/CreateLists" style={{ textDecoration: 'none', color: 'inherit', marginRight: '20px' }}>
                     Criar Lista
@@ -38,11 +38,11 @@ function Home({ handleLogout }) {
         </AppBar>
 
         <div>
-            <ListaItens/>
+            <ContributeList/>
         </div>
     </div>
     );
         
 }
 
-export default Home;
+export default ContributeLists;

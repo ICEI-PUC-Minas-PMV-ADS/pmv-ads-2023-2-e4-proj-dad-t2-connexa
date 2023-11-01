@@ -123,6 +123,52 @@ Verifique se a lista foi excluída corretamente.
 - Verificar a resposta para garantir que o código de status seja 400 (Bad Request).
 - Verificar se a resposta indica que o e-mail é inválido.
 
+# Plano de Testes de Unidade para a API List
+
+## Objetivo: Validar o comportamento dos endpoints da API List em um nível unitário.
+
+## Cenário de Teste 1 - Buscar Listas
+**Objetivo:** Verificar se o endpoint /lists retorna uma lista de listas.
+**Passos:**
+- Realizar uma chamada ao endpoint /lists.
+- Verificar se a resposta possui um código de status 200 (OK).
+- Verificar se a resposta contém uma lista de listas válida.
+- 
+## Cenário de Teste 2 - Criar Lista
+**Objetivo:**  Verificar se o endpoint /lists cria uma nova lista com sucesso.
+**Passos:**
+- Realizar uma chamada ao endpoint /lists com dados válidos para criar uma nova lista.
+- Verificar se a resposta possui um código de status 201 (Created).
+
+## Cenário de Teste 3 - Erro ao Criar Lista
+**Objetivo:** Verificar se o endpoint /lists retorna um erro ao tentar criar uma lista com dados inválidos.
+**Passos:**
+- Realizar uma chamada ao endpoint /lists com dados inválidos para criar uma nova lista.
+- Verificar se a resposta possui um código de status 400 (Bad Request).
+
+## Cenário de Teste 4 - Excluir Lista
+**Objetivo:** Verificar se o endpoint /lists/{idList} exclui uma lista com sucesso.
+**Passos:**
+- Realizar uma chamada ao endpoint /lists/{idList} com um ID de lista válido para excluí-la.
+- Verificar se a resposta possui um código de status 204 (No Content).
+
+## Cenário de Teste 5 - Erro ao Excluir Lista
+**Objetivo:** Verificar se o endpoint /lists/{idList} retorna um erro ao tentar excluir uma lista inexistente.
+**Passos:**
+- Realizar uma chamada ao endpoint /lists/{idList} com um ID de lista inválido.
+- Verificar se a resposta possui um código de status 404 (Not Found).
+
+## Cenário de Teste 6 - Adicionar Membro a uma Lista
+**Objetivo:** Verificar se o endpoint /member/{listMember} adiciona um membro a uma lista com sucesso.
+**Passos:**
+- Realizar uma chamada ao endpoint /member/{listMember} com dados válidos para adicionar um membro a uma lista.
+- Verificar se a resposta possui um código de status 200 (OK).
+
+## Cenário de Teste 7 - Erro ao Adicionar Membro a uma Lista
+**Objetivo:** Verificar se o endpoint /member/{listMember} retorna um erro ao tentar adicionar um membro a uma lista inexistente.
+**Passos:**
+- Realizar uma chamada ao endpoint /member/{listMember} com dados inválidos.
+- Verificar se a resposta possui um código de status 404 (Not Found).
 
 
 ## Ferramentas de Testes

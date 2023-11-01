@@ -125,7 +125,6 @@ Verifique se a lista foi excluída corretamente.
 
 # Plano de Testes de Unidade para a API List
 
-## Objetivo: Validar o comportamento dos endpoints da API List em um nível unitário.
 
 ## Cenário de Teste 1 - Buscar Listas
 **Objetivo:** Verificar se o endpoint /lists retorna uma lista de listas.

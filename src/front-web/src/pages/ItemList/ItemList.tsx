@@ -12,6 +12,7 @@ import { getListItemsAsync, addItemListAsync, deleteListItemAsync } from '../../
 import Item from './Item/item';
 import Modal from 'react-modal';
 import { Button, TextField } from '@mui/material';
+import AddParticipant from './AddParticipant';
 
 interface ItemListProps {
     handleLogout(bool: boolean): void;
@@ -149,21 +150,7 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                 </div>
                 <div>
                     <button onClick={openModal}>Adicionar Participante</button>
-                    <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                        contentLabel="Adicionar Participante"
-                    >
-                        <h2>Adicionar Participante</h2>
-                        <input
-                            type="text"
-                            placeholder="Email"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-                        <button>Enviar</button>
-                        <button onClick={closeModal}>Fechar</button>
-                    </Modal>
+                    <AddParticipant idLista={idList}/>
                     <Modal
                         isOpen={addModalIsOpen}
                         onRequestClose={closeItemModal}

@@ -13,7 +13,7 @@ import Item from './Item/item';
 import Modal from 'react-modal';
 import { Button, TextField } from '@mui/material';
 
-Modal.setAppElement('#root');
+import AddParticipant from './AddParticipant';
 
 interface ItemListProps {
     handleLogout(bool: boolean): void;

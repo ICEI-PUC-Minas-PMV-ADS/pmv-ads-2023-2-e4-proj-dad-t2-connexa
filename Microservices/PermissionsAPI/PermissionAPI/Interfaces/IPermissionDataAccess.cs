@@ -2,7 +2,7 @@
 {
     public interface IPermissionDataAccess
     {
-        ValueTask<bool> CreatePermissionList(int? userID, int? listaID, int? role);
+        ValueTask<string> CreatePermissionList(string userEmail, int? listaID, int? role);
         
         ValueTask<bool> ModifyUserPermissionList(int? userID, int? listaID, bool status, int? role);
 

@@ -184,7 +184,7 @@ app.MapPost("/lists/{idList}/items", async ([FromServices] IServiceProvider prov
         return Results.NotFound();
     }
 });
-app.MapDelete("/lists/itemList/{idItemLista}", async ([FromServices] IServiceProvider provider, int idItemLista) =>
+app.MapDelete("/lists/{idList}/{idItem}", async ([FromServices] IServiceProvider provider, int idList, int idItem) =>
 {
     using (var scope = provider.CreateScope())
     {
@@ -192,12 +192,11 @@ app.MapDelete("/lists/itemList/{idItemLista}", async ([FromServices] IServicePro
         var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
 
         if (listDataAccess != null)
-            return Results.Ok(await listDataAccess.DeleteItemListaAsync(idItemLista));
+            return Results.Ok(await listDataAccess.DeleteItemListaAsync(idItem));
 
         return Results.NotFound();
     }
 });
-
 app.MapPut("/lists/itemList/{idItemLista}/{checkedItem}", async ([FromServices] IServiceProvider provider, int idItemLista, bool checkedItem) =>
 {
     using (var scope = provider.CreateScope())

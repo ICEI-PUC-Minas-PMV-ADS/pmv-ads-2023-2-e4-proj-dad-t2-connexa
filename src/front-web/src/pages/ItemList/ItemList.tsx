@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -8,69 +8,91 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ListItemDTO } from '../../services/lists/dtos/ListItem';
-import { getListItemsAsync, addItemListAsync } from '../../services/lists/listService';
+import { getListItemsAsync, addItemListAsync, deleteListItemAsync } from '../../services/lists/listService';
 import Item from './Item/item';
 import Modal from 'react-modal';
 import { Button, TextField } from '@mui/material';
 
-import AddParticipant from './AddParticipant';
-
 interface ItemListProps {
     handleLogout(bool: boolean): void;
+    editMode : boolean;
 }
 
-function ItemList({ handleLogout, }: ItemListProps) {
+function ItemList({ handleLogout, editMode }: ItemListProps) {
     const navigate = useNavigate();
     const { idList } = useParams();
+
+    const [listItem, setListItem] = useState<ListItemDTO>({
+        id: 0,
+        nome: '',
+        descricao: '',
+        nomeLista: '',
+        status: false,
+        listaId: Number(idList)
+    });
 
     const [items, setItems] = useState<ListItemDTO[]>([]);
 
     const handleLogoutClick = () => {
         localStorage.removeItem('isLogged');
-        handleLogout(false); // Chama a função handleLogout para atualizar o estado
+        handleLogout(false);
         navigate('/');
     };
 
-    const handleAddItem = async () => {
-        const item : ListItemDTO = {
-            listaId: Number(idList),
-            nome: name,
-            descricao: description,
-            id: 0,
-            status: false,
-            nomeLista: ''
-        };
-        console.log(item);
-        const result = await addItemListAsync(Number(idList), item);
+    const handleDeleteItem = async (id : number) => {
+        var result = await deleteListItemAsync(Number(idList), id);
+        if(result){
+            setItems(items.filter((f) => f.id !== id));
+        }
+    };
 
-        if(result)
-            setItems([...items, result]);
-    }
+    const handleEditItem = (item : ListItemDTO) => {
+        setListItem(item);
+        openItemModal();
+    };
 
-    useEffect(() => {
-        const getItems = async () => {
-            let itemsDb = await getListItemsAsync(Number(idList));
+    const getItems = useCallback(async () => {
+        let itemsDb = await getListItemsAsync(Number(idList));
             console.log(itemsDb);
             if (itemsDb) {
                 setItems(itemsDb);
             }
-        };
-        getItems();
     }, [idList]);
 
+    const handleSaveItem = useCallback(async (item : ListItemDTO) => {
+        const result = await addItemListAsync(Number(idList), item);
+        if(result){
+            getItems();
+            closeItemModal();
+        }
+    }, [getItems, idList]);
+
+    useEffect(() => {
+        getItems();
+    }, [getItems, idList]);
+
     const [addModalIsOpen, setAddItemModalIsOpen] = useState(false);
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
 
     const handleBackToHome = () => {
         navigate('/');
     }
 
-    const openAddItemModal = () => {
+    const resetListItemFields = () => {
+        setListItem({
+            id: 0,
+            nome: '',
+            descricao: '',
+            nomeLista: '',
+            status: false,
+            listaId: Number(idList)
+        })
+    }
+
+    const openItemModal = () => {
         setAddItemModalIsOpen(true);
     }
 
-    const closeAddItemModal = () => {
+    const closeItemModal = () => {
         setAddItemModalIsOpen(false);
     }
 
@@ -99,7 +121,10 @@ function ItemList({ handleLogout, }: ItemListProps) {
                         </IconButton>
                     </Typography>
                     <div>
-                        <IconButton color="inherit" onClick={openAddItemModal}>
+                        <IconButton color="inherit" onClick={() => {
+                            resetListItemFields();
+                            openItemModal();
+                            }}>
                             <AddIcon style={{color:'#7CFC00'}}/>
                             <label style={{fontSize: '0.8em'}}>Adicionar item</label>
                         </IconButton>
@@ -117,7 +142,7 @@ function ItemList({ handleLogout, }: ItemListProps) {
                     {
                         items.map((a: ListItemDTO) => {
                             return (
-                                <Item key={a.id} nameProp={a.nome} descriptionProp={a.descricao} checkedProp={a.status} id={a.id} />
+                                <Item key={a.id} editMode={editMode} item={a} deleteItemCallback={handleDeleteItem} editItemCallback={handleEditItem}/>
                             )
                         })
                     }
@@ -136,12 +161,12 @@ function ItemList({ handleLogout, }: ItemListProps) {
                             value={email}
                             onChange={handleEmailChange}
                         />
-                        <button onClick={handleAddItem}>Enviar</button>
+                        <button>Enviar</button>
                         <button onClick={closeModal}>Fechar</button>
                     </Modal>
                     <Modal
                         isOpen={addModalIsOpen}
-                        onRequestClose={closeAddItemModal}
+                        onRequestClose={closeItemModal}
                         contentLabel="Adicionar item"
                         style={{
                             content: {
@@ -163,8 +188,8 @@ function ItemList({ handleLogout, }: ItemListProps) {
                                 name="name"
                                 autoComplete="name"
                                 autoFocus
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
+                                value={listItem.nome}
+                                onChange={(e) => setListItem({...listItem, nome: e.target.value})}
                             />
                             <TextField
                                 style={{ borderColor: '#003049'}}
@@ -176,8 +201,8 @@ function ItemList({ handleLogout, }: ItemListProps) {
                                 name="description"
                                 autoComplete="description"
                                 autoFocus
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                value={listItem.descricao}
+                                onChange={(e) => setListItem({...listItem, descricao: e.target.value})}
                             />
                             <Button
                                 style={{backgroundColor:'#003049'}} 
@@ -185,9 +210,11 @@ function ItemList({ handleLogout, }: ItemListProps) {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 2, mb: 1 }}
-                                onClick={handleAddItem}
+                                onClick={
+                                    () => handleSaveItem(listItem)
+                                }
                             >
-                                Adicionar item
+                                Salvar item
                             </Button>
                             <Button
                                 style={{backgroundColor:'#003049'}} 
@@ -195,7 +222,7 @@ function ItemList({ handleLogout, }: ItemListProps) {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 2, mb: 1 }}
-                                onClick={closeAddItemModal}
+                                onClick={closeItemModal}
                             >
                                 Fechar
                             </Button>

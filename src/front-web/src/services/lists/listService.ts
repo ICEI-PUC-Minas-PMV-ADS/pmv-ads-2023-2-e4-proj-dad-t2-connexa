@@ -118,3 +118,21 @@ export const postCreateList = async (newList: CreateListDTO) => {
         return null;
     }
 };
+
+export const deleteListItemAsync = async (idList : number, idItem : number) => {
+    try {
+        console.info("ListsService.deleteListItemAsync -> Chamou o endpoint para deletar um item da lista", idItem);
+
+        const response = await apiInstance.delete<boolean>(`/list/lists/${idList}/${idItem}`);
+
+        console.info('ListsService.deleteListItemAsync -> Resposta da API.', response);
+
+        if (response.status !== STATUS_OK)
+            return null;
+        return response.data;
+    } catch (error) {
+        console.error('ListsService.deleteListItemAsync -> Erro ao tentar deletar o item da api.', error);
+        return null;
+    }
+
+}

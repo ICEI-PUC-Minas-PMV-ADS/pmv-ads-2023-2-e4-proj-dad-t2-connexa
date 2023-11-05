@@ -50,7 +50,7 @@ const ListaItens = () => {
                   <p style={{marginLeft: '1em', marginRight: '2em', fontSize: '1.2em', textAlign: 'center'}}>{item.listaDescricao}</p>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', alignItems: 'center'}}>
-                  <Link to={`list/${item.listaId}/itemListedit`} style={{ margin: '0 1em',}}>
+                  <Link to={`list/${item.listaId}/itemList/edit`} style={{ margin: '0 1em',}}>
                     <ModeEditIcon style={{color:'#003049'}}/>
                   </Link>
                   <Link to={`list/${item.listaId}/itemlist`} style={{ margin: '0 1em',}}>

@@ -339,6 +339,9 @@ namespace ListAPI.DataAccess
         {
             try
             {
+                if(string.IsNullOrEmpty(ItemLista.Nome) || string.IsNullOrEmpty(ItemLista.Descricao))
+                    return null;
+
                 var item = await _context.ItemLista.FirstOrDefaultAsync(i => i.ItemId == ItemLista.Id);
 
                 if (item != null)
@@ -351,7 +354,6 @@ namespace ListAPI.DataAccess
                     _context.Entry(item).State = EntityState.Added;
                 }
 
-                item.ItemId = ItemLista.Id;
                 item.ItemNome = ItemLista.Nome;
                 item.ItemDescricao = ItemLista.Descricao;
                 item.ListaId = ItemLista.ListaId;
@@ -359,7 +361,7 @@ namespace ListAPI.DataAccess
 
                 _context.SavedChanges += async (e, s) =>
                 {
-                    ItemLista.ListaId = item.ListaId;
+                    ItemLista.Id = item.ItemId;
                 };
 
                 await _context.SaveChangesAsync();

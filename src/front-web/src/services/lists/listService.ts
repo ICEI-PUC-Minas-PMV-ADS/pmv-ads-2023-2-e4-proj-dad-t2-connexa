@@ -44,6 +44,24 @@ export const checkListItem = async (idItem : number, checked : boolean) => {
 
 }
 
+export const addItemListAsync = async (idList : number, item : ListItemDTO) => {
+    try {
+        console.info("ListsService.addItemListAsync -> Chamou o endpoint para salvar um item na lista", item);
+
+        const response = await apiInstance.post<ListItemDTO>(`/list/lists/${idList}/items`, item);
+
+        console.info('ListsService.addItemListAsync -> Resposta da API.', response);
+
+        if (response.status !== STATUS_OK)
+            return null;
+        return response.data;
+    } catch (error) {
+        console.error('ListsService.addItemListAsync -> Erro ao tentar salvar o item da api.', error);
+        return null;
+    }
+
+}
+
 export const getListByOwner = async (idOwner : number) => {
     try {
         console.info("ListsService.getListByOwner -> Chamou o endpoint para buscar as listas usando o ID do criador dela na API", idOwner);

@@ -6,6 +6,7 @@ import { ListItemDTO } from '../../../services/lists/dtos/ListItem';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
+import { toast } from 'react-toastify';
 
 interface ItemProps {
     item : ListItemDTO;
@@ -19,8 +20,18 @@ function Item({item, editMode, editItemCallback, deleteItemCallback } : ItemProp
     const [checked, setChecked] = useState<boolean>(item.status);
 
     const setCheckChoose = async (event : React.ChangeEvent<HTMLInputElement>, checked : boolean) => {
+        const notify = toast.loading("Please wait...")
         setChecked(checked);
-        await checkListItem(item.id, checked);
+        var result = await checkListItem(item.id, checked);
+        if(result){
+            toast.update(notify, {
+                render: `Item ${checked ? "marcado" : "desmarcado" } com sucesso.`,
+                type: toast.TYPE.SUCCESS,
+                autoClose: 3000,
+                closeButton: true,
+                isLoading: false
+            });
+        }
     }
 
     return (

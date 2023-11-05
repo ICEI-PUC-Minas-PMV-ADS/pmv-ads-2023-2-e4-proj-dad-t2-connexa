@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -13,6 +13,7 @@ import Item from './Item/item';
 import Modal from 'react-modal';
 import { Button, TextField } from '@mui/material';
 import AddParticipant from './AddParticipant';
+import { toast } from 'react-toastify';
 
 interface ItemListProps {
     handleLogout(bool: boolean): void;
@@ -41,9 +42,17 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
     };
 
     const handleDeleteItem = async (id : number) => {
+        const notify = toast.loading("Please wait...")
         var result = await deleteListItemAsync(Number(idList), id);
         if(result){
             setItems(items.filter((f) => f.id !== id));
+            toast.update(notify, {
+                render: "Item removido com sucesso.",
+                type: toast.TYPE.SUCCESS,
+                autoClose: 3000,
+                closeButton: true,
+                isLoading: false
+            });
         }
     };
 
@@ -54,17 +63,24 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
 
     const getItems = useCallback(async () => {
         let itemsDb = await getListItemsAsync(Number(idList));
-            console.log(itemsDb);
-            if (itemsDb) {
-                setItems(itemsDb);
-            }
+        if (itemsDb) {
+            setItems(itemsDb);
+        }
     }, [idList]);
 
     const handleSaveItem = useCallback(async (item : ListItemDTO) => {
+        const notify = toast.loading("Please wait...")
         const result = await addItemListAsync(Number(idList), item);
         if(result){
             getItems();
             closeItemModal();
+            toast.update(notify, {
+                render: "Item salvo com sucesso.",
+                type: toast.TYPE.SUCCESS,
+                autoClose: 3000,
+                closeButton: true,
+                isLoading: false
+            });
         }
     }, [getItems, idList]);
 
@@ -95,21 +111,6 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
 
     const closeItemModal = () => {
         setAddItemModalIsOpen(false);
-    }
-
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [email, setEmail] = useState('');
-
-    const openModal = () => {
-        setModalIsOpen(true);
-    }
-
-    const closeModal = () => {
-        setModalIsOpen(false);
-    }
-
-    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
     }
 
     return (
@@ -149,7 +150,6 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                     }
                 </div>
                 <div>
-                    <button onClick={openModal}>Adicionar Participante</button>
                     <AddParticipant idLista={idList}/>
                     <Modal
                         isOpen={addModalIsOpen}

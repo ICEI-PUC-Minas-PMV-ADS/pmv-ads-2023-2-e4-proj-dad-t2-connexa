@@ -9,9 +9,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { ListItemDTO } from '../../services/lists/dtos/ListItem';
 import { getListItemsAsync } from '../../services/lists/listService';
 import Item from './Item/item';
-import Modal from 'react-modal';
 
-Modal.setAppElement('#root');
+import AddParticipant from './AddParticipant';
 
 interface ItemListProps {
     handleLogout(bool: boolean): void;
@@ -40,30 +39,6 @@ function ItemList({ handleLogout, }: ItemListProps) {
         getItems();
     }, [idList]);
 
-
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [email, setEmail] = useState('');
-
-    const openModal = () => {
-        setModalIsOpen(true);
-    }
-
-    const closeModal = () => {
-        setModalIsOpen(false);
-    }
-
-    const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
-    }
-
-    const handleEnviarClick = () => {
-        // Aqui você pode definir o que fazer quando o botão "Enviar" é clicado
-        //criar
-        console.log(`Enviando email: ${email}`);
-        // Adicione sua lógica de envio aqui
-        // closeModal();
-    }
-
     return (
         <div>
             <AppBar position="static">
@@ -89,24 +64,7 @@ function ItemList({ handleLogout, }: ItemListProps) {
                         })
                     }
                 </div>
-                <div>
-                    <button onClick={openModal}>Adicionar Participante</button>
-                    <Modal
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                        contentLabel="Adicionar Participante"
-                    >
-                        <h2>Adicionar Participante</h2>
-                        <input
-                            type="text"
-                            placeholder="Email"
-                            value={email}
-                            onChange={handleEmailChange}
-                        />
-                        <button onClick={handleEnviarClick}>Enviar</button>
-                        <button onClick={closeModal}>Fechar</button>
-                    </Modal>
-                </div>
+                <AddParticipant idLista={idList}/>
             </div>
         </div>
     );

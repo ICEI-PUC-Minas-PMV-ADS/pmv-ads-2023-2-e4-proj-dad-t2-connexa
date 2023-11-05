@@ -2,8 +2,6 @@
 using PermissionAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
-using System.Net.NetworkInformation;
 
 namespace PermissionAPI.DataAccess
 {
@@ -18,25 +16,28 @@ namespace PermissionAPI.DataAccess
             BLOCKED = 3
         }
         
-
-
         public PermissionDataAccess([FromServices] ConnexaContext context)
         {
             _context = context;
         }
 
-        public async ValueTask<bool> CreatePermissionList(int? userID, int? listaID, int? role)
+        public async ValueTask<string> CreatePermissionList(string userEmail, int? listaID, int? role)
         {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserEmail == userEmail);
+            if (user == null)
+            {
+                return $"Não existe usuário com o email {userEmail}.";
+            }
             try
             {
-                var userList = await _context.UserLista.FirstOrDefaultAsync(u => u.UserId == userID && u.ListaId == listaID);
+                var userList = await _context.UserLista.FirstOrDefaultAsync(u => u.UserId == user.UserId && u.ListaId == listaID);
 
                 if (userList == null)
                 {
 
                     var newUserList = new UserLista()
                     {
-                        UserId = userID,
+                        UserId = user.UserId,
                         ListaId = listaID,
                         UserListaStatus = true,
                         UserListaRole = role
@@ -45,7 +46,7 @@ namespace PermissionAPI.DataAccess
                     _context.UserLista.Add(newUserList);
                     await _context.SaveChangesAsync();
 
-                    return true;
+                    return "Usuário adicionado a lista de permissões";
                 }
                 else if (!userList.UserListaStatus)
                 {
@@ -55,17 +56,17 @@ namespace PermissionAPI.DataAccess
                     _context.UserLista.Update(userList);
                     await _context.SaveChangesAsync();
 
-                    return true;
+                    return "Usuário modificado para participar da lista";
                 }
                 else
                 {
-                    throw new Exception($"O usuário '{userID}' já possui permissões na lista '{listaID}'.");
+                    return $"O usuário '{userEmail}' já possui permissões de edição na lista.";
                 }
             }
             catch (Exception ex)
             {
                 _context.ThrowException(ex.Message);
-                return false;
+                return ex.Message;
             }
         }
 

@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
-import logo from "../../img/logo1.png";
+import Modal from 'react-modal';
 import { postCreateList } from '../../services/lists/listService';
+
+Modal.setAppElement('#root');
 
 function CreateList() {
   const idOwner = localStorage.getItem('userId');
 
   const [newList, setNewList] = useState({
-    listaTitulo: '', // Inicialize com valores padrão ou vazios
+    listaTitulo: '',
     listaDescricao: '',
     userId: idOwner,
     listaPublica: true,
     listaStatus: true,
   });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -20,13 +24,13 @@ function CreateList() {
       [name]: type === 'checkbox' ? checked : value,
     });
   };
-  
+
   const handleCreateList = async () => {
     if (newList.listaTitulo.trim() === '') {
       alert('Sua lista precisa de um nome');
       return;
     }
-  
+
     try {
       console.info('Chamou a função para criar uma nova lista na API');
 
@@ -34,6 +38,7 @@ function CreateList() {
 
       if (response) {
         alert('Nova lista criada com sucesso:', response);
+        setIsModalOpen(false); // Fecha o modal após criar a lista
       } else {
         alert('Erro ao criar a lista na API');
       }
@@ -42,43 +47,93 @@ function CreateList() {
     }
   };
 
+  const openCreateListPopup = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <div>
-      <p style={{marginLeft: '10em', fontSize:'2em'}}>Criar Nova Lista</p>
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width:'100%', marginTop:'5em' }}>
-        <div class="inputs">
-          <label>
-            <input style={{ height: '6vh', width: '18em', borderRadius: '1vh', marginBottom: '3vh' }}
-              type="text"
-              placeholder="Título da Lista"
-              name="listaTitulo"
-              value={newList.listaTitulo}
-              onChange={handleInputChange}
-            />
-          </label>
-          <br />
-          <label>
-            <input style={{ height: '6vh', width: '18em', borderRadius: '1vh'}}
-              type="text"
-              name="listaDescricao"
-              placeholder="Descrição"
-              value={newList.listaDescricao}
-              onChange={handleInputChange}
-            />
-          </label>
-        </div>
-      </div>
-        <br />
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width:'100%' }}>
-          <div class="button">
-          <p style={{ marginTop: '10px', borderBottom: '1px ridge #D62828'}}></p>
-            <button onClick={handleCreateList} style={{height: '6vh', width: '18em', borderRadius: '1vh', backgroundColor: '#003049', border:'none', color: 'white',
-                            cursor: 'pointer', fontSize:'14px'}}>
-              Criar Lista
-            </button>
+      <button style={{ backgroundColor: '#003049', textDecoration: 'none', color: 'inherit', marginRight: '20px', border: 'none', cursor: 'pointer', fontSize:'16px'}} onClick={openCreateListPopup}>Criar Lista</button>
 
+      <Modal 
+        isOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        contentLabel="Criar Nova Lista"
+        style={{
+          content: {
+            height:'70%',
+            width: '26%',
+            margin: 'auto',
+          },
+        }}
+      >
+        <div>
+          <p style={{ fontSize:'2em', marginLeft: '2em' }}>Criar Nova Lista</p>
+          <div className="inputs">
+            <label>
+              <input
+                style={{ height: '6vh', width: '18em', marginLeft: '4em',  borderRadius: '1vh', marginBottom: '3vh' }}
+                type="text"
+                placeholder="Título da Lista"
+                name="listaTitulo"
+                value={newList.listaTitulo}
+                onChange={handleInputChange}
+              />
+            </label>
+            <br />
+            <label>
+              <input
+                style={{ height: '6vh', width: '18em', marginLeft: '4em', borderRadius: '1vh', marginBottom: '3vh' }}
+                type="text"
+                name="listaDescricao"
+                placeholder="Descrição"
+                value={newList.listaDescricao}
+                onChange={handleInputChange}
+              />
+            </label>
+            <br />
+            <label>
+              <input //* Inserir participante quando já cria a lista (INCOMPLETO)
+                style={{ height: '6vh', width: '15em', marginLeft: '4em', borderRadius: '1vh', marginBottom: '3vh' }}
+                type="text"
+                name="AddParticipant"
+                placeholder="Compartilhar com:"
+                value={newList.listaDescricao}
+                onChange={handleInputChange}
+              />
+              <button
+                onClick={handleCreateList}
+                style={{ marginLeft: '5px', height: '7vh', width: '6vh', borderRadius: '2vh', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
+              >
+                +
+              </button>
+            </label>
+            <br />
+            <label>
+              <input //* Inserir alguns Itens quando já se cria a lista (INCOMPLETO)
+                style={{ height: '6vh', width: '15em', marginLeft: '4em', borderRadius: '1vh'}}
+                type="text"
+                name="AddItens" 
+                placeholder="Itens"
+                value={newList.listaDescricao}
+                onChange={handleInputChange}
+              />
+              <button
+                onClick={handleCreateList}
+                style={{ marginLeft: '5px', height: '7vh', width: '6vh', borderRadius: '2vh', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
+              >
+                +
+              </button>
+            </label>
           </div>
+          <button
+            onClick={handleCreateList}
+            style={{ marginTop: '2em', height: '6vh', width: '18em',  marginLeft: '3.7em', borderRadius: '1vh', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
+          >
+            Criar Lista
+          </button>
         </div>
+      </Modal>
     </div>
   );
 }

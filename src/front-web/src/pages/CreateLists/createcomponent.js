@@ -91,44 +91,10 @@ function CreateList() {
                 onChange={handleInputChange}
               />
             </label>
-            <br />
-            <label>
-              <input //* Inserir participante quando já cria a lista (INCOMPLETO)
-                style={{ height: '6vh', width: '15em', marginLeft: '4em', borderRadius: '1vh', marginBottom: '3vh' }}
-                type="text"
-                name="AddParticipant"
-                placeholder="Compartilhar com:"
-                value={newList.listaDescricao}
-                onChange={handleInputChange}
-              />
-              <button
-                onClick={handleCreateList}
-                style={{ marginLeft: '5px', height: '7vh', width: '6vh', borderRadius: '2vh', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
-              >
-                +
-              </button>
-            </label>
-            <br />
-            <label>
-              <input //* Inserir alguns Itens quando já se cria a lista (INCOMPLETO)
-                style={{ height: '6vh', width: '15em', marginLeft: '4em', borderRadius: '1vh'}}
-                type="text"
-                name="AddItens" 
-                placeholder="Itens"
-                value={newList.listaDescricao}
-                onChange={handleInputChange}
-              />
-              <button
-                onClick={handleCreateList}
-                style={{ marginLeft: '5px', height: '7vh', width: '6vh', borderRadius: '2vh', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
-              >
-                +
-              </button>
-            </label>
           </div>
           <button
             onClick={handleCreateList}
-            style={{ marginTop: '2em', height: '6vh', width: '18em',  marginLeft: '3.7em', borderRadius: '1vh', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
+            style={{ marginTop: '1  em', height: '6vh', width: '18em',  marginLeft: '3.7em', borderRadius: '1vh', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
           >
             Criar Lista
           </button>

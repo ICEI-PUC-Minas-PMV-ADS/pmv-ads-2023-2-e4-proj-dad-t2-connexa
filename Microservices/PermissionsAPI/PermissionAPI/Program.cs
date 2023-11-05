@@ -29,14 +29,14 @@ app.UsePathBase("/connexa/api/permission");
 app.MapGet("/",() => "Connexa Permission API is running :)");
 app.MapGet("test",() => "Connexa Permission API is running now, no problems...");
 
-app.MapPost("/permission", async ([FromServices] IServiceProvider provider, [FromBody] UserListaDTO user_lista) =>
+app.MapPost("/permission", async ([FromServices] IServiceProvider provider, [FromBody] UserListaRequestDTO user_lista) =>
 {
     using (var scope = provider.CreateScope())
     {
         var listDataAccess = scope.ServiceProvider.GetService<IPermissionDataAccess>();
 
         if (listDataAccess != null)
-            return Results.Ok(await listDataAccess.CreatePermissionList(user_lista.UserId, user_lista.ListaId, user_lista.UserListaRole));
+            return Results.Ok(await listDataAccess.CreatePermissionList(user_lista.UserEmail, user_lista.ListaId, user_lista.UserListaRole));
 
         return Results.NotFound();
 

@@ -1,6 +1,6 @@
 import React from "react";
 import Modal from "react-modal";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, TypeOptions, toast } from 'react-toastify';
 import { useState } from "react";
 import { addUserLista } from "../../services/permission/NewUserListaService";
 
@@ -48,29 +48,18 @@ function AddParticipant(props: { idLista: string | undefined }) {
   const handleSubmit = async () => {
     const notify = toast.loading("Please wait...")
     newUserLista.userEmail = email
-    let itemsDb = await addUserLista(newUserLista);
-    if (itemsDb.includes("já possui permissões de edição na lista")) {
+    let result = await addUserLista(newUserLista);
+
+    if(result){
+      let notificationType = toast.TYPE.INFO;
+
+      if(result.includes("Usuário adicionado a lista de permissões")){
+        notificationType = toast.TYPE.SUCCESS;
+      }
+
       toast.update(notify, {
-        render: "O usuário já possui permissões de edição na lista",
-        type: toast.TYPE.INFO,
-        autoClose: 4000,
-        closeButton: true,
-        isLoading: false
-      });
-    }
-    else if (itemsDb.includes("Não existe usuário com o email")) {
-      toast.update(notify, {
-        render: "Não existe usuário com o email informado",
-        type: toast.TYPE.INFO,
-        autoClose: 4000,
-        closeButton: true,
-        isLoading: false
-      });
-    }
-    else {
-      toast.update(notify, {
-        render: "Tudo certo! Agora o usuário contribui com a lista!",
-        type: toast.TYPE.SUCCESS,
+        render: result,
+        type: notificationType,
         autoClose: 4000,
         closeButton: true,
         isLoading: false

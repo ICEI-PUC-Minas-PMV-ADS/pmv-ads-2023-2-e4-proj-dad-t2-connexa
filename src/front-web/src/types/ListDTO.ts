@@ -6,4 +6,5 @@ export interface ListDTO {
     listaDescricao: string | null;
     listaTitulo: string | null;
     idUserTarget: number;
+    isOwner: boolean;
 }

@@ -22,8 +22,8 @@ interface ItemListProps {
 
 function ItemList({ handleLogout, editMode }: ItemListProps) {
     const navigate = useNavigate();
-    const { idList } = useParams();
-
+    const { idList, titulo, descricao } = useParams();
+    const selectedList = localStorage.getItem('selectedList');
     const [listItem, setListItem] = useState<ListItemDTO>({
         id: 0,
         nome: '',
@@ -86,7 +86,9 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
 
     useEffect(() => {
         getItems();
-    }, [getItems, idList]);
+        if(selectedList)
+            console.log(JSON.parse(selectedList));
+    }, [getItems, idList, selectedList]);
 
     const [addModalIsOpen, setAddItemModalIsOpen] = useState(false);
 
@@ -137,8 +139,9 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                 </Toolbar>
             </AppBar>
             <div style={{ display: 'flex', flexDirection: 'column', alignContent: 'center', textAlign: 'center' }}>
-                <div style={{ margin: '2rem 0px' }}>
-                    <label style={{ fontSize: '3em' }}>{items.length > 0 ? items[0].nomeLista : "Nome da lista"}</label>
+                <div style={{ display: 'flex', flexDirection: 'column', margin: '2rem 0px' }}>
+                    <label style={{ fontSize: '3em' }}>{titulo}</label>
+                    <label style={{ fontSize: '2em' }}>{descricao}</label>
                 </div>
                 <div>
                     {

@@ -86,8 +86,8 @@ function App() {
                 <Route path="/" element={<Home handleLogout={handleLogout} />} />
                 <Route path="/CreateLists" element={<CreateLists handleLogout={handleLogout} />} />
                 <Route path="/ContributeList" element={<ContributeList handleLogout={handleLogout} />} />
-                <Route path="list/:idList/itemlist/edit" element={<ItemList handleLogout={handleLogout} editMode={true}/>} />
-                <Route path="list/:idList/itemlist" element={<ItemList handleLogout={handleLogout} editMode={false}/>} />
+                <Route path="list/:idList/itemlist/edit/:titulo/:descricao" element={<ItemList handleLogout={handleLogout} editMode={true}/>} />
+                <Route path="list/:idList/itemlist/:titulo/:descricao" element={<ItemList handleLogout={handleLogout} editMode={false}/>} />
               </>
             }
           </Routes>

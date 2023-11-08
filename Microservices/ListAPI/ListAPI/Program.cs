@@ -67,19 +67,19 @@ app.MapGet("/lists/relateds/{idUser}", async ([FromServices] IServiceProvider pr
 		return Results.NotFound();
 	}
 });
-app.MapGet("/lists/owner/{idOwner}", async ([FromServices] IServiceProvider provider, int idOwner) =>
-{
-	using (var scope = provider.CreateScope())
-	{
+//app.MapGet("/lists/owner/{idOwner}", async ([FromServices] IServiceProvider provider, int idOwner) =>
+//{
+//	using (var scope = provider.CreateScope())
+//	{
 
-		var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
+//		var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
 
-		if (listDataAccess != null)
-			return Results.Ok(await listDataAccess.GetListsByOwnerAsync(idOwner));
+//		if (listDataAccess != null)
+//			return Results.Ok(await listDataAccess.GetListsByOwnerAsync(idOwner));
 
-		return Results.NotFound();
-	}
-});
+//		return Results.NotFound();
+//	}
+//});
 app.MapGet("/lists/participant/{idParticipant}", async ([FromServices] IServiceProvider provider, int idParticipant) =>
 {
 	using (var scope = provider.CreateScope())

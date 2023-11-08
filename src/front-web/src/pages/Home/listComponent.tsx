@@ -1,21 +1,23 @@
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import {getListByOwner} from "../../services/lists/listService";
+import {deleteListAsync, getListsByOwnerOrParticipant} from "../../services/lists/listService";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ListDTO } from '../../types/ListDTO';
+import { IconButton, Typography } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { toast } from 'react-toastify';
+
 
 const ListaItens = () => {
   const [itens, setItens] = useState<ListDTO[]>([]);
-
-  useEffect(() => {
-    const idOwner = localStorage.getItem('userId');
-
+  const idOwner = localStorage.getItem('userId');
+  useEffect(() => { 
     const fetchData = async () => {
       try {
         if (idOwner) {
-          const response = await getListByOwner(Number(idOwner));
+          const response = await getListsByOwnerOrParticipant(Number(idOwner));
 
           if (response) {
             setItens(response);
@@ -27,7 +29,24 @@ const ListaItens = () => {
     };
 
     fetchData();
-  }, []);
+  }, [idOwner]);
+
+  const deleteListCallback = useCallback(async (idList : number) => {
+    var removed = await deleteListAsync(Number(idList));
+    if(removed){
+      toast.update(toast.loading("Aguarde..."), {
+          render: "Lista removida com sucesso...",
+          type: toast.TYPE.SUCCESS,
+          autoClose: 3000,
+          closeButton: true,
+          isLoading: false
+      });
+
+      setItens(itens.filter(i => i.listaId !== idList));
+    }else{
+      toast.error("Erro ao tentar remover a lista...");
+    }
+  }, [itens]);
 
   const theme = createTheme({
     typography: {
@@ -36,31 +55,46 @@ const ListaItens = () => {
   });
 
   return (
-    <div>
-      <ThemeProvider theme={theme}>
-        <div>
-          <p style={{marginLeft: '10em', fontSize:'2em'}}>Minhas Listas</p>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            {itens.map(item => (
-              <div key={item.listaId} style={{display: 'flex', borderBottom: '1px ridge #D62828', justifyContent: 'space-between'}}>
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', textAlign: 'center'}}>
-                  <p style={{marginRight: '1em', fontSize: '2em'}}>{item.listaTitulo}</p>
-                  <p>-</p>
-                  <p style={{marginLeft: '1em', fontSize: '1.2em'}}>{item.listaDescricao}</p>
-                </div>
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '2em'}}>
-                  <Link to={`list/${item.listaId}/itemList/edit`} style={{ margin: '0 1em',}}>
-                    <ModeEditIcon style={{color:'#003049'}}/>
-                  </Link>
-                  <Link to={`list/${item.listaId}/itemlist`} style={{ margin: '0 1em',}}>
-                    <Button style={{borderColor:'#003049', color:'#003049'}} variant="outlined" size="small">
-                      Ver Lista
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-            ))}
+    <div style={{ display: 'flex', flexDirection: 'column', alignContent: 'center', textAlign: 'center' }}>
+      <ThemeProvider theme={theme} >
+        <Typography component="p" variant="h4" style={{margin: '1em'}}>
+          Minhas listas
+        </Typography>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignContent: 'center'}}>
+            {itens.map(item =>
+            {
+                return (
+                  <div key={item.listaId} style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '5px 50px', borderRadius: '10px', padding: '10px', borderBottom: '1px ridge #D62828', marginBottom: '1.5em'}}>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'start', alignItems: 'start'}}>
+                      <Typography component="p" variant="h4">
+                        {item.listaTitulo}
+                      </Typography>
+                      <Typography component="p" variant='h6'>
+                        {item.listaDescricao}
+                      </Typography>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '2em'}}>
+                      <Typography component="h1" variant="h6">
+                        ({item.isOwner ? "DONO" : "PARTICIPANTE"})
+                      </Typography>
+                      <Link to={`list/${item.listaId}/itemList/edit/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}} onClick={() => { localStorage.setItem('selectedList', JSON.stringify(item));}}>
+                        <ModeEditIcon style={{color:'#003049'}}/>
+                      </Link>
+                      <Link to={`list/${item.listaId}/itemlist/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}}>
+                        <Button style={{borderColor:'#003049', color:'#003049'}} variant="outlined" size="small">
+                          Ver Lista
+                        </Button>
+                      </Link>
+                      {
+                        item.isOwner ? 
+                        (<IconButton >
+                          <DeleteIcon onClick={() => deleteListCallback(item.listaId)}/>
+                        </IconButton>) : ""
+                      }
+                    </div>
+                  </div>
+                )
+            })}
         </div>
       </ThemeProvider>
     </div>

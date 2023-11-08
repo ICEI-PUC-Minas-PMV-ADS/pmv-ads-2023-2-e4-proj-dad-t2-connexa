@@ -14,5 +14,6 @@
 
         public string? ListaTitulo { get; set; }
         public int IdUserTarget { get; set; }
+        public Boolean IsOwner { get; set; }
     }
 }

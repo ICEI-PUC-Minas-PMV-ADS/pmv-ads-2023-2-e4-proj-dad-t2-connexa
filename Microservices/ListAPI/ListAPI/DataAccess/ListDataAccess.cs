@@ -4,6 +4,7 @@ using ListAPI.Models;
 using ListAPI.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace ListAPI.DataAccess
 {
@@ -29,7 +30,15 @@ namespace ListAPI.DataAccess
                 if(item == null)
                     return true;
 
-                _context.Remove(item);
+                var listUsers = await _context.UserLista.Where(ul => ul.ListaId == idList).ToArrayAsync();
+                _context.RemoveRange(listUsers);
+                await _context.SaveChangesAsync();
+
+                var listItems = await _context.ItemLista.Where(ul => ul.ListaId == idList).ToArrayAsync();
+                _context.RemoveRange(listItems);
+                await _context.SaveChangesAsync();
+
+                _context.Entry(item).State = EntityState.Deleted;
 
                 return await _context.SaveChangesAsync() > 0;
             }
@@ -210,11 +219,8 @@ namespace ListAPI.DataAccess
         {
             try
             {
-
                 return await (from list in _context.Lista
-							  join listUser in _context.UserLista on list.ListaId equals listUser.UserListaId into listUserGroup
-							  from listUser in listUserGroup.DefaultIfEmpty()
-							  where list.UserId == idUser || (listUser != null && listUser.UserId == idUser)
+							  where list.UserId == idUser || list.UserLista.Any()
 							  select new ListDTO
 							  {
                               ListaId = list.ListaId,
@@ -223,8 +229,10 @@ namespace ListAPI.DataAccess
                               ListaPublica = list.ListaPublica,
                               ListaStatus = list.ListaStatus,
                               ListaTitulo = list.ListaTitulo,
-                              Message = null
-                          }).ToListAsync();
+                              Message = null,
+                              IsOwner = !list.UserLista.Any(),
+                          }).OrderByDescending((ob) => ob.IsOwner)
+                          .ToListAsync();
 
             }
             catch (Exception ex)

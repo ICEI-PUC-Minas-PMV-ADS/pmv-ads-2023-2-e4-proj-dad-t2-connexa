@@ -63,11 +63,11 @@ export const addItemListAsync = async (idList : number, item : ListItemDTO) => {
 
 }
 
-export const getListByOwner = async (idOwner : number) => {
+export const getListsByOwnerOrParticipant = async (idOwner : number) => {
     try {
         console.info("ListsService.getListByOwner -> Chamou o endpoint para buscar as listas usando o ID do criador dela na API", idOwner);
 
-        const response = await apiInstance.get<ListDTO[]>(`/list/lists/owner/${idOwner}`);
+        const response = await apiInstance.get<ListDTO[]>(`/list/lists/relateds/${idOwner}`);
 
         console.info('ListsService.getListByOwner -> Resposta da API.', response);
 
@@ -133,6 +133,24 @@ export const deleteListItemAsync = async (idList : number, idItem : number) => {
         return response.data;
     } catch (error) {
         console.error('ListsService.deleteListItemAsync -> Erro ao tentar deletar o item da api.', error);
+        return null;
+    }
+
+}
+
+export const deleteListAsync = async (idList : number) => {
+    try {
+        console.info("ListsService.deleteListAsync -> Chamou o endpoint para deletar a lista", idList);
+
+        const response = await apiInstance.delete<boolean>(`/list/lists/${idList}`);
+
+        console.info('ListsService.deleteListAsync -> Resposta da API.', response);
+
+        if (response.status !== STATUS_OK)
+            return null;
+        return response.data;
+    } catch (error) {
+        console.error('ListsService.deleteListAsync -> Erro ao tentar deletar a lista.', error);
         return null;
     }
 

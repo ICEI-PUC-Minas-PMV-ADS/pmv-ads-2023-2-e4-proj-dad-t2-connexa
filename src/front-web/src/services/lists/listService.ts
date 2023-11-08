@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { ListItemDTO } from './dtos/ListItem';
 import { CreateListDTO } from './dtos/CreateListDto';
+import { ListDTO } from '../../types/ListDTO';
 
 const IS_PROD = false;
 const STATUS_OK = 200;
@@ -66,7 +67,7 @@ export const getListByOwner = async (idOwner : number) => {
     try {
         console.info("ListsService.getListByOwner -> Chamou o endpoint para buscar as listas usando o ID do criador dela na API", idOwner);
 
-        const response = await apiInstance.get<number>(`/list/lists/owner/${idOwner}`);
+        const response = await apiInstance.get<ListDTO[]>(`/list/lists/owner/${idOwner}`);
 
         console.info('ListsService.getListByOwner -> Resposta da API.', response);
 

@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from "../../img/logo.png";
-import ListaItens from './listcomponent';
+import ListaItens from './listComponent.tsx';
 import CreateList from './../CreateLists/CreateLists';
 
 function Home({ handleLogout }) {

@@ -43,7 +43,7 @@ namespace SyncAPI.HostedServices
             _channel = _connection.CreateModel();
 
             var properties = _channel.CreateBasicProperties();
-            properties.Persistent = true;
+            properties.Persistent = true; 
         }
 
         public async Task StartAsync (CancellationToken cancellationToken)
@@ -91,7 +91,7 @@ namespace SyncAPI.HostedServices
 
                     await Task.Delay(2000);
 
-                    await SendToSignalRHub(method: "UpdateListObjHub",
+                    await SendToSignalRHub(method: UPDATE_LIST_OBJECT_HUB_METHOD,
                                         idGroup: result.listObj.IdUserTarget.ToString(),
                                         arg1: result.listObj,
                                         cancellationToken: cancellationToken);
@@ -116,17 +116,19 @@ namespace SyncAPI.HostedServices
             Func<(T, IModel, BasicDeliverEventArgs), Task> messageExecutor, ILogger logger)
         {
             var consumer = new EventingBasicConsumer(_channel);
+
+            _channel.QueueDeclare(queue, true, false, false);
+            _channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
+
             consumer.Received += async (sender, ea) =>
             {
                 try
                 {
                     byte[] body = ea.Body.ToArray();
-                    var obj = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
+                    var message = JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(body));
 
-                    _channel.QueueDeclare(queue, false, false, false);
-                    _channel.BasicQos(prefetchSize: 0, prefetchCount: 1, global: false);
-                    
-                    await messageExecutor((obj, _channel, ea));
+                    logger.LogInformation("Evento recebido...");
+                    await messageExecutor((message, _channel, ea));
                 }
                 catch (Exception ex)
                 {

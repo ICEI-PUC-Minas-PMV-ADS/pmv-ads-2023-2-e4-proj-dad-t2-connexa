@@ -124,7 +124,8 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                             <Avatar src='../../img/logo.png' alt="Logo" sx={{ width: 40, height: 40, mr: 2 }}/>
                         </IconButton>
                     </Typography>
-                    <div>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <AddParticipant idLista={idList}/>
                         <IconButton color="inherit" onClick={() => {
                             resetListItemFields();
                             openItemModal();
@@ -153,7 +154,6 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                     }
                 </div>
                 <div>
-                    <AddParticipant idLista={idList}/>
                     <Modal
                         isOpen={addModalIsOpen}
                         onRequestClose={closeItemModal}

@@ -223,14 +223,14 @@ namespace ListAPI.DataAccess
 							  where list.UserId == idUser || list.UserLista.Any()
 							  select new ListDTO
 							  {
-                              ListaId = list.ListaId,
-                              UserId = list.UserId,
-                              ListaDescricao = list.ListaDescricao,
-                              ListaPublica = list.ListaPublica,
-                              ListaStatus = list.ListaStatus,
-                              ListaTitulo = list.ListaTitulo,
-                              Message = null,
-                              IsOwner = !list.UserLista.Any(),
+                                  ListaId = list.ListaId,
+                                  UserId = list.UserId,
+                                  ListaDescricao = list.ListaDescricao,
+                                  ListaPublica = list.ListaPublica,
+                                  ListaStatus = list.ListaStatus,
+                                  ListaTitulo = list.ListaTitulo,
+                                  Message = null,
+                                  IsOwner = list.UserId == idUser,
                           }).OrderByDescending((ob) => ob.IsOwner)
                           .ToListAsync();
 

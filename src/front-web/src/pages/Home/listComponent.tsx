@@ -2,17 +2,24 @@ import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import React, { useState, useEffect, useCallback } from 'react';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
-import {deleteListAsync, getListsByOwnerOrParticipant} from "../../services/lists/listService";
+import {deleteListAsync, deleteParticipantAsync, getListsByOwnerOrParticipant} from "../../services/lists/listService";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { ListDTO } from '../../types/ListDTO';
 import { IconButton, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PersonICon from '@mui/icons-material/Person';
 import { toast } from 'react-toastify';
+import Modal from "react-modal";
+import { ListDTO, ListParticipant } from '../../types/ListDTO';
 
 
 const ListaItens = () => {
+
+  const [modalStatus, setModalStatus] = useState(false)
   const [itens, setItens] = useState<ListDTO[]>([]);
+  const [screenItens, setScreenItens] = useState<ListDTO[]>([]);
+  const [participants, setParticipants] = useState<ListParticipant[]>([]);
   const idOwner = localStorage.getItem('userId');
+
   useEffect(() => { 
     const fetchData = async () => {
       try {
@@ -21,6 +28,7 @@ const ListaItens = () => {
 
           if (response) {
             setItens(response);
+            setScreenItens(response);
           }
         }
       } catch (error) {
@@ -30,6 +38,30 @@ const ListaItens = () => {
 
     fetchData();
   }, [idOwner]);
+
+  const customStyles = {
+    content: {
+      height: 'auto',
+      width: '25%',
+      margin: 'auto',
+    }
+  }
+
+  const HandleModal = useCallback(() => {
+    setModalStatus(!modalStatus)
+  }, [modalStatus]);
+
+  const showMyItens = useCallback(() => {
+    setScreenItens(itens.filter(m => m.isOwner));
+  }, [itens]);
+
+  const showParticipantItens = useCallback(() => {
+    setScreenItens(itens.filter(m => !m.isOwner));
+  }, [itens]);
+
+  const showAllItens = useCallback(() => {
+    setScreenItens(itens);
+  }, [itens]);
 
   const deleteListCallback = useCallback(async (idList : number) => {
     var removed = await deleteListAsync(Number(idList));
@@ -48,6 +80,21 @@ const ListaItens = () => {
     }
   }, [itens]);
 
+  const deleteParticipantCallback = useCallback(async (idParticipant : number) => {
+    var removed = await deleteParticipantAsync(Number(idParticipant));
+    if(removed){
+      toast.success("Participante removido com sucesso...", {
+          autoClose: 3000,
+          closeButton: true,
+          isLoading: false
+      });
+
+      setParticipants(participants.filter(i => i.idParticipant !== idParticipant));
+    }else{
+      toast.error("Erro ao tentar remover o participante...");
+    }
+  }, [participants]);
+
   const theme = createTheme({
     typography: {
       fontFamily: 'Roboto, sans-serif', // Substitua "Nome da Fonte" pelo nome da fonte escolhida
@@ -60,8 +107,19 @@ const ListaItens = () => {
         <Typography component="p" variant="h4" style={{margin: '1em'}}>
           Minhas listas
         </Typography>
+        <div style={{display: 'flex', flexDirection: 'row', justifyContent: 'end', marginRight: '1.5em'}}>
+          <Button style={{borderColor:'#003049', color:'#003049', marginRight: '3px'}} variant="outlined" size="small" onClick={showAllItens}>
+            Todas
+          </Button>
+          <Button style={{borderColor:'#003049', color:'#003049', marginRight: '3px'}} variant="outlined" size="small" onClick={showMyItens}>
+            Minhas Listas
+          </Button>
+          <Button style={{borderColor:'#003049', color:'#003049'}} variant="outlined" size="small" onClick={showParticipantItens}>
+            Listas que participo
+          </Button>
+        </div>
         <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignContent: 'center'}}>
-            {itens.map(item =>
+            {screenItens.map(item =>
             {
                 return (
                   <div key={item.listaId} style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '5px 50px', borderRadius: '10px', padding: '10px', borderBottom: '1px ridge #D62828', marginBottom: '1.5em'}}>
@@ -77,19 +135,30 @@ const ListaItens = () => {
                       <Typography component="h1" variant="h6">
                         ({item.isOwner ? "DONO" : "PARTICIPANTE"})
                       </Typography>
-                      <Link to={`list/${item.listaId}/itemList/edit/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}} onClick={() => { localStorage.setItem('selectedList', JSON.stringify(item));}}>
-                        <ModeEditIcon style={{color:'#003049'}}/>
-                      </Link>
                       <Link to={`list/${item.listaId}/itemlist/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}}>
                         <Button style={{borderColor:'#003049', color:'#003049'}} variant="outlined" size="small">
                           Ver Lista
                         </Button>
                       </Link>
+                      <Link to={`list/${item.listaId}/itemList/edit/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}} onClick={() => { localStorage.setItem('selectedList', JSON.stringify(item));}}>
+                        <ModeEditIcon style={{color:'#003049'}}/>
+                      </Link>
                       {
                         item.isOwner ? 
-                        (<IconButton >
-                          <DeleteIcon onClick={() => deleteListCallback(item.listaId)}/>
-                        </IconButton>) : ""
+                        (
+                          <div style={{display: 'flex', flexDirection: 'row'}}>
+                            <IconButton >
+                              <PersonICon onClick={() => {
+                                setParticipants(item.participants);
+                                setModalStatus(true);
+                              }}/>
+                            </IconButton>
+                            <IconButton >
+                              <DeleteIcon onClick={() => deleteListCallback(item.listaId)}/>
+                            </IconButton>
+                          </div>
+                        
+                        ) : ""
                       }
                     </div>
                   </div>
@@ -97,6 +166,37 @@ const ListaItens = () => {
             })}
         </div>
       </ThemeProvider>
+      <Modal
+        isOpen={modalStatus}
+        onRequestClose={HandleModal}
+        style={customStyles}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', justifyContent: 'center' }}>
+          <h2>Participantes</h2>
+          {
+            participants.map((p) => (
+              <div key={p.idParticipant} style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                <Typography component="h1" variant="h6">
+                  ({p.email})
+                </Typography>
+                <IconButton >
+                  <DeleteIcon onClick={() => deleteParticipantCallback(p.idParticipant)}/>
+                </IconButton>
+              </div>
+            ))
+          }
+          <Button
+            style={{ backgroundColor: '#003049' }}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 2, mb: 1 }}
+            onClick={HandleModal}
+          >
+            Fechar
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
   

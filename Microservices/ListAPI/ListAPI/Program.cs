@@ -119,7 +119,7 @@ app.MapDelete("/lists/{idList}", async ([FromServices] IServiceProvider provider
         return Results.NotFound();
     }
 });
-app.MapDelete("/member", async ([FromServices] IServiceProvider provider, int idMember) =>
+app.MapDelete("/member/{idMember}", async ([FromServices] IServiceProvider provider, int idMember) =>
 {
     using (var scope = provider.CreateScope())
     {

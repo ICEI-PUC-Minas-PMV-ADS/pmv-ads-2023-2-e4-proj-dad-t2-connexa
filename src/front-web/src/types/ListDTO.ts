@@ -7,4 +7,12 @@ export interface ListDTO {
     listaTitulo: string | null;
     idUserTarget: number;
     isOwner: boolean;
+    participants: ListParticipant[];
+}
+
+export interface ListParticipant {
+    idParticipant: number;
+    listaId: number;
+    email: string;
+    userId: number;
 }

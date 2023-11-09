@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import { postCreateList } from '../../services/lists/listService';
+import { postCreateListAsync } from '../../services/lists/listService';
 
 Modal.setAppElement('#root');
 
@@ -34,7 +34,7 @@ function CreateList() {
     try {
       console.info('Chamou a função para criar uma nova lista na API');
 
-      const response = await postCreateList(newList);
+      const response = await postCreateListAsync(newList);
 
       if (response) {
         alert('Nova lista criada com sucesso:', response);

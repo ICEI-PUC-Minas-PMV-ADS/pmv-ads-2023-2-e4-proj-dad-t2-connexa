@@ -100,12 +100,12 @@ export const getListParticipant = async (idparticipant: number) => {
     }
 }
 
-export const postCreateList = async (newList: CreateListDTO) => { 
+export const postCreateListAsync = async (newList: CreateListDTO) => { 
     try {
-        console.log("Chamou o endpoint para criar uma nova lista na API");
+        console.info("ListsService.postCreateList -> Chamou o endpoint para criar uma lista", newList);
 
-        const response = await apiInstance.post('/list/lists', newList);
-        console.log('Resposta da API:', response.data);
+        const response = await apiInstance.post<CreateListDTO>('/list/lists', newList);
+        console.info('ListsService.postCreateList -> Resposta da API.', response);
 
         if (response.status === STATUS_OK) {
             return response.data;
@@ -113,7 +113,7 @@ export const postCreateList = async (newList: CreateListDTO) => {
 
         return null;
     } catch (error) {
-        console.error('Erro ao criar a lista na API:', error);
+        console.info("ListsService.postCreateList -> Erro ao tentar salvar uma lista", error);
         return null;
     }
 };

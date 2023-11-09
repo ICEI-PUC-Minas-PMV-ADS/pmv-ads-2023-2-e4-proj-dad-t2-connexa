@@ -14,7 +14,7 @@ import Modal from 'react-modal';
 import { Button, TextField } from '@mui/material';
 import AddParticipant from './AddParticipant';
 import { toast } from 'react-toastify';
-import EditLists from './../EditLists/editLists'
+import EditLists from '../EditLists/editList'
 
 interface ItemListProps {
     handleLogout(bool: boolean): void;
@@ -24,6 +24,10 @@ interface ItemListProps {
 function ItemList({ handleLogout, editMode }: ItemListProps) {
     const navigate = useNavigate();
     const { idList, titulo, descricao } = useParams();
+
+    const [title, setTitle] = useState(titulo ?? '');
+    const [description, setDescription] = useState(descricao ?? '');
+
     const selectedList = localStorage.getItem('selectedList');
     const [listItem, setListItem] = useState<ListItemDTO>({
         id: 0,
@@ -68,6 +72,11 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
             setItems(itemsDb);
         }
     }, [idList]);
+
+    const updateListFieldsCallback = useCallback((title: string, description: string) => {
+        setTitle(title);
+        setDescription(description);
+    }, []);
 
     const handleSaveItem = useCallback(async (item : ListItemDTO) => {
         const notify = toast.loading("Please wait...")
@@ -125,8 +134,8 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                             <Avatar src='../../img/logo.png' alt="Logo" sx={{ width: 40, height: 40, mr: 2 }}/>
                         </IconButton>
                     </Typography>
-                    <EditLists />
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <EditLists updateListFieldsCallback={updateListFieldsCallback} listTitle={title} listDescription={description}/>
                         <AddParticipant idLista={idList}/>
                         <IconButton color="inherit" onClick={() => {
                             resetListItemFields();
@@ -143,8 +152,8 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
             </AppBar>
             <div style={{ display: 'flex', flexDirection: 'column', alignContent: 'center', textAlign: 'center' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', margin: '2rem 0px' }}>
-                    <label style={{ fontSize: '3em' }}>{titulo}</label>
-                    <label style={{ fontSize: '2em' }}>{descricao}</label>
+                    <label style={{ fontSize: '3em' }}>{title}</label>
+                    <label style={{ fontSize: '2em' }}>{description}</label>
                 </div>
                 <div>
                     {

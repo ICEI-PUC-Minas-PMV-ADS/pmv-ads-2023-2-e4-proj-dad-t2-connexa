@@ -1,6 +1,9 @@
 import React from "react";
 import Modal from "react-modal";
+import { Button, TextField } from '@mui/material';
 import { ToastContainer, TypeOptions, toast } from 'react-toastify';
+import IconButton from '@mui/material/IconButton';
+import AddIcon from '@mui/icons-material/Add';
 import { useState } from "react";
 import { addUserLista } from "../../services/permission/NewUserListaService";
 
@@ -30,12 +33,9 @@ function AddParticipant(props: { idLista: string | undefined }) {
 
   const customStyles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      botton: '50%',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
+      height: 'auto',
+      width: '25%',
+      margin: 'auto',
     }
   }
 
@@ -44,16 +44,16 @@ function AddParticipant(props: { idLista: string | undefined }) {
     listaId: idListaInt,
     userListaRole: 2
   });
-  
+
   const handleSubmit = async () => {
     const notify = toast.loading("Please wait...")
     newUserLista.userEmail = email
     let result = await addUserLista(newUserLista);
 
-    if(result){
+    if (result) {
       let notificationType = toast.TYPE.INFO;
 
-      if(result.includes("Usuário adicionado a lista de permissões")){
+      if (result.includes("Usuário adicionado a lista de permissões")) {
         notificationType = toast.TYPE.SUCCESS;
       }
 
@@ -68,24 +68,52 @@ function AddParticipant(props: { idLista: string | undefined }) {
   }
 
   return (
-    <div className="container">
-      <button className="modal-button" onClick={HandleModal}>
-        Adicionar participante
-      </button>
+    <>
+      <IconButton color="inherit" onClick={HandleModal}>
+        <AddIcon style={{ color: '#7CFC00' }} />
+        <label style={{ fontSize: '0.8em' }}>Adicionar Participante</label>
+      </IconButton>
       <Modal
         isOpen={modalStatus}
         onRequestClose={HandleModal}
         style={customStyles}
       >
-        <h2>Adicionar Participante</h2>
-        <input
-          type="text"
-          placeholder="Email"
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <button onClick={handleSubmit}>Enviar</button>
-        <button onClick={HandleModal}>Fechar</button>
+        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', justifyContent: 'center' }}>
+          <h2>Adicionar Participante</h2>
+          <TextField
+            style={{ borderColor: '#003049' }}
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="E-mail"
+            name="email"
+            autoComplete="email"
+            autoFocus
+            value={email}
+            onChange={handleEmailChange}
+          />
+          <Button
+            style={{ backgroundColor: '#003049' }}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 2, mb: 1 }}
+            onClick={handleSubmit}
+          >
+            Convidar
+          </Button>
+          <Button
+            style={{ backgroundColor: '#003049' }}
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 2, mb: 1 }}
+            onClick={HandleModal}
+          >
+            Fechar
+          </Button>
+        </div>
 
       </Modal>
       <ToastContainer
@@ -100,7 +128,13 @@ function AddParticipant(props: { idLista: string | undefined }) {
         pauseOnHover
         theme="light"
       />
-    </div>
+    </>
+    // 
+    //   <button className="modal-button" onClick={HandleModal}>
+    //     Adicionar participante
+    //   </button>
+    
+    // </div>
   );
 }
 

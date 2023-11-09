@@ -126,7 +126,8 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                         </IconButton>
                     </Typography>
                     <EditLists />
-                    <div>
+                    <div style={{ display: 'flex', flexDirection: 'row' }}>
+                        <AddParticipant idLista={idList}/>
                         <IconButton color="inherit" onClick={() => {
                             resetListItemFields();
                             openItemModal();
@@ -155,7 +156,6 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                     }
                 </div>
                 <div>
-                    <AddParticipant idLista={idList}/>
                     <Modal
                         isOpen={addModalIsOpen}
                         onRequestClose={closeItemModal}

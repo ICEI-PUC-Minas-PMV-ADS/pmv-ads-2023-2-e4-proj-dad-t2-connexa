@@ -1,4 +1,8 @@
-﻿namespace ListAPI.DTOs
+﻿
+
+using ListAPI.Models;
+
+namespace ListAPI.DTOs
 {
     public class ListDTO : ErrorRequestBase
     {
@@ -14,6 +18,7 @@
 
         public string? ListaTitulo { get; set; }
         public int IdUserTarget { get; set; }
-        public Boolean IsOwner { get; set; }
+        public bool IsOwner { get; set; }
+        public Participant[] Participants { get; set; } = Array.Empty<Participant>();
     }
 }

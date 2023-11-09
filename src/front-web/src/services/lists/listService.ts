@@ -153,3 +153,21 @@ export const deleteListAsync = async (idList : number) => {
     }
 
 }
+
+export const deleteParticipantAsync = async (idParticipant : number) => {
+    try {
+        console.info("ListsService.deleteParticipantAsync -> Chamou o endpoint para deletar o participante", idParticipant);
+
+        const response = await apiInstance.delete<boolean>(`/list/member/${idParticipant}`);
+
+        console.info('ListsService.deleteParticipantAsync -> Resposta da API.', response);
+
+        if (response.status !== STATUS_OK)
+            return null;
+        return response.data;
+    } catch (error) {
+        console.error('ListsService.deleteParticipantAsync -> Erro ao tentar deletar o participante.', error);
+        return null;
+    }
+
+}

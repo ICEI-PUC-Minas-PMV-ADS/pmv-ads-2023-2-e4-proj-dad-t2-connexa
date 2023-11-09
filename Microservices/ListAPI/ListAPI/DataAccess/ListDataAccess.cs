@@ -4,6 +4,7 @@ using ListAPI.Models;
 using ListAPI.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace ListAPI.DataAccess
@@ -49,11 +50,11 @@ namespace ListAPI.DataAccess
             }   
         }
 
-        public async ValueTask<bool> DeleteMemberAsync (int idMember)
+        public async ValueTask<bool> DeleteMemberAsync (int idParticipant)
         {
             try
             {
-                var item = await _context.UserLista.FirstOrDefaultAsync(i => i.UserId == idMember);
+                var item = await _context.UserLista.FirstOrDefaultAsync(i => i.UserListaId == idParticipant);
 
                 if(item == null)
                     return true;
@@ -219,10 +220,34 @@ namespace ListAPI.DataAccess
         {
             try
             {
-                return await (from list in _context.Lista
-							  where list.UserId == idUser || list.UserLista.Any()
-							  select new ListDTO
-							  {
+                //return await _context.Lista
+                //    .Where(l => l.UserId == idUser || l.UserLista.Any())
+                //    .Include(i => i.UserLista)
+                //    .Include(i => i.User)
+                //    .Select(list => new ListDTO
+                //    {
+                //        ListaId = list.ListaId,
+                //        UserId = list.UserId,
+                //        ListaDescricao = list.ListaDescricao,
+                //        ListaPublica = list.ListaPublica,
+                //        ListaStatus = list.ListaStatus,
+                //        ListaTitulo = list.ListaTitulo,
+                //        Message = null,
+                //        IsOwner = list.UserId == idUser,
+                //        Participants = list.UserLista.Select(s => new Participant
+                //        {
+                //            IdParticipant = s.UserListaId,
+                //            IdUser = s.UserId ?? 0,
+                //            Email = s.User.UserEmail,
+                //            IdList = list.ListaId
+                //        }).ToArray()
+                //    }).ToListAsync();
+
+                var items = await (from list in _context.Lista
+                              let participants = list.UserLista.ToList()
+                              where list.UserId == idUser || list.UserLista.Any()
+                              select new ListDTO
+                              {
                                   ListaId = list.ListaId,
                                   UserId = list.UserId,
                                   ListaDescricao = list.ListaDescricao,
@@ -231,8 +256,18 @@ namespace ListAPI.DataAccess
                                   ListaTitulo = list.ListaTitulo,
                                   Message = null,
                                   IsOwner = list.UserId == idUser,
-                          }).OrderByDescending((ob) => ob.IsOwner)
-                          .ToListAsync();
+                                  Participants = list.UserId == idUser ? participants.Select(s => new Participant()
+                                  {     
+                                      IdParticipant = s.UserListaId,
+                                      Email = s.User.UserEmail,  
+                                      IdList = s.Lista.ListaId,
+                                      IdUser = s.UserId ?? 0
+                                  }).ToArray() : Array.Empty<Participant>()
+                              })
+                                .OrderByDescending((ob) => ob.IsOwner)
+                                .ToListAsync();
+
+                return items;
 
             }
             catch (Exception ex)

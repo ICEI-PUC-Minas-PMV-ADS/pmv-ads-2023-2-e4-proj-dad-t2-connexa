@@ -101,7 +101,7 @@ function AddParticipant(props: { idLista: string | undefined }) {
             sx={{ mt: 2, mb: 1 }}
             onClick={handleSubmit}
           >
-            Convidar
+            Adicionar
           </Button>
           <Button
             style={{ backgroundColor: '#003049' }}

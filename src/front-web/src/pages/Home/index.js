@@ -8,7 +8,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { useNavigate, Link } from 'react-router-dom';
 import logo from "../../img/logo.png";
 import ListaItens from './listComponent.tsx';
-import CreateList from './../CreateLists/CreateLists';
+import CreateList from './../CreateLists/createcomponent.js';
 
 function Home({ handleLogout }) {
   const navigate = useNavigate();

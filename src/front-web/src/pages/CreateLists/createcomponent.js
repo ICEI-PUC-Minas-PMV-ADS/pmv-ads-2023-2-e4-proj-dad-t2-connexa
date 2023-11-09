@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { postCreateListAsync } from '../../services/lists/listService';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 Modal.setAppElement('#root');
 
@@ -16,6 +20,7 @@ function CreateList() {
   });
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [focusedField, setFocusedField] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -25,9 +30,17 @@ function CreateList() {
     });
   };
 
+  const handleFocus = (field) => {
+    setFocusedField(field);
+  };
+
+  const handleBlur = () => {
+    setFocusedField(null);
+  };
+
   const handleCreateList = async () => {
     if (newList.listaTitulo.trim() === '') {
-      alert('Sua lista precisa de um nome');
+      toast.error('Sua lista precisa de um nome');
       return;
     }
 
@@ -37,13 +50,14 @@ function CreateList() {
       const response = await postCreateListAsync(newList);
 
       if (response) {
-        alert('Nova lista criada com sucesso:', response);
+        toast.success('Nova lista criada com sucesso');
         setIsModalOpen(false); // Fecha o modal após criar a lista
       } else {
-        alert('Erro ao criar a lista na API');
+        toast.error('Erro ao criar a lista na API');
       }
     } catch (error) {
       console.error('Erro ao criar a lista na API:', error);
+      toast.error('Erro ao criar a lista na API');
     }
   };
 
@@ -53,53 +67,80 @@ function CreateList() {
 
   return (
     <div>
-      <button style={{ backgroundColor: '#003049', textDecoration: 'none', color: 'inherit', marginRight: '20px', border: 'none', cursor: 'pointer', fontSize:'16px'}} onClick={openCreateListPopup}>Criar Lista</button>
+      <Button
+        style={{ backgroundColor: '#003049', textDecoration: 'none', color: 'inherit', marginRight: '20px', border: 'none', cursor: 'pointer', fontSize: '16px' }}
+        onClick={openCreateListPopup}
+      >
+        Criar Lista
+      </Button>
 
-      <Modal 
+      <Modal
         isOpen={isModalOpen}
         onRequestClose={() => setIsModalOpen(false)}
         contentLabel="Criar Nova Lista"
         style={{
           content: {
-            height:'70%',
+            height: '60%',
             width: '26%',
             margin: 'auto',
           },
         }}
       >
         <div>
-          <p style={{ fontSize:'2em', marginLeft: '2em' }}>Criar Nova Lista</p>
+          <p style={{ fontSize: '2em', marginLeft: '1em', color:'#003049' }}>Criar uma nova lista</p>
           <div className="inputs">
-            <label>
-              <input
-                style={{ height: '6vh', width: '18em', marginLeft: '4em',  borderRadius: '1vh', marginBottom: '3vh' }}
-                type="text"
-                placeholder="Título da Lista"
-                name="listaTitulo"
-                value={newList.listaTitulo}
-                onChange={handleInputChange}
-              />
-            </label>
+            <TextField
+              style={{ borderColor: '#003049', height: '40px', width: '90%', borderRadius: '4px', marginBottom: '10px', paddingLeft: '1em' }}
+              type="text"
+              placeholder=" "
+              name="listaTitulo"
+              value={newList.listaTitulo}
+              onChange={handleInputChange}
+              onFocus={() => handleFocus('listaTitulo')}
+              onBlur={handleBlur}
+              InputLabelProps={{
+                shrink: focusedField === 'listaTitulo' || newList.listaTitulo,
+                style: { marginLeft: '1em' }
+              }}
+              label="Nome da Lista*"
+            />
             <br />
-            <label>
-              <input
-                style={{ height: '6vh', width: '18em', marginLeft: '4em', borderRadius: '1vh', marginBottom: '3vh' }}
-                type="text"
-                name="listaDescricao"
-                placeholder="Descrição"
-                value={newList.listaDescricao}
-                onChange={handleInputChange}
-              />
-            </label>
+            <TextField
+              style={{  marginTop: '4vh', borderColor: '#003049', height: '40px', width: '90%', borderRadius: '4px', marginBottom: '10px',  paddingLeft: '1em' }}
+              type="text"
+              placeholder=" "
+              name="listaDescricao"
+              value={newList.listaDescricao}
+              onChange={handleInputChange}
+              onFocus={() => handleFocus('listaDescricao')}
+              onBlur={handleBlur}
+              InputLabelProps={{ 
+                shrink: focusedField === 'listaDescricao' || newList.listaDescricao,
+                style: { marginLeft: '1em' }
+              }}
+              label = "Descrição*"
+            />
           </div>
-          <button
+          <Button
             onClick={handleCreateList}
-            style={{ marginTop: '1  em', height: '6vh', width: '18em',  marginLeft: '3.7em', borderRadius: '1vh', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
+            style={{ marginTop: '2em', height: '50px', width: '90.1%', borderRadius: '4px',  marginLeft: '1.1em', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
           >
             Criar Lista
-          </button>
+          </Button>
         </div>
       </Modal>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </div>
   );
 }

@@ -100,8 +100,6 @@ export const getListParticipant = async (idparticipant: number) => {
     }
 }
 
-
-
 export const postCreateList = async (newList: CreateListDTO) => { 
     try {
         console.log("Chamou o endpoint para criar uma nova lista na API");

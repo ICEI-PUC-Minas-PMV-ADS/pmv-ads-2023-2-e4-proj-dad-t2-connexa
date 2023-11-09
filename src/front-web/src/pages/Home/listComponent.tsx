@@ -80,7 +80,7 @@ const ListaItens = () => {
                       <Link to={`list/${item.listaId}/itemList/edit/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}} onClick={() => { localStorage.setItem('selectedList', JSON.stringify(item));}}>
                         <ModeEditIcon style={{color:'#003049'}}/>
                       </Link>
-                      <Link to={`list/${item.listaId}/itemlist/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}}>
+                      <Link to={`list/${item.listaId}/itemlist/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}} onClick={() => { localStorage.setItem('selectedList', JSON.stringify(item));}}>
                         <Button style={{borderColor:'#003049', color:'#003049'}} variant="outlined" size="small">
                           Ver Lista
                         </Button>

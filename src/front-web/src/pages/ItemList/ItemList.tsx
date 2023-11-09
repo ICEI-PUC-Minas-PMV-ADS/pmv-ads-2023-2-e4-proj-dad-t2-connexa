@@ -14,6 +14,7 @@ import Modal from 'react-modal';
 import { Button, TextField } from '@mui/material';
 import AddParticipant from './AddParticipant';
 import { toast } from 'react-toastify';
+import EditLists from './../EditLists/editLists'
 
 interface ItemListProps {
     handleLogout(bool: boolean): void;
@@ -124,6 +125,7 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                             <Avatar src='../../img/logo.png' alt="Logo" sx={{ width: 40, height: 40, mr: 2 }}/>
                         </IconButton>
                     </Typography>
+                    <EditLists />
                     <div>
                         <IconButton color="inherit" onClick={() => {
                             resetListItemFields();

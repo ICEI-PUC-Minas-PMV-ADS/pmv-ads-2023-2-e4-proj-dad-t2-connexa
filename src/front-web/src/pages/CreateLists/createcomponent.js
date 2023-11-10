@@ -125,7 +125,7 @@ function CreateList() {
             onClick={handleCreateList}
             style={{ marginTop: '2em', height: '50px', width: '90.1%', borderRadius: '4px',  marginLeft: '1.1em', backgroundColor: '#003049', border: 'none', color: 'white', cursor: 'pointer', fontSize: '14px' }}
           >
-            Criar Lista
+            Salvar
           </Button>
         </div>
       </Modal>

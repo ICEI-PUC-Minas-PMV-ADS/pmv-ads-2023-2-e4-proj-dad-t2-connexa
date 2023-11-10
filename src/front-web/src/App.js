@@ -5,7 +5,7 @@ import Registration from "./pages/Registration";
 import Recovery from "./pages/Recovery";
 import ItemList from "./pages/ItemList/ItemList.tsx"
 import Home from "./pages/Home";
-import CreateLists from "../src/pages/CreateLists/CreateLists";
+import CreateLists from "../src/pages/CreateLists/createcomponent.js";
 import ContributeList from "../src/pages/ContributeList/ContributeList"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';

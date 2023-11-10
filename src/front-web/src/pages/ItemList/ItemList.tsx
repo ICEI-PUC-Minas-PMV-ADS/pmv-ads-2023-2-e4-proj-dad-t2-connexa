@@ -127,7 +127,7 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
 
     return (
         <div>
-            <AppBar position="static">
+            <AppBar style={{ backgroundColor: '#003049' }} position="static">
                 <Toolbar>
                     <Typography variant="h6" noWrap sx={{ flex: 1 }}>
                         <IconButton color="inherit" onClick={handleBackToHome}>

@@ -47,19 +47,35 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
         navigate('/');
     };
 
-    const handleDeleteItem = async (id : number) => {
-        const notify = toast.loading("Please wait...")
-        var result = await deleteListItemAsync(Number(idList), id);
-        if(result){
-            setItems(items.filter((f) => f.id !== id));
-            toast.update(notify, {
-                render: "Item removido com sucesso.",
-                type: toast.TYPE.SUCCESS,
-                autoClose: 3000,
-                closeButton: true,
-                isLoading: false
-            });
+    const [deleteConfirmationOpen, setDeleteConfirmationOpen] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState<number | null>(null);
+
+    const handleDeleteItem = async (id: number) => {
+        setItemToDelete(id);
+        setDeleteConfirmationOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        setDeleteConfirmationOpen(false);
+        if (itemToDelete !== null) {
+            const notify = toast.loading("Please wait...")
+            var result = await deleteListItemAsync(Number(idList), itemToDelete);
+            if(result){
+                setItems(items.filter((f) => f.id !== itemToDelete));
+                toast.update(notify, {
+                    render: "Item removido com sucesso.",
+                    type: toast.TYPE.SUCCESS,
+                    autoClose: 3000,
+                    closeButton: true,
+                    isLoading: false
+                });
+            }
         }
+    };
+
+    const cancelDelete = () => {
+        setDeleteConfirmationOpen(false);
+        setItemToDelete(null);
     };
 
     const handleEditItem = (item : ListItemDTO) => {
@@ -167,6 +183,43 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                         })
                     }
                 </div>
+            <div>
+                <Modal
+                    isOpen={deleteConfirmationOpen}
+                    onRequestClose={cancelDelete}
+                    contentLabel="Confirmar Exclusão"
+                    style={{
+                        content: {
+                        height: '40%',
+                        width: '25%',
+                        margin: 'auto',
+                        },
+                    }}>
+                    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center', justifyContent: 'center' }}>
+                            <h2>Deseja excluir o item?</h2>
+                        <Button
+                            style={{ backgroundColor: '#D62828' }}
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 2, mb: 1 }}
+                            onClick={confirmDelete}
+                        >
+                        Excluir
+                        </Button>
+                        <Button
+                            style={{ backgroundColor: '#003049' }}
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            sx={{ mt: 2, mb: 1 }}
+                            onClick={cancelDelete}
+                        >
+                        Cancelar
+                        </Button>
+                    </div>
+                </Modal>
+            </div>
                 <div>
                     <Modal
                         isOpen={addModalIsOpen}

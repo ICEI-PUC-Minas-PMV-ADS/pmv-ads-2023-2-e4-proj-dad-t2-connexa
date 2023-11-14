@@ -1,40 +1,28 @@
-import { HubConnection, HubConnectionBuilder } from "@microsoft/signalr";
-import { useEffect, useState } from "react";
-import { ListBySignalR } from "../types/ListBySignalR";
+import { HubConnectionBuilder, IHttpConnectionOptions, JsonHubProtocol } from "@microsoft/signalr";
 
-export const useLiveUpdates = () => {
-  const [connectionRef, setConnection] = useState < HubConnection > ();
-  const updateListHub = "UpdateListObjHub";
-  function createHubConnection() {
-    const con = new HubConnectionBuilder()
-      .withUrl(`https://localhost:7150/gateway/sync/realtime`)
-      .withAutomaticReconnect()
-      .build();
-    setConnection(con);
-  }
-  
-  useEffect(() => {
-    createHubConnection();
-  }, []);
-  
-  useEffect(() => {
-    if (connectionRef) {
-      try {
-        connectionRef.start().then(() => {
-            connectionRef.on(updateListHub, (item : ListBySignalR) => {
-              console.log(item);
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } catch (error) {
-        console.log(error);
-      }
+export const setupSignalRConnection = async (connectionHub: string) => {
+  const options : IHttpConnectionOptions = {
+    headers: {
+      "Access-Control-Allow-Headers" : "Content-Type",
+      "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH",
+      "Acces-Control-Allow-Origin": window.location.origin.toString(),
+      "mode": "no-cors",
+      "Content-Type": "application/json",
     }
+  }
 
-    return () => {
-      connectionRef?.stop();
-    };
-  }, [connectionRef]);
+  const connection = new HubConnectionBuilder()
+    .withUrl(connectionHub, options)
+    .withAutomaticReconnect()
+    .withHubProtocol(new JsonHubProtocol())
+    .build();
+
+  connection.serverTimeoutInMilliseconds = 1000 * 60 * 60;
+  try {
+    await connection.start();
+  } catch (err) {
+    console.log(err);
+  }
+
+  return connection;
 };

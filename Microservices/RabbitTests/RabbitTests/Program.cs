@@ -65,7 +65,7 @@ using System.Net;
 using Microsoft.AspNetCore.SignalR.Client;
 
 var hubConnection = new HubConnectionBuilder()
-                            .WithUrl("https://localhost:7150/gateway/sync/realtime")
+                            .WithUrl("https://localhost:7102/connexa/api/sync/realtime")
                             .Build();
 
 hubConnection.On<ListDTO>("UpdateListObjHub", async (list) =>

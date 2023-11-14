@@ -15,6 +15,7 @@ import { Button, TextField } from '@mui/material';
 import AddParticipant from './AddParticipant';
 import { toast } from 'react-toastify';
 import EditLists from '../EditLists/editList'
+import ModeEdit from '@mui/icons-material/ModeEdit';
 
 interface ItemListProps {
     handleLogout(bool: boolean): void;
@@ -135,7 +136,9 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                         </IconButton>
                     </Typography>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
-                        <EditLists updateListFieldsCallback={updateListFieldsCallback} listTitle={title} listDescription={description}/>
+                        {
+                            editMode ? <EditLists updateListFieldsCallback={updateListFieldsCallback} listTitle={title} listDescription={description}/> : (<div></div>)
+                        }
                         <AddParticipant idLista={idList}/>
                         <IconButton color="inherit" onClick={() => {
                             resetListItemFields();

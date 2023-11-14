@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import {deleteListAsync, deleteParticipantAsync, getListsByOwnerOrParticipant} from "../../services/lists/listService";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -10,7 +10,8 @@ import PersonICon from '@mui/icons-material/Person';
 import { toast } from 'react-toastify';
 import Modal from "react-modal";
 import { ListDTO, ListParticipant } from '../../types/ListDTO';
-
+import { setupSignalRConnection } from '../../realtime/useSignalR';
+import { HubConnection, HubConnectionState } from '@microsoft/signalr';
 
 const ListaItens = () => {
 
@@ -20,12 +21,65 @@ const ListaItens = () => {
   const [participants, setParticipants] = useState<ListParticipant[]>([]);
   const idOwner = localStorage.getItem('userId');
 
+  const listRealTimeAddress = "https://localhost:7102/connexa/api/sync/realtime";
+  const listRealTimeHub = "UpdateListObjHub";
+  const connecting = useRef(false);
+  const delaySeconds = useRef(10);
+  const timeoutId = useRef<NodeJS.Timeout>();
+  let connection : HubConnection | null = null;
+
+  const connect = useCallback(async () => {
+      if (!connection || connection.state === HubConnectionState.Disconnected) {
+        connection = await setupSignalRConnection(listRealTimeAddress);
+
+        connection?.on(listRealTimeHub, (list: ListDTO) => {
+          doRealTimeActions(list);
+        });
+      }
+  }, [idOwner])
+
+  const subscribe = useCallback(async () => {
+    if (connecting.current) return;
+    connecting.current = true;
+    await connect();
+    connecting.current = false;
+    if (connection?.state !== HubConnectionState.Connected) {
+      delaySeconds.current = Math.min(60, delaySeconds.current + 10);
+      clearTimeout(timeoutId.current);
+      timeoutId.current = setTimeout(subscribe, delaySeconds.current * 1000);
+      return;
+    }
+    await connection.invoke('Subscribe', Number(idOwner));
+  }, [idOwner, connect]);
+
+  const unsubscribe = useCallback(async () => {
+    if (connection?.state !== HubConnectionState.Connected) return;
+    await connection.invoke('Unsubscribe', Number(idOwner));
+    await disconnect();
+  }, [connection, idOwner]);
+
+  const disconnect = async () => {
+    if (connection?.state !== HubConnectionState.Connected) return;
+
+    connection.off(listRealTimeHub);
+    await connection.stop();
+    };
+
+  useEffect(() => {
+    if (idOwner) {
+      subscribe();
+    }
+    return () => {
+      unsubscribe();
+      clearTimeout(timeoutId.current);
+    };
+  }, [idOwner, subscribe, unsubscribe]);
+
   useEffect(() => { 
     const fetchData = async () => {
       try {
         if (idOwner) {
           const response = await getListsByOwnerOrParticipant(Number(idOwner));
-
           if (response) {
             setItens(response);
             setScreenItens(response);
@@ -46,6 +100,50 @@ const ListaItens = () => {
       margin: 'auto',
     }
   }
+
+  const doRealTimeActions = useCallback((list : ListDTO) => {
+    console.log(list);
+    let currentItems = itens.slice();  
+    if(currentItems){
+      var existNewItem = currentItems.find(f => f.listaId === list.listaId);
+      if(existNewItem){
+        currentItems.forEach(f => {
+          if(f.listaId === list.listaId){
+            f.listaTitulo = list.listaTitulo;
+            f.listaPublica = list.listaPublica;
+            f.listaDescricao = list.listaDescricao;
+            f.listaStatus = list.listaStatus;
+          }  
+        });
+        setItens(currentItems);
+      }else{
+        setItens([...itens, list])
+      }
+    }
+
+
+    //TODO CRIAR UM CONST PARA DEFINIR QUEM É OS ITENS MOSTRADOS ATUALMENTE (MEU/PARTICIPO/TODOS)
+    
+    let currentScreenItens = screenItens.slice();
+    if(currentScreenItens){
+      var existScreenNewItem = currentScreenItens.find(f => f.listaId === list.listaId);
+      console.log(currentScreenItens);
+      if(existScreenNewItem){
+        currentScreenItens.forEach(f => {
+          if(f.listaId === list.listaId){
+            f.listaTitulo = list.listaTitulo;
+            f.listaPublica = list.listaPublica;
+            f.listaDescricao = list.listaDescricao;
+            f.listaStatus = list.listaStatus;
+          }   
+        });
+        console.log(currentScreenItens);
+        setScreenItens(currentScreenItens);
+      }else{
+        setScreenItens([...currentScreenItens, list])
+      }
+    }
+  }, [itens])
 
   const HandleModal = useCallback(() => {
     setModalStatus(!modalStatus)

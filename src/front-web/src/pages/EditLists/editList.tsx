@@ -93,7 +93,7 @@ function EditList({listTitle, listDescription, updateListFieldsCallback} : EditL
         }}
       >
         <div style={{textAlign: 'center'}}>
-          <h2>Adicionar Participante</h2>
+          <h2>Editar lista</h2>
           <div>
             <TextField
               style={{ borderColor: '#003049' }}

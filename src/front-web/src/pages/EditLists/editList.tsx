@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { postCreateListAsync } from '../../services/lists/listService';
+import { saveCreateListAsync } from '../../services/lists/listService';
 import { CreateListDTO } from '../../services/lists/dtos/CreateListDto';
 import { Button, IconButton, TextField } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
@@ -49,7 +49,7 @@ function EditList({listTitle, listDescription, updateListFieldsCallback} : EditL
         message: '',
       };
   
-      const response = await postCreateListAsync(list);
+      const response = await saveCreateListAsync(list);
   
       if (response) {
         toast.success("Lista salva com sucesso.", {

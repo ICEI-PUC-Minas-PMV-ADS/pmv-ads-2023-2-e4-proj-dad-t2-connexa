@@ -1,4 +1,7 @@
-import { HubConnectionBuilder, IHttpConnectionOptions, JsonHubProtocol } from "@microsoft/signalr";
+import { HubConnection, HubConnectionBuilder, HubConnectionState, IHttpConnectionOptions, JsonHubProtocol } from "@microsoft/signalr";
+import { useCallback, useEffect, useRef } from "react";
+import { ListDTO } from "../types/ListDTO";
+import { ListItemDTO } from "../services/lists/dtos/ListItem";
 
 export const setupSignalRConnection = async (connectionHub: string) => {
   const options : IHttpConnectionOptions = {
@@ -26,3 +29,71 @@ export const setupSignalRConnection = async (connectionHub: string) => {
 
   return connection;
 };
+
+export interface ListRealTimeProps {
+  listCallback(list : ListDTO) : void;
+  listItemCallback(listItem : ListItemDTO) : void
+}
+
+export const useConnexaRealTime = ({listCallback, listItemCallback} : ListRealTimeProps) => {
+  const idOwner = localStorage.getItem('userId');
+  const connexaRealTimeAddress = "https://localhost:7102/connexa/api/sync/realtime";
+  const listRealTimeHub = "UpdateListObjHub";
+  const listItemRealTimeHub = "UpdateListItemObjHub";
+  const connecting = useRef(false);
+  const delaySeconds = useRef(10);
+  const timeoutId = useRef<NodeJS.Timeout>();
+  let connection : HubConnection | null = null;
+
+  const connect = useCallback(async () => {
+      if (!connection || connection.state === HubConnectionState.Disconnected) {
+        connection = await setupSignalRConnection(connexaRealTimeAddress);
+
+        connection?.on(listRealTimeHub, (list: ListDTO) => {
+          listCallback(list);
+        });
+
+        connection?.on(listItemRealTimeHub, (listItem: ListItemDTO) => {
+          listItemCallback(listItem);
+        });
+      }
+  }, [idOwner])
+
+  const subscribe = useCallback(async () => {
+    if (connecting.current) return;
+    connecting.current = true;
+    await connect();
+    connecting.current = false;
+    if (connection?.state !== HubConnectionState.Connected) {
+      delaySeconds.current = Math.min(60, delaySeconds.current + 10);
+      clearTimeout(timeoutId.current);
+      timeoutId.current = setTimeout(subscribe, delaySeconds.current * 1000);
+      return;
+    }
+    await connection.invoke('Subscribe', Number(idOwner));
+  }, [idOwner, connect]);
+
+  const unsubscribe = useCallback(async () => {
+    if (connection?.state !== HubConnectionState.Connected) return;
+    await connection.invoke('Unsubscribe', Number(idOwner));
+    await disconnect();
+  }, [connection, idOwner]);
+
+  const disconnect = async () => {
+    if (connection?.state !== HubConnectionState.Connected) return;
+
+    connection.off(listRealTimeHub);
+    await connection.stop();
+    };
+
+  useEffect(() => {
+    if (idOwner) {
+      subscribe();
+    }
+    return () => {
+      unsubscribe();
+      clearTimeout(timeoutId.current);
+    };
+  }, [idOwner, subscribe, unsubscribe]);
+}
+

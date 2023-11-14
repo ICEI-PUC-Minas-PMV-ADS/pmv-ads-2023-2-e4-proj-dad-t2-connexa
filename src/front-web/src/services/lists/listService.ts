@@ -45,7 +45,7 @@ export const checkListItem = async (idItem : number, checked : boolean) => {
 
 }
 
-export const addItemListAsync = async (idList : number, item : ListItemDTO) => {
+export const saveItemListAsync = async (idList : number, item : ListItemDTO) => {
     try {
         console.info("ListsService.addItemListAsync -> Chamou o endpoint para salvar um item na lista", item);
 
@@ -100,7 +100,7 @@ export const getListParticipant = async (idparticipant: number) => {
     }
 }
 
-export const postCreateListAsync = async (newList: CreateListDTO) => { 
+export const saveCreateListAsync = async (newList: CreateListDTO) => { 
     try {
         console.info("ListsService.postCreateList -> Chamou o endpoint para criar uma lista", newList);
 

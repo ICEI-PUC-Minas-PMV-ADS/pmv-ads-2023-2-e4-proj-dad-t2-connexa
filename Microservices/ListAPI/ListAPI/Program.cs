@@ -197,19 +197,6 @@ app.MapDelete("/lists/{idList}/{idItem}", async ([FromServices] IServiceProvider
         return Results.NotFound();
     }
 });
-app.MapPut("/lists/itemList/{idItemLista}/{checkedItem}", async ([FromServices] IServiceProvider provider, int idItemLista, bool checkedItem) =>
-{
-    using (var scope = provider.CreateScope())
-    {
-
-        var listDataAccess = scope.ServiceProvider.GetService<IListDataAccess>();
-
-        if (listDataAccess != null)
-            return Results.Ok(await listDataAccess.CheckItemListaAsync(idItemLista, checkedItem));
-
-        return Results.NotFound();
-    }
-});
 
 
 

@@ -17,8 +17,7 @@ namespace ListAPI.Interfaces
         ValueTask<MemberListDTO> SaveMemberAsync(MemberListDTO listMember);
         ValueTask<IEnumerable<MemberListDTO>> GetMembersByListAsync(int idList);
         ValueTask<IEnumerable<ItemListaDTO>> GetItemListAsync(int idList);
-        ValueTask<ItemListaDTO> SaveItemListAsync(ItemListaDTO ItemLista);
+        ValueTask<ItemListaDTO> SaveItemListAsync(ItemListaDTO itemList);
         ValueTask<bool> DeleteItemListaAsync(int idItemLista);
-        ValueTask<bool> CheckItemListaAsync(int idItemLista, bool checkedItem);
     }
 }

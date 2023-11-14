@@ -1,6 +1,8 @@
-﻿namespace SyncAPI.DTO
+﻿using SyncAPI.Interface;
+
+namespace SyncAPI.DTO
 {
-   public class ListDTO
+   public class ListDTO : IRealTime
     {
         public int ListaId { get; set; }
 

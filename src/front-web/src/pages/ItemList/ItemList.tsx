@@ -8,7 +8,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ListItemDTO } from '../../services/lists/dtos/ListItem';
-import { getListItemsAsync, addItemListAsync, deleteListItemAsync } from '../../services/lists/listService';
+import { getListItemsAsync, saveItemListAsync, deleteListItemAsync } from '../../services/lists/listService';
 import Item from './Item/item';
 import Modal from 'react-modal';
 import { Button, TextField } from '@mui/material';
@@ -97,7 +97,7 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
 
     const handleSaveItem = useCallback(async (item : ListItemDTO) => {
         const notify = toast.loading("Please wait...")
-        const result = await addItemListAsync(Number(idList), item);
+        const result = await saveItemListAsync(Number(idList), item);
         if(result){
             getItems();
             closeItemModal();
@@ -153,16 +153,20 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                     </Typography>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>
                         {
-                            editMode ? <EditLists updateListFieldsCallback={updateListFieldsCallback} listTitle={title} listDescription={description}/> : (<div></div>)
+                            editMode ? (
+                                <div style={{display: 'flex'}}>
+                                    <EditLists updateListFieldsCallback={updateListFieldsCallback} listTitle={title} listDescription={description}/>
+                                    <AddParticipant idLista={idList}/>
+                                    <IconButton color="inherit" onClick={() => {
+                                        resetListItemFields();
+                                        openItemModal();
+                                        }}>
+                                        <AddIcon style={{color:'#7CFC00'}}/>
+                                        <label style={{fontSize: '0.8em'}}>Adicionar item</label>
+                                    </IconButton>
+                                </div>
+                                ) : (<div></div>)
                         }
-                        <AddParticipant idLista={idList}/>
-                        <IconButton color="inherit" onClick={() => {
-                            resetListItemFields();
-                            openItemModal();
-                            }}>
-                            <AddIcon style={{color:'#7CFC00'}}/>
-                            <label style={{fontSize: '0.8em'}}>Adicionar item</label>
-                        </IconButton>
                         <IconButton color="inherit" onClick={handleLogoutClick}>
                             <ExitToAppIcon style={{color:'#D62828'}}/>
                         </IconButton>
@@ -178,7 +182,7 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                     {
                         items.map((a: ListItemDTO) => {
                             return (
-                                <Item key={a.id} editMode={editMode} item={a} deleteItemCallback={handleDeleteItem} editItemCallback={handleEditItem}/>
+                                <Item key={a.id} editMode={editMode} listItem={a} deleteItemCallback={handleDeleteItem} editItemCallback={handleEditItem}/>
                             )
                         })
                     }

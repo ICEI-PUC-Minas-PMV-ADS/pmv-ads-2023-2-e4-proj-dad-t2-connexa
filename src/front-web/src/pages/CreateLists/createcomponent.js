@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { postCreateListAsync } from '../../services/lists/listService';
+import { saveCreateListAsync } from '../../services/lists/listService';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
@@ -45,9 +45,7 @@ function CreateList() {
     }
 
     try {
-      console.info('Chamou a função para criar uma nova lista na API');
-
-      const response = await postCreateListAsync(newList);
+      const response = await saveCreateListAsync(newList);
 
       if (response) {
         toast.success('Nova lista criada com sucesso');

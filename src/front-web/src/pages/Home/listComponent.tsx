@@ -10,8 +10,7 @@ import PersonICon from '@mui/icons-material/Person';
 import { toast } from 'react-toastify';
 import Modal from "react-modal";
 import { ListDTO, ListParticipant } from '../../types/ListDTO';
-import { setupSignalRConnection } from '../../realtime/useSignalR';
-import { HubConnection, HubConnectionState } from '@microsoft/signalr';
+import { useConnexaRealTime } from '../../realtime/useSignalR';
 
 const ListaItens = () => {
 
@@ -21,59 +20,35 @@ const ListaItens = () => {
   const [participants, setParticipants] = useState<ListParticipant[]>([]);
   const idOwner = localStorage.getItem('userId');
 
-  const listRealTimeAddress = "https://localhost:7102/connexa/api/sync/realtime";
-  const listRealTimeHub = "UpdateListObjHub";
-  const connecting = useRef(false);
-  const delaySeconds = useRef(10);
-  const timeoutId = useRef<NodeJS.Timeout>();
-  let connection : HubConnection | null = null;
-
-  const connect = useCallback(async () => {
-      if (!connection || connection.state === HubConnectionState.Disconnected) {
-        connection = await setupSignalRConnection(listRealTimeAddress);
-
-        connection?.on(listRealTimeHub, (list: ListDTO) => {
-          doRealTimeActions(list);
+  const updateItensAfterRealTime = useCallback((items : ListDTO[], item : ListDTO, set : React.Dispatch<React.SetStateAction<ListDTO[]>>) => {
+    if(items){
+      var existNewItem = items.find(f => f.listaId === item.listaId);
+      if(existNewItem){
+        items.forEach(f => {
+          if(f.listaId === item.listaId){
+            f.listaTitulo = item.listaTitulo;
+            f.listaPublica = item.listaPublica;
+            f.listaDescricao = item.listaDescricao;
+            f.listaStatus = item.listaStatus;
+          }  
         });
-      }
-  }, [idOwner])
-
-  const subscribe = useCallback(async () => {
-    if (connecting.current) return;
-    connecting.current = true;
-    await connect();
-    connecting.current = false;
-    if (connection?.state !== HubConnectionState.Connected) {
-      delaySeconds.current = Math.min(60, delaySeconds.current + 10);
-      clearTimeout(timeoutId.current);
-      timeoutId.current = setTimeout(subscribe, delaySeconds.current * 1000);
-      return;
+        set(items);
+      }else{
+        set([...itens, item])
+      }
     }
-    await connection.invoke('Subscribe', Number(idOwner));
-  }, [idOwner, connect]);
+  }, [itens]);
 
-  const unsubscribe = useCallback(async () => {
-    if (connection?.state !== HubConnectionState.Connected) return;
-    await connection.invoke('Unsubscribe', Number(idOwner));
-    await disconnect();
-  }, [connection, idOwner]);
+  const listRealTimeCallBack = useCallback((list : ListDTO) => {
+    console.log(list);
+    let currentItems = itens.slice();  
+    updateItensAfterRealTime(currentItems, list, setItens);
 
-  const disconnect = async () => {
-    if (connection?.state !== HubConnectionState.Connected) return;
+    let currentScreenItens = screenItens.slice();
+    updateItensAfterRealTime(currentScreenItens, list, setScreenItens);
+  }, [itens, screenItens, updateItensAfterRealTime]);
 
-    connection.off(listRealTimeHub);
-    await connection.stop();
-    };
-
-  useEffect(() => {
-    if (idOwner) {
-      subscribe();
-    }
-    return () => {
-      unsubscribe();
-      clearTimeout(timeoutId.current);
-    };
-  }, [idOwner, subscribe, unsubscribe]);
+  const connexaRealTimeHook = useConnexaRealTime({listCallback: listRealTimeCallBack, listItemCallback(listItem) {},});
 
   useEffect(() => { 
     const fetchData = async () => {
@@ -100,50 +75,6 @@ const ListaItens = () => {
       margin: 'auto',
     }
   }
-
-  const doRealTimeActions = useCallback((list : ListDTO) => {
-    console.log(list);
-    let currentItems = itens.slice();  
-    if(currentItems){
-      var existNewItem = currentItems.find(f => f.listaId === list.listaId);
-      if(existNewItem){
-        currentItems.forEach(f => {
-          if(f.listaId === list.listaId){
-            f.listaTitulo = list.listaTitulo;
-            f.listaPublica = list.listaPublica;
-            f.listaDescricao = list.listaDescricao;
-            f.listaStatus = list.listaStatus;
-          }  
-        });
-        setItens(currentItems);
-      }else{
-        setItens([...itens, list])
-      }
-    }
-
-
-    //TODO CRIAR UM CONST PARA DEFINIR QUEM É OS ITENS MOSTRADOS ATUALMENTE (MEU/PARTICIPO/TODOS)
-    
-    let currentScreenItens = screenItens.slice();
-    if(currentScreenItens){
-      var existScreenNewItem = currentScreenItens.find(f => f.listaId === list.listaId);
-      console.log(currentScreenItens);
-      if(existScreenNewItem){
-        currentScreenItens.forEach(f => {
-          if(f.listaId === list.listaId){
-            f.listaTitulo = list.listaTitulo;
-            f.listaPublica = list.listaPublica;
-            f.listaDescricao = list.listaDescricao;
-            f.listaStatus = list.listaStatus;
-          }   
-        });
-        console.log(currentScreenItens);
-        setScreenItens(currentScreenItens);
-      }else{
-        setScreenItens([...currentScreenItens, list])
-      }
-    }
-  }, [itens])
 
   const HandleModal = useCallback(() => {
     setModalStatus(!modalStatus)
@@ -238,9 +169,14 @@ const ListaItens = () => {
                           Ver Lista
                         </Button>
                       </Link>
-                      <Link to={`list/${item.listaId}/itemList/edit/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}} onClick={() => { localStorage.setItem('selectedList', JSON.stringify(item));}}>
-                        <ModeEditIcon style={{color:'#003049'}}/>
-                      </Link>
+                      {
+                        item.isOwner ? (
+                          <Link to={`list/${item.listaId}/itemList/edit/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}} onClick={() => { localStorage.setItem('selectedList', JSON.stringify(item));}}>
+                            <ModeEditIcon style={{color:'#003049'}}/>
+                          </Link>
+                        ) : <div></div>
+                      }
+                      
                       {
                         item.isOwner ? 
                         (

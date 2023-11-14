@@ -26,6 +26,9 @@ namespace SyncAPI.HostedServices
         private readonly string UPDATE_LIST_OBJECT_HUB_METHOD = "UpdateListObjHub";
         private readonly string UPDATE_LIST_OBJECT_RABBIT_QUEUE = "update-list-obj";
 
+        private readonly string UPDATE_LIST_ITEM_OBJECT_HUB_METHOD = "UpdateListItemObjHub";
+        private readonly string UPDATE_LIST_ITEM_OBJECT_RABBIT_QUEUE = "update-list-item-obj";
+
         public RealTimeConsumer(ILogger<RealTimeConsumer> logger, 
             IHubContext<RealTimeHub> realTimeHub)
         {
@@ -59,6 +62,7 @@ namespace SyncAPI.HostedServices
             {
 
                 CreateRealTimeUpdateListConsumer(stoppingToken);
+                CreateRealTimeUpdateListItemConsumer(stoppingToken);
 
                 while (!stoppingToken.IsCancellationRequested)
                     await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
@@ -89,14 +93,35 @@ namespace SyncAPI.HostedServices
                     if (result.listObj == null)
                         return;
 
-                    await Task.Delay(2000);
-
                     await SendToSignalRHub(method: UPDATE_LIST_OBJECT_HUB_METHOD,
                                         idGroup: result.listObj.IdUserTarget.ToString(),
                                         arg1: result.listObj,
                                         cancellationToken: cancellationToken);
 
                     _logger.LogInformation("Updated List Id:" + result.listObj.ListaId + " was sended by SignalR to User Id: " + result.listObj.IdUserTarget + '.');
+
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message);
+                }
+            }, _logger);
+        }
+        private void CreateRealTimeUpdateListItemConsumer(CancellationToken cancellationToken)
+        {
+            ConfigureConsumer(UPDATE_LIST_ITEM_OBJECT_RABBIT_QUEUE, async ((ItemListDTO itemListObj, IModel model, BasicDeliverEventArgs ea) result) =>
+            {
+                try
+                {
+                    if (result.itemListObj == null)
+                        return;
+
+                    await SendToSignalRHub(method: UPDATE_LIST_ITEM_OBJECT_HUB_METHOD,
+                                        idGroup: result.itemListObj.IdUserTarget.ToString(),
+                                        arg1: result.itemListObj,
+                                        cancellationToken: cancellationToken);
+
+                    _logger.LogInformation("Updated List Item Id:" + result.itemListObj.ListaId + " was sended by SignalR to User Id: " + result.itemListObj.IdUserTarget + '.');
 
                 }
                 catch (Exception ex)

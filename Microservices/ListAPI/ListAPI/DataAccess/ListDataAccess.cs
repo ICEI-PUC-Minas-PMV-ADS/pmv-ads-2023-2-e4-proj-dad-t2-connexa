@@ -4,6 +4,7 @@ using ListAPI.Models;
 using ListAPI.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -15,6 +16,7 @@ namespace ListAPI.DataAccess
         private readonly ConnexaContext _context;
 
         private readonly string UPDATE_LIST_QUEUE_NAME = "update-list-obj";
+        private readonly string UPDATE_LIST_ITEM_QUEUE_NAME = "update-list-item-obj";
 
         public ListDataAccess ([FromServices] ConnexaContext context, [FromServices] ConnexaRabbitMQClient connexaRabbitMQClient)
         {
@@ -203,7 +205,15 @@ namespace ListAPI.DataAccess
 
                 await _context.SaveChangesAsync();
 
-                await DistributeListUpdatesToRelatedUsers(list);
+                var membersIds = await GetMembersFromListAsync(list.ListaId);
+
+                if(membersIds != null)
+                for(int i = 0; i < membersIds.Length;i++)
+                {
+                    list.IdUserTarget = membersIds[i];
+                    if(list.IdUserTarget > 0)
+                        _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE_NAME, list);
+                }
 
                 return list;
             }
@@ -220,30 +230,7 @@ namespace ListAPI.DataAccess
         {
             try
             {
-                //return await _context.Lista
-                //    .Where(l => l.UserId == idUser || l.UserLista.Any())
-                //    .Include(i => i.UserLista)
-                //    .Include(i => i.User)
-                //    .Select(list => new ListDTO
-                //    {
-                //        ListaId = list.ListaId,
-                //        UserId = list.UserId,
-                //        ListaDescricao = list.ListaDescricao,
-                //        ListaPublica = list.ListaPublica,
-                //        ListaStatus = list.ListaStatus,
-                //        ListaTitulo = list.ListaTitulo,
-                //        Message = null,
-                //        IsOwner = list.UserId == idUser,
-                //        Participants = list.UserLista.Select(s => new Participant
-                //        {
-                //            IdParticipant = s.UserListaId,
-                //            IdUser = s.UserId ?? 0,
-                //            Email = s.User.UserEmail,
-                //            IdList = list.ListaId
-                //        }).ToArray()
-                //    }).ToListAsync();
-
-                var items = await (from list in _context.Lista
+                return await (from list in _context.Lista
                               let participants = list.UserLista.ToList()
                               where list.UserId == idUser || list.UserLista.Any()
                               select new ListDTO
@@ -266,8 +253,6 @@ namespace ListAPI.DataAccess
                               })
                                 .OrderByDescending((ob) => ob.IsOwner)
                                 .ToListAsync();
-
-                return items;
 
             }
             catch (Exception ex)
@@ -341,21 +326,14 @@ namespace ListAPI.DataAccess
                 return Enumerable.Empty<MemberListDTO>();
             }
         }
-        public async Task DistributeListUpdatesToRelatedUsers (ListDTO item)
+        public async Task<int[]> GetMembersFromListAsync (int listId)
         {
-            var members = await _context.UserLista
-                                            .Where(w => w.ListaId == item.ListaId)
-                                            .Select(s => s.UserId ?? 0)
-                                            .ToArrayAsync();
-
-            if(members != null)
-                for(int i = 0; i < members.Length;i++)
-                {
-                    item.IdUserTarget = members[i];
-                    if(item.IdUserTarget > 0)
-                        _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE_NAME, item);
-                }
+            return await _context.UserLista
+                                .Where(w => w.ListaId == listId)
+                                .Select(s => s.UserId ?? 0)
+                                .ToArrayAsync();
         }
+
         public async ValueTask<IEnumerable<ItemListaDTO>> GetItemListAsync(int idList)
         {
             try
@@ -378,14 +356,14 @@ namespace ListAPI.DataAccess
                 return Enumerable.Empty<ItemListaDTO>();
             }
         }
-        public async ValueTask<ItemListaDTO> SaveItemListAsync(ItemListaDTO ItemLista)
+        public async ValueTask<ItemListaDTO> SaveItemListAsync(ItemListaDTO itemList)
         {
             try
             {
-                if(string.IsNullOrEmpty(ItemLista.Nome) || string.IsNullOrEmpty(ItemLista.Descricao))
+                if(string.IsNullOrEmpty(itemList.Nome) || string.IsNullOrEmpty(itemList.Descricao))
                     return null;
 
-                var item = await _context.ItemLista.FirstOrDefaultAsync(i => i.ItemId == ItemLista.Id);
+                var item = await _context.ItemLista.FirstOrDefaultAsync(i => i.ItemId == itemList.Id);
 
                 if (item != null)
                 {
@@ -397,19 +375,29 @@ namespace ListAPI.DataAccess
                     _context.Entry(item).State = EntityState.Added;
                 }
 
-                item.ItemNome = ItemLista.Nome;
-                item.ItemDescricao = ItemLista.Descricao;
-                item.ListaId = ItemLista.ListaId;
-                item.ItemStatus = ItemLista.Status;
+                item.ItemNome = itemList.Nome;
+                item.ItemDescricao = itemList.Descricao;
+                item.ListaId = itemList.ListaId;
+                item.ItemStatus = itemList.Status;
 
                 _context.SavedChanges += async (e, s) =>
                 {
-                    ItemLista.Id = item.ItemId;
+                    itemList.Id = item.ItemId;
                 };
 
                 await _context.SaveChangesAsync();
 
-                return ItemLista;
+                var membersIds = await GetMembersFromListAsync(item.ListaId ?? 0);
+
+                if(membersIds != null && membersIds.Count() > 0)
+                    for(int i = 0; i < membersIds.Length;i++)
+                        {
+                        itemList.IdUserTarget = membersIds[i];
+                        if(itemList.IdUserTarget > 0)
+                            _connexaRabbitMQClient.Publish(UPDATE_LIST_ITEM_QUEUE_NAME, itemList);
+                    }
+
+                return itemList;
             }
             catch (Exception ex)
             {
@@ -438,21 +426,6 @@ namespace ListAPI.DataAccess
                 _context.ThrowException(ex.Message);
                 return false;
             }
-        }
-
-        public async ValueTask<bool> CheckItemListaAsync (int idItemLista,bool checkedItem)
-        {
-            var item = await _context.ItemLista.FirstOrDefaultAsync(i => i.ItemId == idItemLista);
-
-            if(item != null)
-            {
-                item.ItemStatus = checkedItem;
-                _context.Entry(item);
-
-                return await _context.SaveChangesAsync() > 0;
-            }
-
-            return false;
         }
     }
 }

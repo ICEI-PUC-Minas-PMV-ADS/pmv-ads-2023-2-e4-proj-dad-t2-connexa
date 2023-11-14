@@ -2,7 +2,7 @@
 
 namespace ListAPI.DTOs
 {
-    public class ItemListaDTO : ErrorRequestBase
+    public class ItemListaDTO:ErrorRequestBase, IRealTime
     {
         public int Id { get; set; }
 
@@ -14,6 +14,6 @@ namespace ListAPI.DTOs
 
         public bool Status { get; set; }
         public string NomeLista { get; set; }
-
+        public int IdUserTarget { get; set; }
     }
 }

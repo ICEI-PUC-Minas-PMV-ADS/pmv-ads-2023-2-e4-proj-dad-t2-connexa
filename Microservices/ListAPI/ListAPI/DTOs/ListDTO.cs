@@ -4,7 +4,7 @@ using ListAPI.Models;
 
 namespace ListAPI.DTOs
 {
-    public class ListDTO : ErrorRequestBase
+    public class ListDTO : ErrorRequestBase, IRealTime
     {
         public int ListaId { get; set; }
 
@@ -17,8 +17,8 @@ namespace ListAPI.DTOs
         public string? ListaDescricao { get; set; }
 
         public string? ListaTitulo { get; set; }
-        public int IdUserTarget { get; set; }
         public bool IsOwner { get; set; }
         public Participant[] Participants { get; set; } = Array.Empty<Participant>();
+        public int IdUserTarget { get; set; }
     }
 }

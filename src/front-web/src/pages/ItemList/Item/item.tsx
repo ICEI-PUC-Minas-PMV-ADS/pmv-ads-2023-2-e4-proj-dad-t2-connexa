@@ -1,31 +1,43 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Checkbox from '@mui/material/Checkbox';
 import Typography from '@mui/material/Typography';
-import {checkListItem} from '../../../services/lists/listService';
+import {saveItemListAsync} from '../../../services/lists/listService';
 import { ListItemDTO } from '../../../services/lists/dtos/ListItem';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { IconButton } from '@mui/material';
 import { toast } from 'react-toastify';
+import { useConnexaRealTime } from '../../../realtime/useSignalR';
 
 interface ItemProps {
-    item : ListItemDTO;
+    listItem : ListItemDTO;
     editMode : boolean;
     deleteItemCallback(id : number): void;
     editItemCallback(item : ListItemDTO): void;
 }
 
-function Item({item, editMode, editItemCallback, deleteItemCallback } : ItemProps) {
+function Item({listItem, editMode, editItemCallback, deleteItemCallback } : ItemProps) {
 
-    const [checked, setChecked] = useState<boolean>(item.status);
+    const [item, setItem] = useState<ListItemDTO>(listItem);
+    const [checked, setChecked] = useState<boolean>(listItem.status);
+
+
+    const updateListItemCallback = useCallback((item : ListItemDTO) => {
+        setItem(item);
+        setChecked(item.status ? true : false);
+    }, []);
+
+    const connexaRealTimeHook = useConnexaRealTime({listCallback(list) {}, listItemCallback: updateListItemCallback});
 
     const setCheckChoose = async (event : React.ChangeEvent<HTMLInputElement>, checked : boolean) => {
-        const notify = toast.loading("Please wait...")
+        let itemToUpdate = item;
+        itemToUpdate.status = checked;
         setChecked(checked);
-        var result = await checkListItem(item.id, checked);
+        setItem(itemToUpdate);
+        var result = await saveItemListAsync(itemToUpdate.listaId, itemToUpdate);
         if(result){
-            toast.update(notify, {
-                render: `Item ${checked ? "marcado" : "desmarcado" } com sucesso.`,
+            setItem(result);
+            toast.success(`Item ${item.status ? "marcado" : "desmarcado" } com sucesso.`, {
                 type: toast.TYPE.SUCCESS,
                 autoClose: 3000,
                 closeButton: true,
@@ -45,7 +57,8 @@ function Item({item, editMode, editItemCallback, deleteItemCallback } : ItemProp
                 </Typography>
             </div>           
             {
-                !editMode ? (<Checkbox checked={checked} onChange={setCheckChoose} color='success'/>) : (
+                !editMode ? (
+                    <Checkbox checked={checked} onChange={setCheckChoose} color='success'/>) : (
                     <div style={{ display: 'flex' }}>
                     <IconButton>
                         <EditIcon onClick={() => editItemCallback(item)}/>

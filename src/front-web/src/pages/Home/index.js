@@ -32,7 +32,6 @@ function Home({ handleLogout }) {
           </IconButton>
         </Toolbar>
       </AppBar>
-
       <div>
         <ListaItens />
       </div>

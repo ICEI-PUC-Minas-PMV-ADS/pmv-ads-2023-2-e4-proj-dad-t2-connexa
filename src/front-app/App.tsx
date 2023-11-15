@@ -17,20 +17,20 @@ const Stack = createStackNavigator();
 
 export default function App() {
 
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <PaperProvider>
       {
         isAuthenticated ?
-          <AuthenticatedContainer /> :
-          <UnauthenticatedContainer />
+          <AuthenticatedAreaContainer /> :
+          <UnauthenticatedAreaContainer />
       }
     </PaperProvider>
   );
 }
 
-const AuthenticatedContainer = () => {
+const AuthenticatedAreaContainer = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator>
@@ -83,14 +83,20 @@ const AuthenticatedContainer = () => {
   );
 };
 
-const UnauthenticatedContainer = () => {
+const UnauthenticatedAreaContainer = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" options={{ title: 'Entrar' }} component={Login} />
-        <Stack.Screen name="Registration" options={{ title: 'Cadastrar' }} component={Registration} />
-        <Stack.Screen name="Recovery" options={{ title: 'Recuperar Senha' }} component={Recovery} />
-      </Stack.Navigator>
+      <DoAuthenticationStack />
     </NavigationContainer>
+  );
+};
+
+const DoAuthenticationStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen name="Login" options={{ title: 'Entrar' }} component={Login} />
+      <Stack.Screen name="Registration" options={{ title: 'Cadastrar' }} component={Registration} />
+      <Stack.Screen name="Recovery" options={{ title: 'Recuperar Senha' }} component={Recovery} />
+    </Stack.Navigator>
   );
 };

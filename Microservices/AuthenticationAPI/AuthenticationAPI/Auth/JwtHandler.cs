@@ -18,7 +18,7 @@ namespace AuthenticationAPI.Auth
 			{
 				Subject = new ClaimsIdentity(new[]
 				{
-					new Claim(ClaimTypes.Sid, $"{user.UserId}"),
+					new Claim("id", $"{user.UserId}"),
 					new Claim(ClaimTypes.Name, $"{user.UserName}"),
 					new Claim(ClaimTypes.DateOfBirth, $"{user.Birthdate:yyyy-MM-dd}")
 				}),

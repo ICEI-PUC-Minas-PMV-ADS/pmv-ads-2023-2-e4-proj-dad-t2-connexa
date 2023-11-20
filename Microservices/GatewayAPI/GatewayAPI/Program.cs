@@ -14,9 +14,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: CONNEXA_ORIGIN,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:19006/", "http://localhost:3000")
+                          policy.WithOrigins("http://localhost:19006/","http://localhost:3000")
                             .AllowAnyHeader()
-                            .AllowAnyMethod();
+                            .AllowAnyMethod()
+                            .AllowCredentials();
                       });
 });
 
@@ -24,13 +25,13 @@ var app = builder.Build();
 
 app.UseCors(CONNEXA_ORIGIN);
 app.MapGet("/",() => "Hello World!");
-app.MapGet("/redis", () =>
-{
-    RedisCloud redisCloud = new RedisCloud();
+//app.MapGet("/redis", () =>
+//{
+//    RedisCloud redisCloud = new RedisCloud();
 
-    redisCloud.SetRedisValue("chave", "valor");
-    return redisCloud.GetRedisValue("chave");
-});
+//    redisCloud.SetRedisValue("chave", "valor");
+//    return redisCloud.GetRedisValue("chave");
+//});
 
 app.MapControllers();
 await app.UseOcelot();

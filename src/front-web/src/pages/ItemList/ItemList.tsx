@@ -3,7 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
-import Avatar from '@mui/material/Avatar';
+import logo from '../../img/logo-connexa-invertido.png';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -148,7 +148,7 @@ function ItemList({ handleLogout, editMode }: ItemListProps) {
                 <Toolbar>
                     <Typography variant="h6" noWrap sx={{ flex: 1 }}>
                         <IconButton color="inherit" onClick={handleBackToHome}>
-                            <Avatar src='../../img/logo.png' alt="Logo" sx={{ width: 40, height: 40, mr: 2 }}/>
+                            <img src={logo} alt="Logo" style={{ width: 150}}/>
                         </IconButton>
                     </Typography>
                     <div style={{ display: 'flex', flexDirection: 'row' }}>

@@ -147,7 +147,7 @@ const ListaItens = () => {
             Listas que participo
           </Button>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignContent: 'center'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '80%', margin: 'auto', marginTop: '1em', alignContent: 'center', justifyContent:'center'}}>
             {screenItens.map(item =>
             {
                 return (
@@ -162,7 +162,7 @@ const ListaItens = () => {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '2em'}}>
                       <Typography component="h1" variant="h6">
-                        ({item.isOwner ? "DONO" : "PARTICIPANTE"})
+                        ({item.isOwner ? "Dono" : "Participante"})
                       </Typography>
                       <Link to={`list/${item.listaId}/itemlist/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}}>
                         <Button style={{borderColor:'#003049', color:'#003049'}} variant="outlined" size="small">
@@ -182,13 +182,13 @@ const ListaItens = () => {
                         (
                           <div style={{display: 'flex', flexDirection: 'row'}}>
                             <IconButton >
-                              <PersonICon onClick={() => {
+                              <PersonICon style={{color:'#003049'}} onClick={() => {
                                 setParticipants(item.participants);
                                 setModalStatus(true);
                               }}/>
                             </IconButton>
                             <IconButton >
-                              <DeleteIcon onClick={() => deleteListCallback(item.listaId)}/>
+                              <DeleteIcon style={{color:'#003049'}} onClick={() => deleteListCallback(item.listaId)}/>
                             </IconButton>
                           </div>
                         

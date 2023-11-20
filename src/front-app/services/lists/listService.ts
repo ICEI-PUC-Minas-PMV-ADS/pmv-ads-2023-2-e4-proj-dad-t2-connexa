@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { CreateListDTO } from './dtos/CreateListDto';
-
+import { ListItemDTO } from './dtos/ListItem';
 
 const IS_PROD = false;
 const STATUS_OK = 200;
@@ -26,3 +26,20 @@ export const saveCreateListAsync = async (newList: CreateListDTO) => {
         return null;
     }
 };
+
+export const getListItemsAsync = async (id : number) => {
+    try {
+        console.info("ListsService.getListItemsAsync -> Chamou o endpoint para buscar os items da lista na API", id);
+
+        const response = await apiInstance.get<ListItemDTO[]>(`/list/lists/${id}/items`);
+
+        console.info('ListsService.getListItemsAsync -> Resposta da API.', response);
+
+        if (response.status !== STATUS_OK)
+            return null;
+        return response.data;
+    } catch (error) {
+        console.error('ListsService.getListItemsAsync -> Erro ao buscar os items da API.', error);
+        return null;
+    }
+}

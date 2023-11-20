@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Recovery from './pages/Recovery';
 import Home from './pages/Home';
-import ExamplePage1 from './pages/ExamplePage1';
+import CriarLista from './pages/CreateLists/CreateLists';
 import ExamplePage2 from './pages/ExamplePage2';
 import ExamplePage3 from './pages/ExamplePage3';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -48,10 +48,10 @@ const AuthenticatedAreaContainer = () => {
         />
         <Tab.Screen
           name="ExamplePage1"
-          component={ExamplePage1}
+          component={CriarLista}
           options={{
-            title: 'Página de Exemplo 1',
-            tabBarLabel: 'Exemplo 1',
+            title: 'Crie Uma Nova Lista',
+            tabBarLabel: 'Crie Uma Nova Lista1',
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />
             ),

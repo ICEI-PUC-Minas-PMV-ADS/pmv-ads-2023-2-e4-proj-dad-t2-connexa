@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { ImageBackground, KeyboardAvoidingView } from 'react-native';
+import { KeyboardAvoidingView, View } from 'react-native';
 import styles from './styles';
 
 type Props = {
@@ -7,15 +7,11 @@ type Props = {
 };
 
 const Background = ({ children }: Props) => (
-  <ImageBackground
-    source={require('../../assets/background_dot.png')}
-    resizeMode="repeat"
-    style={styles.background}
-  >
+  <View style={styles.background}>
     <KeyboardAvoidingView style={styles.container} behavior="padding">
       {children}
     </KeyboardAvoidingView>
-  </ImageBackground>
+  </View>
 );
 
 export default memo(Background);

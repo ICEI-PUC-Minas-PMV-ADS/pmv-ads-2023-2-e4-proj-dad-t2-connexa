@@ -1,13 +1,13 @@
 import React, { memo, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Background from '../../components/Background';
-import Logo from '../../components/Logo';
-import Header from '../../components/Header';
-import Button from '../../components/Button';
-import TextInput from '../../components/TextInput';
+import Background from '../../components/Background/Background';
+import Logo from '../../components/Logo/Logo';
+import Header from '../../components/Header/Header';
+import Button from '../../components/Button/Button';
+import TextInput from '../../components/TextInput/TextInput';
 import { theme } from '../../core/theme';
 import { ParamListBase, NavigationProp } from '@react-navigation/native';
-import BackButton from '../../components/BackButton';
+import BackButton from '../../components/BackButton/BackButton';
 
 import {
   emailValidator,

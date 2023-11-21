@@ -18,7 +18,9 @@ const ListaItens = () => {
   const [itens, setItens] = useState<ListDTO[]>([]);
   const [screenItens, setScreenItens] = useState<ListDTO[]>([]);
   const [participants, setParticipants] = useState<ListParticipant[]>([]);
-  const idOwner = localStorage.getItem('userId');
+  /* const idOwner = localStorage.getItem('userId'); */
+  const infos = JSON.parse(localStorage.getItem('Infos') || "{}");
+  const idOwner = infos.id;
 
   const updateItensAfterRealTime = useCallback((items : ListDTO[], item : ListDTO, set : React.Dispatch<React.SetStateAction<ListDTO[]>>) => {
     if(items){
@@ -131,7 +133,7 @@ const ListaItens = () => {
   });
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignContent: 'center', textAlign: 'center' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignContent: 'center', justifyContent: 'center', margin: '0 auto', textAlign: 'center', width: '80%'}}>
       <ThemeProvider theme={theme} >
         <Typography component="p" variant="h4" style={{margin: '1em'}}>
           Minhas listas
@@ -147,7 +149,7 @@ const ListaItens = () => {
             Listas que participo
           </Button>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', width: '80%', margin: 'auto', marginTop: '1em', alignContent: 'center', justifyContent:'center'}}>
+        <div style={{ display: 'flex', flexDirection: 'column', width: '100%', alignContent: 'center'}}>
             {screenItens.map(item =>
             {
                 return (
@@ -162,7 +164,7 @@ const ListaItens = () => {
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginLeft: '2em'}}>
                       <Typography component="h1" variant="h6">
-                        ({item.isOwner ? "Dono" : "Participante"})
+                        ({item.isOwner ? "DONO" : "PARTICIPANTE"})
                       </Typography>
                       <Link to={`list/${item.listaId}/itemlist/${item.listaTitulo}/${item.listaDescricao}`} style={{ margin: '0 0.6em',}}>
                         <Button style={{borderColor:'#003049', color:'#003049'}} variant="outlined" size="small">
@@ -182,13 +184,13 @@ const ListaItens = () => {
                         (
                           <div style={{display: 'flex', flexDirection: 'row'}}>
                             <IconButton >
-                              <PersonICon style={{color:'#003049'}} onClick={() => {
+                              <PersonICon onClick={() => {
                                 setParticipants(item.participants);
                                 setModalStatus(true);
                               }}/>
                             </IconButton>
                             <IconButton >
-                              <DeleteIcon style={{color:'#003049'}} onClick={() => deleteListCallback(item.listaId)}/>
+                              <DeleteIcon onClick={() => deleteListCallback(item.listaId)}/>
                             </IconButton>
                           </div>
                         

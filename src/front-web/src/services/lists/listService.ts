@@ -71,7 +71,7 @@ export const getListsByOwnerOrParticipant = async (idOwner : number) => {
 
         console.info('ListsService.getListByOwner -> Resposta da API.', response);
 
-        if (response.status != STATUS_OK)
+        if (response.status !== STATUS_OK)
             return null;
 
         return response.data;

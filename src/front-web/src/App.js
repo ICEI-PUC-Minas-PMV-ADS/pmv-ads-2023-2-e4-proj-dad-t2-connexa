@@ -52,7 +52,7 @@ function App() {
     }
 
     const decodedToken = jwtDecode(accessToken);
-    const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/sid"];
+    const userId = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/id"];
     const userName = decodedToken["unique_name"];
 
     localStorage.setItem('accessToken', accessToken);

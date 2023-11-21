@@ -18,7 +18,7 @@ class AuthenticationService {
 
             console.info('ConexaService.loginAsync -> Resposta da API Connexa.', response);
 
-            if (response.status != STATUS_OK)
+            if (response.status !== STATUS_OK)
                 return null;
 
             return response.data;
@@ -36,7 +36,7 @@ class AuthenticationService {
 
             console.info('ConexaService.createUserAsync -> Resposta da API Connexa.', response);
 
-            return response.status == STATUS_CREATED;
+            return response.status === STATUS_CREATED;
         } catch (error) {
             console.error('ConexaService.createUserAsync -> Erro ao chamar o endpoint de login da API Connexa.', error);
             return false;
@@ -53,7 +53,7 @@ class AuthenticationService {
 
             console.info('AuthenticationService.getSecretQuestionAsync -> Resposta da API.', response);
 
-            if (response.status != STATUS_OK)
+            if (response.status !== STATUS_OK)
                 return null;
 
             return response.data;

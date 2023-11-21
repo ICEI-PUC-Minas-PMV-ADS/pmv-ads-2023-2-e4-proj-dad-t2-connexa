@@ -1,10 +1,10 @@
 import React, { memo, useState } from 'react';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
-import Background from '../../components/Background/Background';
-import Logo from '../../components/Logo/Logo';
-import Header from '../../components/Header/Header';
-import Button from '../../components/Button/Button';
-import TextInput from '../../components/TextInput/TextInput';
+import Background from '../../components/Background';
+import Logo from '../../components/Logo';
+import Header from '../../components/Header';
+import Button from '../../components/Button';
+import TextInput from '../../components/TextInput';
 import { theme } from '../../core/theme';
 import { emailValidator, passwordValidator } from '../../core/utils';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';

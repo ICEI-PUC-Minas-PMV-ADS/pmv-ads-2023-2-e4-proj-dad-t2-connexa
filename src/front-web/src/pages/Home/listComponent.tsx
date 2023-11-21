@@ -18,9 +18,7 @@ const ListaItens = () => {
   const [itens, setItens] = useState<ListDTO[]>([]);
   const [screenItens, setScreenItens] = useState<ListDTO[]>([]);
   const [participants, setParticipants] = useState<ListParticipant[]>([]);
-  /* const idOwner = localStorage.getItem('userId'); */
-  const infos = JSON.parse(localStorage.getItem('Infos') || "{}");
-  const idOwner = infos.id;
+  const idOwner = localStorage.getItem('userId');
 
   const updateItensAfterRealTime = useCallback((items : ListDTO[], item : ListDTO, set : React.Dispatch<React.SetStateAction<ListDTO[]>>) => {
     if(items){

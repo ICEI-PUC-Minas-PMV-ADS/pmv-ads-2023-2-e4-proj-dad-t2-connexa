@@ -206,13 +206,16 @@ namespace ListAPI.DataAccess
                 await _context.SaveChangesAsync();
 
                 var membersIds = await GetMembersFromListAsync(list.ListaId);
-
                 if(membersIds != null)
-                for(int i = 0; i < membersIds.Length;i++)
                 {
-                    list.IdUserTarget = membersIds[i];
-                    if(list.IdUserTarget > 0)
-                        _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE_NAME, list);
+
+                    if(membersIds != null)
+                    for(int i = 0; i < membersIds.Count();i++)
+                    {
+                        list.IdUserTarget = membersIds[i];
+                        if(list.IdUserTarget > 0)
+                            _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE_NAME, list);
+                    }
                 }
 
                 return list;
@@ -389,13 +392,19 @@ namespace ListAPI.DataAccess
 
                 var membersIds = await GetMembersFromListAsync(item.ListaId ?? 0);
 
-                if(membersIds != null && membersIds.Count() > 0)
-                    for(int i = 0; i < membersIds.Length;i++)
+                if(membersIds != null)
+                {
+                    var allMembers = new List<int>(membersIds);
+                    allMembers.Add(await GetListOwnerId(item.ListaId ?? 0));
+
+                    if(allMembers != null && allMembers.Count() > 0)
+                        for(int i = 0; i < allMembers.Count() ;i++)
                         {
-                        itemList.IdUserTarget = membersIds[i];
-                        if(itemList.IdUserTarget > 0)
-                            _connexaRabbitMQClient.Publish(UPDATE_LIST_ITEM_QUEUE_NAME, itemList);
-                    }
+                            itemList.IdUserTarget = allMembers[i];
+                            if(itemList.IdUserTarget > 0)
+                                _connexaRabbitMQClient.Publish(UPDATE_LIST_ITEM_QUEUE_NAME, itemList);
+                        }
+                }
 
                 return itemList;
             }
@@ -426,6 +435,17 @@ namespace ListAPI.DataAccess
                 _context.ThrowException(ex.Message);
                 return false;
             }
+        }
+
+        public async Task<int> GetListOwnerId (int listId)
+        {
+            if(listId == 0)
+                return 0;
+
+            var list = await _context.Lista.FirstOrDefaultAsync(f => f.ListaId == listId);
+            if(list != null)
+                return list.UserId ?? 0;
+            return 0;
         }
     }
 }

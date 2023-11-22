@@ -10,6 +10,13 @@ const TextInput = ({ errorText, secureTextEntry, ...props }: Props) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const shouldHidePassword = () => {
+    if (!secureTextEntry)
+      return false;
+
+    return showPassword;
+  };
+
   return (
     <View style={styles.container}>
       <Input
@@ -18,7 +25,7 @@ const TextInput = ({ errorText, secureTextEntry, ...props }: Props) => {
         underlineColor="transparent"
         mode="outlined"
         {...props}
-        secureTextEntry={!showPassword}
+        secureTextEntry={shouldHidePassword()}
         right={secureTextEntry ?
           <Input.Icon
             icon={showPassword ? "eye-off" : "eye"}

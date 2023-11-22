@@ -13,7 +13,7 @@ import {
   emailValidator,
   passwordValidator,
   nameValidator,
-} from '../../core/utils';
+} from '../../core/validators';
 
 type Props = {
   navigation: NavigationProp<ParamListBase>;

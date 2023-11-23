@@ -1,22 +1,23 @@
 import { StyleSheet } from 'react-native';
+import { theme } from '../../core/theme';
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+    forgotPassword: {
+        width: '100%',
+        alignItems: 'flex-end',
+        marginBottom: 24,
     },
-    header: {
-        marginTop: 60,
-        marginBottom: 30
+    row: {
+        flexDirection: 'row',
+        marginTop: 4,
     },
-    title: {
-        fontSize: 32,
+    label: {
+        color: theme.colors.secondary,
+    },
+    link: {
         fontWeight: 'bold',
-        marginBottom: 10,
-        color: '#134074',
-    }
+        color: theme.colors.primary,
+    },
 });
 
 export default styles;

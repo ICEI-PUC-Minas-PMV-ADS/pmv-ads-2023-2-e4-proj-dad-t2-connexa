@@ -4,7 +4,7 @@ import { theme } from '../../core/theme';
 const styles = StyleSheet.create({
     container: {
       width: '100%',
-      marginVertical: 12,
+      marginVertical: 10,
     },
     input: {
       backgroundColor: theme.colors.surface,

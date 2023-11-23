@@ -38,9 +38,9 @@ const Registration = ({ navigation }: Props) => {
   const [secretAnswer, setSecretAnswer] = useState({ value: '', error: '' });
   const [birthdate, setBirthdate] = useState({ value: null, error: '' });
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
+  const [openSecretQuestionPicker, setOpenSecretQuestionPicker] = useState(false);
+  const [selectedSecretQuestion, setSelectedSecretQuestion] = useState(null);
+  const [secretQuestions, setSecretQuestions] = useState([
     { label: 'Qual é o nome do seu primeiro animal de estimação?', value: 'Qual é o nome do seu primeiro animal de estimação?' },
     { label: 'Qual é o nome da sua mãe?', value: 'Qual é o nome da sua mãe?' },
     { label: 'Qual é o nome da sua cidade natal?', value: 'Qual é o nome da sua cidade natal?' },
@@ -53,9 +53,8 @@ const Registration = ({ navigation }: Props) => {
     { label: 'Qual é o modelo do seu primeiro carro?', value: 'Qual é o modelo do seu primeiro carro?' }
   ]);
 
-  const handleSecretQuestionSelect = (selectedQuestion: string) => {
-    const secretQuestionError = secretQuestionValidator(selectedQuestion);
-    setSecretQuestion({ value: selectedQuestion, error: secretQuestionError });
+  const handleSecretQuestionSelect = (value) => {
+    setSecretQuestion({ value, error: '' });
   };
 
   const handleRegistrationClick = () => {
@@ -160,15 +159,16 @@ const Registration = ({ navigation }: Props) => {
       />
 
       <DropDownPicker
-        open={open}
-        value={value}
-        items={items}
-        setOpen={setOpen}
-        setValue={setValue}
-        setItems={setItems}
+        open={openSecretQuestionPicker}
+        value={selectedSecretQuestion}
+        items={secretQuestions}
+        setOpen={setOpenSecretQuestionPicker}
+        setValue={setSelectedSecretQuestion}
+        setItems={setSecretQuestions}
         placeholder={'Pergunta Secreta'}
         listMode="MODAL"
         errorText={secretQuestion.error}
+        onSelectItem={handleSecretQuestionSelect}
       />
 
       <TextInput

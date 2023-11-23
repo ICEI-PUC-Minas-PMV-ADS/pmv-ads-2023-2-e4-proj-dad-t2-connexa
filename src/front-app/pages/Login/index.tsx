@@ -5,9 +5,9 @@ import Logo from '../../components/Logo';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import TextInput from '../../components/TextInput';
-import { theme } from '../../core/theme';
 import { emailValidator, passwordValidator } from '../../core/validators';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import styles from './styles';
 
 type Props = {
   navigation: NavigationProp<ParamListBase>;
@@ -89,24 +89,5 @@ const Login = ({ navigation }: Props) => {
     </Background>
   );
 };
-
-const styles = StyleSheet.create({
-  forgotPassword: {
-    width: '100%',
-    alignItems: 'flex-end',
-    marginBottom: 24,
-  },
-  row: {
-    flexDirection: 'row',
-    marginTop: 4,
-  },
-  label: {
-    color: theme.colors.secondary,
-  },
-  link: {
-    fontWeight: 'bold',
-    color: theme.colors.primary,
-  },
-});
 
 export default memo(Login);

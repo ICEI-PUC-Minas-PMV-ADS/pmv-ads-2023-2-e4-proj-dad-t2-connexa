@@ -6,9 +6,9 @@ import BackButton from '../../components/BackButton';
 import Logo from '../../components/Logo';
 import Header from '../../components/Header';
 import TextInput from '../../components/TextInput';
-import { theme } from '../../core/theme';
 import Button from '../../components/Button';
 import { ParamListBase, NavigationProp } from '@react-navigation/native';
+import styles from './styles';
 
 type Props = {
     navigation: NavigationProp<ParamListBase>;
@@ -55,19 +55,5 @@ const Recovery = ({ navigation }: Props) => {
         </Background>
     );
 };
-
-const styles = StyleSheet.create({
-    back: {
-        width: '100%',
-        marginTop: 12,
-    },
-    button: {
-        marginTop: 12,
-    },
-    label: {
-        color: theme.colors.secondary,
-        width: '100%',
-    },
-});
 
 export default memo(Recovery);

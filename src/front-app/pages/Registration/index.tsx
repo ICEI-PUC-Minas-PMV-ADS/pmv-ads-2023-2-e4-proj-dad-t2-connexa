@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import Background from '../../components/Background';
 import Logo from '../../components/Logo';
 import Header from '../../components/Header';
@@ -9,7 +9,8 @@ import { ParamListBase, NavigationProp } from '@react-navigation/native';
 import BackButton from '../../components/BackButton';
 import styles from './styles';
 import DropDownPicker from '../../components/DropDownPicker';
-
+import DateInput from '../../components/DateInput';
+import { ScrollView } from 'react-native-gesture-handler';
 import {
   emailValidator,
   passwordValidator,
@@ -21,11 +22,9 @@ import {
   birthdateValidator,
 } from '../../core/validators';
 
-
 type Props = {
   navigation: NavigationProp<ParamListBase>;
 };
-
 
 const Registration = ({ navigation }: Props) => {
 
@@ -100,97 +99,106 @@ const Registration = ({ navigation }: Props) => {
 
 
   return (
-    <Background>
-      <BackButton goBack={navigation.goBack} />
+    <ScrollView>
+      <Background>
+        <BackButton goBack={navigation.goBack} />
 
-      <Logo />
+        <Logo />
 
-      <Header>Cadastrar</Header>
+        <Header>Cadastrar</Header>
 
-      <TextInput
-        label="Nome Completo"
-        returnKeyType="next"
-        value={name.value}
-        onChangeText={text => setName({ value: text, error: '' })}
-        error={!!name.error}
-        errorText={name.error}
-      />
+        <TextInput
+          label="Nome Completo"
+          returnKeyType="next"
+          value={name.value}
+          onChangeText={text => setName({ value: text, error: '' })}
+          error={!!name.error}
+          errorText={name.error}
+        />
 
-      <TextInput
-        label="Email"
-        returnKeyType="next"
-        value={email.value}
-        onChangeText={text => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
-        autoCapitalize="none"
-        autoComplete="email"
-        textContentType="emailAddress"
-        keyboardType="email-address"
-      />
+        <TextInput
+          label="Email"
+          returnKeyType="next"
+          value={email.value}
+          onChangeText={text => setEmail({ value: text, error: '' })}
+          error={!!email.error}
+          errorText={email.error}
+          autoCapitalize="none"
+          autoComplete="email"
+          textContentType="emailAddress"
+          keyboardType="email-address"
+        />
 
-      <TextInput
-        label="CPF"
-        returnKeyType="next"
-        value={document.value}
-        onChangeText={text => setDocument({ value: text, error: '' })}
-        error={!!document.error}
-        errorText={document.error}
-      />
+        <TextInput
+          label="CPF"
+          returnKeyType="next"
+          value={document.value}
+          onChangeText={text => setDocument({ value: text, error: '' })}
+          error={!!document.error}
+          errorText={document.error}
+        />
 
-      <TextInput
-        label="Senha"
-        returnKeyType="done"
-        value={password.value}
-        onChangeText={text => setPassword({ value: text, error: '' })}
-        error={!!password.error}
-        errorText={password.error}
-        secureTextEntry={true}
-      />
+        <TextInput
+          label="Senha"
+          returnKeyType="done"
+          value={password.value}
+          onChangeText={text => setPassword({ value: text, error: '' })}
+          error={!!password.error}
+          errorText={password.error}
+          secureTextEntry={true}
+        />
 
-      <TextInput
-        label="Confirmar Senha"
-        returnKeyType="done"
-        value={passwordConfirm.value}
-        onChangeText={text => setPasswordConfirm({ value: text, error: '' })}
-        error={!!passwordConfirm.error}
-        errorText={passwordConfirm.error}
-        secureTextEntry={true}
-      />
+        <TextInput
+          label="Confirmar Senha"
+          returnKeyType="done"
+          value={passwordConfirm.value}
+          onChangeText={text => setPasswordConfirm({ value: text, error: '' })}
+          error={!!passwordConfirm.error}
+          errorText={passwordConfirm.error}
+          secureTextEntry={true}
+        />
 
-      <DropDownPicker
-        open={openSecretQuestionPicker}
-        value={selectedSecretQuestion}
-        items={secretQuestions}
-        setOpen={setOpenSecretQuestionPicker}
-        setValue={setSelectedSecretQuestion}
-        setItems={setSecretQuestions}
-        placeholder={'Pergunta Secreta'}
-        listMode="MODAL"
-        errorText={secretQuestion.error}
-        onSelectItem={handleSecretQuestionSelect}
-      />
+        <DropDownPicker
+          open={openSecretQuestionPicker}
+          value={selectedSecretQuestion}
+          items={secretQuestions}
+          setOpen={setOpenSecretQuestionPicker}
+          setValue={setSelectedSecretQuestion}
+          setItems={setSecretQuestions}
+          placeholder={'Pergunta Secreta'}
+          listMode="MODAL"
+          errorText={secretQuestion.error}
+          onSelectItem={handleSecretQuestionSelect}
+        />
 
-      <TextInput
-        label="Resposta Secreta"
-        returnKeyType="next"
-        value={secretAnswer.value}
-        onChangeText={text => setSecretAnswer({ value: text, error: '' })}
-        error={!!secretAnswer.error}
-        errorText={secretAnswer.error}
-      />
+        <TextInput
+          label="Resposta Secreta"
+          returnKeyType="next"
+          value={secretAnswer.value}
+          onChangeText={text => setSecretAnswer({ value: text, error: '' })}
+          error={!!secretAnswer.error}
+          errorText={secretAnswer.error}
+        />
 
-      <Button mode="contained" onPress={handleRegistrationClick} style={styles.button}>
-        Cadastrar
-      </Button>
+        <DateInput
+          label="Data de Nascimento"
+          value={birthdate.value}
+          onChange={(date) => setBirthdate({ value: date, error: '' })}
+          errorText={birthdate.error}
+        />
 
-      <View style={styles.row}>
-        <Text style={styles.label}>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.link}>Login</Text>
-        </TouchableOpacity>
-      </View>
-    </Background>
+        <Button mode="contained" onPress={handleRegistrationClick} style={styles.button}>
+          Cadastrar
+        </Button>
+
+        <View style={styles.row}>
+          <Text style={styles.label}>Já possui uma conta? </Text>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.link}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </Background>
+    </ScrollView>
   );
 };
 

@@ -14,7 +14,7 @@ const TextInput = ({ errorText, secureTextEntry, ...props }: Props) => {
     if (!secureTextEntry)
       return false;
 
-    return showPassword;
+      return !showPassword;;
   };
 
   return (

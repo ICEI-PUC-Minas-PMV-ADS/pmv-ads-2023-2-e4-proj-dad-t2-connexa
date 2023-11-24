@@ -18,8 +18,8 @@ type Props = {
 
 const Login = ({ navigation, handleLogin }: Props) => {
 
-  const [email, setEmail] = useState({ value: 'jose@email.com', error: '' });
-  const [password, setPassword] = useState({ value: 'padrao123', error: '' });
+  const [email, setEmail] = useState({ value: '', error: '' });
+  const [password, setPassword] = useState({ value: '', error: '' });
 
   const authenticationService = new AuthenticationService();
 

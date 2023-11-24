@@ -12,7 +12,7 @@ const apiInstance: AxiosInstance = axios.create({
 class AuthenticationService {
   async loginAsync(loginDto: { email: string; password: string }): Promise<string | null> {
     try {
-      console.info("AuthenticationService.loginAsync -> Chamou o endpoint de login na API.");
+      console.info("AuthenticationService.loginAsync -> Chamou o endpoint de login na API.", JSON.stringify(loginDto));
 
       const response: AxiosResponse = await apiInstance.post("/gateway/authentication/users/validate", loginDto);
 
@@ -24,7 +24,7 @@ class AuthenticationService {
 
       return response.data;
     } catch (error) {
-      console.error('AuthenticationService.loginAsync -> Erro ao chamar o endpoint de login da API Connexa.', error);
+      console.error('AuthenticationService.loginAsync -> Erro ao chamar o endpoint de login da API Connexa.', error.toJSON());
       return null;
     }
   }

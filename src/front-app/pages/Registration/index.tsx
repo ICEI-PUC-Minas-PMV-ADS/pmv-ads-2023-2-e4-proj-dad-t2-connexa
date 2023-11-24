@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Background from '../../components/Background';
 import Logo from '../../components/Logo';
 import Header from '../../components/Header';
@@ -21,6 +21,10 @@ import {
   secretAnswerValidator,
   birthdateValidator,
 } from '../../core/validators';
+import AuthenticationService from '../../services/authentication/authentication/AuthenticationService';
+import CreateOrUpdateUserDto from '../../services/authentication/authentication/dtos/CreateOrUpdateUserDto';
+import Toast from 'react-native-toast-message';
+import { ItemType } from 'react-native-dropdown-picker';
 
 type Props = {
   navigation: NavigationProp<ParamListBase>;
@@ -52,16 +56,48 @@ const Registration = ({ navigation }: Props) => {
     { label: 'Qual é o modelo do seu primeiro carro?', value: 'Qual é o modelo do seu primeiro carro?' }
   ]);
 
-  const handleSecretQuestionSelect = (value) => {
-    setSecretQuestion({ value, error: '' });
+  const handleSecretQuestionSelect = (item: ItemType<string>) => {
+    setSecretQuestion({ value: item.value, error: '' });
   };
 
-  const handleRegistrationClick = () => {
+  const handleRegistrationClick = async () => {
     if (!validateForm()) {
       return;
     }
 
-    return;
+    try {
+      var createUserDto = new CreateOrUpdateUserDto(
+        name.value,
+        email.value,
+        password.value,
+        document.value,
+        birthdate.value.toISOString().split('T')[0],
+        secretQuestion.value,
+        secretAnswer.value);
+
+      console.info('Cadastro.handleSubmit -> Iniciando cadastro do usuário.', createUserDto);
+
+      const authService = new AuthenticationService();
+      const success = await authService.createUserAsync(createUserDto);
+
+      console.info('Cadastro.handleSubmit -> Resposta da API de cadastro de usuário:', success);
+
+      if (success) {
+        Toast.show({ type: 'success', text1: 'Cadastro realizado com sucesso!' });
+        navigation.navigate('Login');
+        return;
+      }
+
+      console.error('Cadastro.handleSubmit -> Erro no processo de cadastro.');
+
+      Toast.show({ type: 'error', text1: 'Ocorreu um erro no processo de cadastro, tente novamente mais tarde.' });
+      return;
+
+    } catch (error) {
+      console.error('Cadastro.handleSubmit -> Erro no processo de cadastro:', error);
+      Toast.show({ type: 'error', text1: 'Ocorreu um erro no processo de cadastro, tente novamente mais tarde.' });
+      return;
+    }
   };
 
   const validateForm = (): boolean => {
@@ -95,8 +131,6 @@ const Registration = ({ navigation }: Props) => {
 
     return isValid;
   };
-
-
 
   return (
     <ScrollView>

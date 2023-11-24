@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useState} from 'react';
+import { useEffect, useState } from 'react';
 import { PaperProvider } from 'react-native-paper';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
@@ -13,7 +13,14 @@ import ExamplePage3 from './pages/ExamplePage3';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { theme } from './core/theme';
 import { jwtDecode } from "jwt-decode";
-import Toast from './components/Toast';
+import { decode, encode } from 'base-64';
+import Toast from 'react-native-toast-message';
+import toastConfig from './core/toastConfig';
+import JwtPayload from './services/authentication/authentication/dtos/JwtPayloadDto';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+if (!global.btoa) { global.btoa = encode }
+if (!global.atob) { global.atob = decode }
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -22,23 +29,44 @@ export default function App() {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const handleLogin = (accessToken: string) => {
-    console.info("App -> handleLogin", accessToken);
+  useEffect(() => {
 
-    if (!accessToken) {
-      setIsAuthenticated(false);
-      // Arruma uma lib de tost para nós, bebe.
-      // Coloca essa mensagem aqui: Usuário ou senha inválido!
-      <Toast type="error" message="Usuário ou senha inválido" />;
-     return 
+    async function fetchToken() {
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const userId = await AsyncStorage.getItem('userId');
+      const userName = await AsyncStorage.getItem('userName');
+      const birthdate = await AsyncStorage.getItem('birthdate');
+      const isAuthenticated = accessToken != null;
+      console.info(`App -> useEffect -> fetchToken -> isAuthenticated: ${isAuthenticated} / userId: ${userId} / userName: ${userName} / birthdate: ${birthdate}`);
+      setIsAuthenticated(isAuthenticated);
     }
 
-    const decoded = jwtDecode(accessToken);
+    fetchToken()
 
-    console.log("App -> handleLogin", decoded);
+  }, []);
 
+  const handleLogin = async (accessToken: string) => {
+    if (!accessToken) {
+      setIsAuthenticated(false);
+      Toast.show({ type: 'error', text1: 'Usuário ou senha inválido.' });
+      return
+    }
+
+    await storeTokenData(accessToken);
     setIsAuthenticated(true);
+    Toast.show({ type: 'success', text1: 'Seja bem-vindo!' });
   };
+
+  const storeTokenData = async (accessToken: string) => {
+    const decodedToken = jwtDecode<JwtPayload>(accessToken);
+
+    console.log("App -> handleLogin", decodedToken);
+
+    await AsyncStorage.setItem('accessToken', accessToken);
+    await AsyncStorage.setItem('userId', decodedToken.id);
+    await AsyncStorage.setItem('userName', decodedToken.unique_name);
+    await AsyncStorage.setItem('birthdate', decodedToken.birthdate);
+  }
 
   const AuthenticatedAreaContainer = () => {
     return (
@@ -121,6 +149,7 @@ export default function App() {
           <AuthenticatedAreaContainer /> :
           <UnauthenticatedAreaContainer />
       }
+      <Toast config={toastConfig} />
     </PaperProvider>
   );
 }

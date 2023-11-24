@@ -105,7 +105,7 @@ export default function App() {
             }}
           />
           <Tab.Screen
-            name="ExamplePage1"
+            name="Criar Lista"
             component={CriarLista}
             options={{
               title: 'Crie Uma Nova Lista',

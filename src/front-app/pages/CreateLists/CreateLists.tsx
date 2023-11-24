@@ -1,20 +1,42 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet, Alert } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import ToastContainer from 'react-native-toast-message';
+import TextInput from '../../components/TextInput';
+import Button from '../../components/Button';
+import Header from '../../components/Header';
+import Background from '../../components/Background';
+import { View, TouchableOpacity } from 'react-native';
 import { saveCreateListAsync } from '../../services/lists/listService';
 import { CreateListDTO } from '../../services/lists/dtos/CreateListDto';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CreateList: React.FC = () => {
-  const idOwner = 29; //TESTE
-
   const [newList, setNewList] = useState<CreateListDTO>({
     listaTitulo: '',
     listaDescricao: '',
-    userId: idOwner,
+    userId: 0,
     listaPublica: true,
     listaStatus: true,
-    listaId: 0, //TESTE
+    listaId: 40,
     message: '',
   });
+
+  useEffect(() => {
+    const getUserId = async () => {
+      try {
+        const userId = await AsyncStorage.getItem('userId');
+        if (userId) {
+          setNewList((prevList) => ({
+            ...prevList,
+            userId: parseInt(userId, 10),
+          }));
+        }
+      } catch (error) {
+        console.error('Erro ao obter userId do AsyncStorage:', error);
+      }
+    };
+
+    getUserId();
+  }, []);
 
   const handleInputChange = (name: string, value: string) => {
     setNewList({
@@ -25,7 +47,7 @@ const CreateList: React.FC = () => {
 
   const handleCreateList = async () => {
     if (newList.listaTitulo.trim() === '') {
-      console.log('Erro', 'Sua lista precisa de um nome');
+      ToastContainer.show({ type: 'error', text1: 'DÊ UM NOME A SUA LISTA'});
       return;
     }
 
@@ -33,75 +55,43 @@ const CreateList: React.FC = () => {
       const response = await saveCreateListAsync(newList);
 
       if (response) {
-        console.log('Sucesso', 'Nova lista criada com sucesso');
+        ToastContainer.show({ type: 'success', text1: 'NOVA LISTA CRIADA COM SUCESSO'});
       } else {
-        console.log('Erro', 'Erro ao criar a lista na API');
+        ToastContainer.show({ type: 'error', text2: 'Erro ao criar a lista na API',
+        });
       }
     } catch (error) {
       console.error('Erro ao criar a lista na API:', error);
-      Alert.alert('Erro', 'Erro ao criar a lista na API');
+      ToastContainer.show({
+        type: 'error',
+        text1: 'Erro',
+        text2: 'Erro ao criar a lista na API',
+      });
     }
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Criar Lista</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Nome da Lista*"
-        value={newList.listaTitulo}
-        onChangeText={(text) => handleInputChange('listaTitulo', text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Descrição*"
-        value={newList.listaDescricao}
-        onChangeText={(text) => handleInputChange('listaDescricao', text)}
-      />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleCreateList}
-      >
-        <Text style={styles.buttonText}>Salvar</Text>
-      </TouchableOpacity>
-    </View>
+    <Background>
+      <View style={{ alignItems: 'center' }}>
+        <Header>Nova Lista</Header>
+        <TextInput
+          placeholder="Nome da Lista*"
+          value={newList.listaTitulo}
+          onChangeText={(text) => handleInputChange('listaTitulo', text)}
+        />
+        <TextInput
+          placeholder="Descrição"
+          value={newList.listaDescricao}
+          onChangeText={(text) => handleInputChange('listaDescricao', text)}
+        />
+        <TouchableOpacity style={{ width: '100%' }}>
+          <Button mode="contained" onPress={handleCreateList}>
+            Salvar
+          </Button>
+        </TouchableOpacity>
+      </View>
+    </Background>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 10,
-  },
-  title: {
-    fontSize: 30,
-    color: '#003049',
-    marginBottom: 10,
-  },
-  input: {
-    borderColor: '#003049',
-    borderWidth: 1,
-    width: '20%',
-    height: 50,
-    borderRadius: 4,
-    marginTop: 20,
-    paddingLeft: 10,
-  },
-  button: {
-    backgroundColor: '#003049',
-    borderRadius: 4,
-    width: '20%',
-    height: 40,
-    marginTop: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-  },
-});
 
 export default CreateList;

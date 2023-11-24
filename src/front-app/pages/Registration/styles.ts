@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
       marginTop: 4,
     },
     link: {
+      marginBottom: 24,
       fontWeight: 'bold',
       color: theme.colors.primary,
     },

@@ -45,8 +45,9 @@ export const useConnexaRealTime = ({listCallback, listItemCallback} : ListRealTi
   const timeoutId = useRef<NodeJS.Timeout>();
   let connection : HubConnection | null = null;
 
+
   const connect = useCallback(async () => {
-      if (!connection || connection.state === HubConnectionState.Disconnected) {
+      if (!connection || connection?.state === HubConnectionState.Disconnected) {
         connection = await setupSignalRConnection(connexaRealTimeAddress);
 
         connection?.on(listRealTimeHub, (list: ListDTO) => {
@@ -56,8 +57,8 @@ export const useConnexaRealTime = ({listCallback, listItemCallback} : ListRealTi
         connection?.on(listItemRealTimeHub, (listItem: ListItemDTO) => {
           listItemCallback(listItem);
         });
-      }
-  }, [idOwner])
+      }
+  }, [listCallback, listItemCallback])
 
   const subscribe = useCallback(async () => {
     if (connecting.current) return;
@@ -70,21 +71,22 @@ export const useConnexaRealTime = ({listCallback, listItemCallback} : ListRealTi
       timeoutId.current = setTimeout(subscribe, delaySeconds.current * 1000);
       return;
     }
-    await connection.invoke('Subscribe', Number(idOwner));
-  }, [idOwner, connect]);
+
+    if(connection?.state === HubConnectionState.Connected)
+      await connection.invoke('Subscribe', Number(idOwner));
+  }, [connect, connection, idOwner]);
+
+  const disconnect = useCallback(async () => {
+    if (connection?.state !== HubConnectionState.Connected) return;
+    connection?.off(listRealTimeHub);
+    await connection?.stop();
+  }, [connection]);
 
   const unsubscribe = useCallback(async () => {
     if (connection?.state !== HubConnectionState.Connected) return;
     await connection.invoke('Unsubscribe', Number(idOwner));
     await disconnect();
-  }, [connection, idOwner]);
-
-  const disconnect = async () => {
-    if (connection?.state !== HubConnectionState.Connected) return;
-
-    connection.off(listRealTimeHub);
-    await connection.stop();
-    };
+  },[connection, disconnect, idOwner]);
 
   useEffect(() => {
     if (idOwner) {
@@ -94,6 +96,7 @@ export const useConnexaRealTime = ({listCallback, listItemCallback} : ListRealTi
       unsubscribe();
       clearTimeout(timeoutId.current);
     };
+
   }, [idOwner, subscribe, unsubscribe]);
 }
 

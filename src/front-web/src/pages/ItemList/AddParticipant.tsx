@@ -129,12 +129,6 @@ function AddParticipant(props: { idLista: string | undefined }) {
         theme="light"
       />
     </>
-    // 
-    //   <button className="modal-button" onClick={HandleModal}>
-    //     Adicionar participante
-    //   </button>
-    
-    // </div>
   );
 }
 

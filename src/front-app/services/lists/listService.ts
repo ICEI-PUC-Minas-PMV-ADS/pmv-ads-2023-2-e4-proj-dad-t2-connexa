@@ -6,7 +6,7 @@ const IS_PROD = false;
 const STATUS_OK = 200;
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://192.168.18.1:7150/gateway'
+    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://192.168.68.107:7150/gateway'
 });
 
 export const saveCreateListAsync = async (newList: CreateListDTO) => { 

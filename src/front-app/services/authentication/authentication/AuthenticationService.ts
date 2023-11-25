@@ -24,7 +24,7 @@ class AuthenticationService {
 
       return response.data;
     } catch (error) {
-      console.error('AuthenticationService.loginAsync -> Erro ao chamar o endpoint de login da API Connexa.', error.toJSON());
+      console.error('AuthenticationService.loginAsync -> Erro ao chamar o endpoint de login da API Connexa.', error);
       return null;
     }
   }

@@ -12,7 +12,7 @@ const apiInstance: AxiosInstance = axios.create({
 class AuthenticationService {
   async loginAsync(loginDto: { email: string; password: string }): Promise<string | null> {
     try {
-      console.info("AuthenticationService.loginAsync -> Chamou o endpoint de login na API.", JSON.stringify(loginDto));
+      console.info("AuthenticationService.loginAsync -> Chamou o endpoint de login na API.");
 
       const response: AxiosResponse = await apiInstance.post("/gateway/authentication/users/validate", loginDto);
 

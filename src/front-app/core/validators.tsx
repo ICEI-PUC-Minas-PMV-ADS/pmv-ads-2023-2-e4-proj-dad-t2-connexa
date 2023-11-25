@@ -51,7 +51,7 @@ export const documentValidator = (document: string) => {
 
 export const birthdateValidator = (birthdate: Date) => {
   if (!birthdate) return 'Por favor, insira a data de nascimento.';
-  if (validateAge(birthdate)) return `Idade mínima para uso: ${MIN_AGE_IN_YEARS} anos.`;
+  if (!isValidAge(birthdate)) return `Idade mínima para uso: ${MIN_AGE_IN_YEARS} anos.`;
 
   return '';
 };
@@ -106,7 +106,7 @@ const isValidCpf = (cpf: string) => {
   return true;
 }
 
-const validateAge = (dateToCompare: Date) => {
+const isValidAge = (dateToCompare: Date) => {
   const currentDate = new Date();
   const yearsDifference = differenceInYears(currentDate, dateToCompare);
   return yearsDifference >= MIN_AGE_IN_YEARS;

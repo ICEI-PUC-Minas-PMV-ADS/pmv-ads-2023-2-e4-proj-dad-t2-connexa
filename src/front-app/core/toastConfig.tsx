@@ -3,6 +3,8 @@ import { View, Text } from 'react-native';
 import { BaseToast, ErrorToast, ToastConfig } from 'react-native-toast-message';
 import { theme } from './theme';
 
+const HEIGHT = 60;
+
 /*
   1. Create the config
 */
@@ -14,12 +16,17 @@ const toastConfig: ToastConfig = {
   success: (props) => (
     <BaseToast
       {...props}
-      style={{ borderLeftColor: theme.colors.primary }}
+      style={{ borderLeftColor: theme.colors.primary, height: undefined, minHeight: HEIGHT }}
       contentContainerStyle={{ paddingHorizontal: 15 }}
       text1Style={{
-        fontSize: 15,
+        fontSize: 17,
         fontWeight: '400'
       }}
+      text2Style={{
+        fontSize: 15
+      }}
+      text1NumberOfLines={1}
+      text2NumberOfLines={5}
     />
   ),
   /*
@@ -29,13 +36,17 @@ const toastConfig: ToastConfig = {
   error: (props) => (
     <ErrorToast
       {...props}
-      style={{ borderLeftColor: theme.colors.error }}
+      style={{ borderLeftColor: theme.colors.error, height: undefined, minHeight: HEIGHT }}
+      contentContainerStyle={{ paddingHorizontal: 15 }}
       text1Style={{
-        fontSize: 17
+        fontSize: 17,
+        fontWeight: '400'
       }}
       text2Style={{
         fontSize: 15
       }}
+      text1NumberOfLines={1}
+      text2NumberOfLines={5}
     />
   ),
   /*

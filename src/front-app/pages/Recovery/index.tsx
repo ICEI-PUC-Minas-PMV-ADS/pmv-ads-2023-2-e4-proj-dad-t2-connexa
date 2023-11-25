@@ -17,6 +17,7 @@ import {
     passwordValidator,
     secretAnswerValidator,
 } from '../../core/validators';
+import Toast from 'react-native-toast-message';
 
 type Props = {
     navigation: NavigationProp<ParamListBase>;
@@ -27,27 +28,41 @@ const Recovery = ({ navigation }: Props) => {
     const [document, setDocument] = useState({ value: '', error: '' });
     const [password, setPassword] = useState({ value: '', error: '' });
     const [passwordConfirm, setPasswordConfirm] = useState({ value: '', error: '' });
-    const [secretQuestion, setSecretQuestion] = useState({ value: '' });
+    const [secretQuestion, setSecretQuestion] = useState({ value: '', error: '' });
     const [secretAnswer, setSecretAnswer] = useState({ value: '', error: '' });
 
-    const authenticationService = new AuthenticationService();
+    const [disableInputs, setDisableInputs] = useState(true);
+
 
     const handleEmailValidation = async () => {
-        const emailError = emailValidator(email.value);
-        setEmail({ ...email, error: emailError });
 
-        if (!emailError) {
-            try {
-                const secretQuestionResponse = await authenticationService.getSecretQuestionAsync(email.value);
+        if (!validateEmailFromForm())
+            return;
 
-                if (secretQuestionResponse && secretQuestionResponse.value) {
-                    setSecretQuestion(secretQuestionResponse.value);
-                }
-            } catch (error) {
-                console.error('Erro ao chamar o serviço para obter a pergunta secreta:', error);
+        try {
+            const authenticationService = new AuthenticationService();
+            const secretQuestionResponse = await authenticationService.getSecretQuestionAsync(email.value);
+
+            if (!secretQuestionResponse) {
+                Toast.show({ type: 'error', text1: 'Usuário não encontrado.' });
+                return;
             }
+
+            setSecretQuestion({ value: secretQuestionResponse, error: '' });
+
+            setDisableInputs(false);
+
+        } catch (error) {
+            console.error('Recovery.handleContinueClick -> Erro ao buscar pergunta secreta:', error);
+            Toast.show({ type: 'error', text1: 'Erro ao buscar usuário, tente novamente mais tarde.' });
         }
     };
+
+    const validateEmailFromForm = () => {
+        const emailError = emailValidator(email.value);
+        setEmail({ ...email, error: emailError });
+        return !emailError;
+    }
 
     const handlePasswordRecoveryClick = async () => {
         if (!validateForm()) {
@@ -79,7 +94,7 @@ const Recovery = ({ navigation }: Props) => {
     };
 
     return (
-        <ScrollView>
+        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
             <Background>
                 <BackButton goBack={navigation.goBack} />
                 <Logo />
@@ -96,48 +111,66 @@ const Recovery = ({ navigation }: Props) => {
                     textContentType="emailAddress"
                     keyboardType="email-address"
                 />
-                <Button mode="contained" onPress={handleEmailValidation} style={styles.button}>
-                    Prosseguir
-                </Button>
 
-                <TextInput
-                    label={`${secretQuestion.value}`}
-                    value={secretQuestion.value}
-                    editable={false}
-                />
+                {disableInputs &&
+                    <Button mode="contained" onPress={handleEmailValidation} style={styles.button}>
+                        Prosseguir
+                    </Button>
+                }
 
-                <TextInput
-                    label="Resposta Secreta"
-                    returnKeyType="next"
-                    value={secretAnswer.value}
-                    onChangeText={(text) => setSecretAnswer({ value: text, error: '' })}
-                    error={!!secretAnswer.error}
-                    errorText={secretAnswer.error}
-                />
+                {!disableInputs &&
+                    <>
+                        <TextInput
+                            label="CPF"
+                            returnKeyType="next"
+                            value={document.value}
+                            onChangeText={text => setDocument({ value: text, error: '' })}
+                            error={!!document.error}
+                            errorText={document.error}
+                        />
 
-                <TextInput
-                    label="Nova Senha"
-                    returnKeyType="done"
-                    value={password.value}
-                    onChangeText={(text) => setPassword({ value: text, error: '' })}
-                    error={!!password.error}
-                    errorText={password.error}
-                    secureTextEntry={true}
-                />
+                        <TextInput
+                            label={"Pergunta secreta"}
+                            value={secretQuestion.value}
+                            editable={false}
+                            multiline={true}
+                            numberOfLines={3}
+                            textBreakStrategy='simple'
+                        />
 
-                <TextInput
-                    label="Confirmar Senha"
-                    returnKeyType="done"
-                    value={passwordConfirm.value}
-                    onChangeText={(text) => setPasswordConfirm({ value: text, error: '' })}
-                    error={!!passwordConfirm.error}
-                    errorText={passwordConfirm.error}
-                    secureTextEntry={true}
-                />
-                <Button mode="contained" onPress={handlePasswordRecoveryClick} style={styles.button}>
-                    Recuperar Senha
-                </Button>
+                        <TextInput
+                            label="Resposta Secreta" 
+                            returnKeyType="next"
+                            value={secretAnswer.value}
+                            onChangeText={(text) => setSecretAnswer({ value: text, error: '' })}
+                            error={!!secretAnswer.error}
+                            errorText={secretAnswer.error}
+                        />
 
+                        <TextInput
+                            label="Nova Senha"
+                            returnKeyType="done"
+                            value={password.value}
+                            onChangeText={(text) => setPassword({ value: text, error: '' })}
+                            error={!!password.error}
+                            errorText={password.error}
+                            secureTextEntry={true}
+                        />
+
+                        <TextInput
+                            label="Confirmar Senha"
+                            returnKeyType="done"
+                            value={passwordConfirm.value}
+                            onChangeText={(text) => setPasswordConfirm({ value: text, error: '' })}
+                            error={!!passwordConfirm.error}
+                            errorText={passwordConfirm.error}
+                            secureTextEntry={true}
+                        />
+                        <Button mode="contained" onPress={handlePasswordRecoveryClick} style={styles.button}>
+                            Recuperar Senha
+                        </Button>
+                    </>
+                }
                 <View style={styles.row}>
                     <Text style={styles.label}>Lembrou a senha? </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('Login')}>

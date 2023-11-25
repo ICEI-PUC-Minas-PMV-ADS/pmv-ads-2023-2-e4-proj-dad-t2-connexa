@@ -1,6 +1,5 @@
 import React, { memo, useState } from 'react';
-import { Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { emailValidator } from '../../core/validators';
+import { Text, TouchableOpacity, View } from 'react-native';
 import Background from '../../components/Background';
 import BackButton from '../../components/BackButton';
 import Logo from '../../components/Logo';
@@ -8,7 +7,19 @@ import Header from '../../components/Header';
 import TextInput from '../../components/TextInput';
 import Button from '../../components/Button';
 import { ParamListBase, NavigationProp } from '@react-navigation/native';
+import AuthenticationService from '../../services/authentication/authentication/AuthenticationService';
+import { ScrollView } from 'react-native';
 import styles from './styles';
+import {
+    documentValidator,
+    emailValidator,
+    passwordConfirmValidator,
+    passwordValidator,
+    secretAnswerValidator,
+} from '../../core/validators';
+import Toast from 'react-native-toast-message';
+import CreateOrUpdateUserDto from '../../services/authentication/authentication/dtos/CreateOrUpdateUserDto';
+import DocumentInput from '../../components/DocumentInput';
 
 type Props = {
     navigation: NavigationProp<ParamListBase>;
@@ -16,43 +27,190 @@ type Props = {
 
 const Recovery = ({ navigation }: Props) => {
     const [email, setEmail] = useState({ value: '', error: '' });
+    const [document, setDocument] = useState({ value: '', error: '' });
+    const [password, setPassword] = useState({ value: '', error: '' });
+    const [passwordConfirm, setPasswordConfirm] = useState({ value: '', error: '' });
+    const [secretQuestion, setSecretQuestion] = useState({ value: '', error: '' });
+    const [secretAnswer, setSecretAnswer] = useState({ value: '', error: '' });
 
-    const _onSendPressed = () => {
+    const [disableInputs, setDisableInputs] = useState(true);
+
+
+    const handleEmailValidation = async () => {
+
+        if (!validateEmailFromForm())
+            return;
+
+        try {
+            const authenticationService = new AuthenticationService();
+            const secretQuestionResponse = await authenticationService.getSecretQuestionAsync(email.value);
+
+            if (!secretQuestionResponse) {
+                Toast.show({ type: 'error', text1: 'Usuário não encontrado.' });
+                return;
+            }
+
+            setSecretQuestion({ value: secretQuestionResponse, error: '' });
+
+            setDisableInputs(false);
+
+        } catch (error) {
+            console.error('Recovery.handleContinueClick -> Erro ao buscar pergunta secreta:', error);
+            Toast.show({ type: 'error', text1: 'Erro ao buscar usuário, tente novamente mais tarde.' });
+        }
+    };
+
+    const validateEmailFromForm = () => {
         const emailError = emailValidator(email.value);
+        setEmail({ ...email, error: emailError });
+        return !emailError;
+    }
 
-        if (emailError) {
-            setEmail({ ...email, error: emailError });
+    const handlePasswordRecoveryClick = async () => {
+        if (!validateForm())
+            return;
+
+        try {
+            console.info("Recovery.handleSubmit -> Chamando API para recuperar senha.");
+
+            const updateUserDto = CreateOrUpdateUserDto.CreateDtoToUpdate(
+                email.value,
+                password.value,
+                document.value,
+                secretAnswer.value
+            );
+
+            const authenticationService = new AuthenticationService();
+            const success = await authenticationService.createUserAsync(updateUserDto);
+
+            console.info("Recovery.handleSubmit -> Resposta da API para recuperar senha.", success);
+
+            if (!success) {
+                console.error("Recovery.handleSubmit -> Erro ao recuperar senha.", success);
+                Toast.show({ type: 'error', text1: 'Não foi possível recuperar a senha, confira os dados informados e tente novamente.' });
+                return;
+            }
+
+            Toast.show({ type: 'success', text1: 'Nova senha criada com sucesso!' });
+            navigation.navigate('Login');
+            return;
+
+        } catch (error) {
+            console.error("Recovery.handleSubmit -> Erro ao recuperar senha:", error);
+            Toast.show({ type: 'error', text1: 'Não foi possível recuperar a senha, confira os dados informados e tente novamente.' });
             return;
         }
+    };
 
-        navigation.navigate('LoginScreen');
+    const validateForm = (): boolean => {
+        const emailError = emailValidator(email.value);
+        const documentError = documentValidator(document.value);
+        const passwordError = passwordValidator(password.value);
+        const passwordConfirmError = passwordConfirmValidator(password.value, passwordConfirm.value);
+        const secretAnswerError = secretAnswerValidator(secretAnswer.value);
+
+        setEmail({ ...email, error: emailError });
+        setDocument({ ...document, error: documentError });
+        setPassword({ ...password, error: passwordError });
+        setPasswordConfirm({ ...passwordConfirm, error: passwordConfirmError });
+        setSecretAnswer({ ...secretAnswer, error: secretAnswerError });
+
+        const isValid =
+            !emailError &&
+            !documentError &&
+            !passwordError &&
+            !passwordConfirmError &&
+            !secretAnswerError;
+
+        return isValid;
     };
 
     return (
-        <Background>
-            <BackButton goBack={navigation.goBack} />
+        <ScrollView contentContainerStyle={styles.contentContainerStyle}>
+            <Background>
+                <BackButton goBack={navigation.goBack} />
+                <Logo />
+                <Header>Recuperar Senha</Header>
+                <TextInput
+                    label="Email"
+                    returnKeyType="next"
+                    value={email.value}
+                    onChangeText={(text) => setEmail({ value: text, error: '' })}
+                    error={!!email.error}
+                    errorText={email.error}
+                    autoCapitalize="none"
+                    autoComplete="email"
+                    textContentType="emailAddress"
+                    keyboardType="email-address"
+                />
 
-            <Logo />
+                {disableInputs &&
+                    <Button mode="contained" onPress={handleEmailValidation} style={styles.button}>
+                        Prosseguir
+                    </Button>
+                }
 
-            <Header>Restore Password</Header>
+                {!disableInputs &&
+                    <>
+                        <DocumentInput
+                            label="CPF"
+                            returnKeyType="next"
+                            value={document.value}
+                            onChangeText={text => setDocument({ value: text, error: '' })}
+                            error={!!document.error}
+                            errorText={document.error}
+                        />
 
-            <TextInput
-                label="E-mail address"
-                returnKeyType="done"
-                value={email.value}
-                onChangeText={text => setEmail({ value: text, error: '' })}
-                error={!!email.error}
-                errorText={email.error}
-                autoCapitalize="none"
-                autoComplete="email"
-                textContentType="emailAddress"
-                keyboardType="email-address"
-            />
+                        <TextInput
+                            label={"Pergunta secreta"}
+                            value={secretQuestion.value}
+                            editable={false}
+                            multiline={true}
+                            numberOfLines={3}
+                            textBreakStrategy='simple'
+                        />
 
-            <Button mode="contained" onPress={_onSendPressed} style={styles.button}>
-                Send Reset Instructions
-            </Button>
-        </Background>
+                        <TextInput
+                            label="Resposta Secreta"
+                            returnKeyType="next"
+                            value={secretAnswer.value}
+                            onChangeText={(text) => setSecretAnswer({ value: text, error: '' })}
+                            error={!!secretAnswer.error}
+                            errorText={secretAnswer.error}
+                        />
+
+                        <TextInput
+                            label="Nova Senha"
+                            returnKeyType="done"
+                            value={password.value}
+                            onChangeText={(text) => setPassword({ value: text, error: '' })}
+                            error={!!password.error}
+                            errorText={password.error}
+                            secureTextEntry={true}
+                        />
+
+                        <TextInput
+                            label="Confirmar Senha"
+                            returnKeyType="done"
+                            value={passwordConfirm.value}
+                            onChangeText={(text) => setPasswordConfirm({ value: text, error: '' })}
+                            error={!!passwordConfirm.error}
+                            errorText={passwordConfirm.error}
+                            secureTextEntry={true}
+                        />
+                        <Button mode="contained" onPress={handlePasswordRecoveryClick} style={styles.button}>
+                            Recuperar Senha
+                        </Button>
+                    </>
+                }
+                <View style={styles.row}>
+                    <Text style={styles.label}>Lembrou a senha? </Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+                        <Text style={styles.link}>Login</Text>
+                    </TouchableOpacity>
+                </View>
+            </Background >
+        </ScrollView >
     );
 };
 

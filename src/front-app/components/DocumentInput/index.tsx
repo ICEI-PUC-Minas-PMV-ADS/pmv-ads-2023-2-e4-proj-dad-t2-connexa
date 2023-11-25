@@ -3,19 +3,13 @@ import { View, Text } from 'react-native';
 import { TextInput as Input } from 'react-native-paper';
 import { theme } from '../../core/theme';
 import styles from './styles';
+import { TextInputMask } from 'react-native-masked-text';
 
 type Props = React.ComponentProps<typeof Input> & { errorText?: string };
 
-const TextInput = ({ errorText, secureTextEntry, ...props }: Props) => {
+const DocumentInput = ({ errorText, secureTextEntry, ...props }: Props) => {
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const shouldHidePassword = () => {
-    if (!secureTextEntry)
-      return false;
-
-      return !showPassword;;
-  };
+  const documentInputRef = React.createRef<TextInputMask>();
 
   return (
     <View style={styles.container}>
@@ -25,15 +19,12 @@ const TextInput = ({ errorText, secureTextEntry, ...props }: Props) => {
         underlineColor="transparent"
         mode="outlined"
         {...props}
-        secureTextEntry={shouldHidePassword()}
-        right={secureTextEntry ?
-          <Input.Icon
-            icon={showPassword ? "eye-off" : "eye"}
-            onPress={() => {
-              setShowPassword(!showPassword);
-              return false;
-            }}
-          /> : null
+        render={props =>
+          <TextInputMask
+            type={'cpf'}
+            {...props}
+            ref={documentInputRef}
+          />
         }
       />
       {errorText ? <Text style={styles.error}>{errorText}</Text> : null}
@@ -41,4 +32,4 @@ const TextInput = ({ errorText, secureTextEntry, ...props }: Props) => {
   );
 };
 
-export default memo(TextInput);
+export default memo(DocumentInput);

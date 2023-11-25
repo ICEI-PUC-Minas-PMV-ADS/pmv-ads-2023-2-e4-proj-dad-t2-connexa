@@ -15,8 +15,10 @@ namespace ListAPI.DataAccess
         private readonly ConnexaRabbitMQClient _connexaRabbitMQClient;
         private readonly ConnexaContext _context;
 
-        private readonly string UPDATE_LIST_QUEUE_NAME = "update-list-obj";
-        private readonly string UPDATE_LIST_ITEM_QUEUE_NAME = "update-list-item-obj";
+        private readonly string UPDATE_LIST_QUEUE = "update-list-obj";
+        private readonly string UPDATE_LIST_ITEM_QUEUE = "update-list-item-obj";
+        private readonly string DELETE_LIST_ITEM_OBJECT_QUEUE = "delete-list-item-obj";
+        private readonly string DELETE_LIST_OBJECT_QUEUE = "delete-list-item-obj";
 
         public ListDataAccess ([FromServices] ConnexaContext context, [FromServices] ConnexaRabbitMQClient connexaRabbitMQClient)
         {
@@ -43,7 +45,21 @@ namespace ListAPI.DataAccess
 
                 _context.Entry(item).State = EntityState.Deleted;
 
-                return await _context.SaveChangesAsync() > 0;
+                await _context.SaveChangesAsync();
+
+                var membersIds = listUsers.Select(s => s.UserId ?? 0).ToArray();
+                if(membersIds != null)
+                {
+                    if(membersIds != null && membersIds.Any())
+                        for(int i = 0; i < membersIds.Count();i++)
+                        {
+                            var list = new ListDTO() { IdUserTarget = membersIds[i], ListaId = idList };
+                            if(list.IdUserTarget > 0)
+                                _connexaRabbitMQClient.Publish(DELETE_LIST_OBJECT_QUEUE, list);
+                        }
+                }
+
+                return true;
             }
             catch (Exception ex)
             {
@@ -214,7 +230,7 @@ namespace ListAPI.DataAccess
                     {
                         list.IdUserTarget = membersIds[i];
                         if(list.IdUserTarget > 0)
-                            _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE_NAME, list);
+                            _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE, list);
                     }
                 }
 
@@ -402,7 +418,7 @@ namespace ListAPI.DataAccess
                         {
                             itemList.IdUserTarget = allMembers[i];
                             if(itemList.IdUserTarget > 0)
-                                _connexaRabbitMQClient.Publish(UPDATE_LIST_ITEM_QUEUE_NAME, itemList);
+                                _connexaRabbitMQClient.Publish(UPDATE_LIST_ITEM_QUEUE, itemList);
                         }
                 }
 
@@ -428,9 +444,25 @@ namespace ListAPI.DataAccess
 
                 _context.Remove(item);
 
-                return await _context.SaveChangesAsync() > 0;
-            }
-            catch (Exception ex)
+
+                await _context.SaveChangesAsync();
+
+                var membersIds = await GetMembersFromListAsync(item.ListaId ?? 0);
+
+                if(membersIds != null)
+                {
+                    if(membersIds != null && membersIds.Count() > 0)
+                        for(int i = 0; i < membersIds.Count() ;i++)
+                        {
+                            var list = new ItemListaDTO() { IdUserTarget = membersIds[i], Id = idItemLista, ListaId = 0 };
+                            if(list.IdUserTarget > 0)
+                                _connexaRabbitMQClient.Publish(DELETE_LIST_ITEM_OBJECT_QUEUE, list);
+                        }
+                }
+                
+                return true;
+
+            } catch (Exception ex)
             {
                 _context.ThrowException(ex.Message);
                 return false;

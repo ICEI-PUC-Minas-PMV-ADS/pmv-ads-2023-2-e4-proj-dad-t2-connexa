@@ -23,7 +23,6 @@ export default class CreateOrUpdateUserDto {
     this.birthdate = birthdate;
     this.secretQuestion = secretQuestion;
     this.secretAnswer = secretAnswer;
-    console.log("CreateOrUpdateUserDto -> Construtor completo.");
   }
 
   static CreateDtoToUpdate(

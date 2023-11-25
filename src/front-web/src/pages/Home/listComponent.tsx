@@ -54,7 +54,7 @@ const ListaItens = () => {
     }
   }, [filterOption, items]);
 
-  function populateItems(item: ListDTO) {
+  function populateItemsRealTime(item: ListDTO) {
     const index = items.findIndex((f) => f.listaId === item.listaId);
     const copy = [...items];
     if (index === -1) copy.push(item);
@@ -62,19 +62,31 @@ const ListaItens = () => {
     setItems(copy);
   }
 
+  function deleteItemRealTime(id: number) {
+    console.log(items);
+    console.log(id);
+    setItems(items.filter((f) => f.listaId !== id));
+  }
+
   useConnexaRealTime({
-    listCallback: populateItems,
+    listCallback: populateItemsRealTime,
+    deleteListCallback: deleteItemRealTime,
     listItemCallback(listItem) {},
+    deleteListItemCallback(id) {},
   });
+
+  const getLists = async (idOwner: number) => {
+    const response = await getListsByOwnerOrParticipant(idOwner);
+    if (response) {
+      setItems(response);
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (idOwner) {
-          const response = await getListsByOwnerOrParticipant(Number(idOwner));
-          if (response) {
-            setItems(response);
-          }
+          getLists(Number(idOwner));
         }
       } catch (error) {
         console.error("Erro ao obter os itens:", error);

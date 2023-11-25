@@ -18,6 +18,7 @@ import {
     secretAnswerValidator,
 } from '../../core/validators';
 import Toast from 'react-native-toast-message';
+import CreateOrUpdateUserDto from '../../services/authentication/authentication/dtos/CreateOrUpdateUserDto';
 
 type Props = {
     navigation: NavigationProp<ParamListBase>;
@@ -65,7 +66,37 @@ const Recovery = ({ navigation }: Props) => {
     }
 
     const handlePasswordRecoveryClick = async () => {
-        if (!validateForm()) {
+        if (!validateForm())
+            return;
+
+        try {
+            console.info("Recovery.handleSubmit -> Chamando API para recuperar senha.");
+
+            const updateUserDto = CreateOrUpdateUserDto.CreateDtoToUpdate(
+                email.value,
+                password.value,
+                document.value,
+                secretAnswer.value
+            );
+
+            const authenticationService = new AuthenticationService();
+            const success = await authenticationService.createUserAsync(updateUserDto);
+
+            console.info("Recovery.handleSubmit -> Resposta da API para recuperar senha.", success);
+
+            if (!success) {
+                console.error("Recovery.handleSubmit -> Erro ao recuperar senha.", success);
+                Toast.show({ type: 'error', text1: 'Não foi possível recuperar a senha, confira os dados informados e tente novamente.' });
+                return;
+            }
+
+            Toast.show({ type: 'success', text1: 'Nova senha criada com sucesso!' });
+            navigation.navigate('Login');
+            return;
+
+        } catch (error) {
+            console.error("Recovery.handleSubmit -> Erro ao recuperar senha:", error);
+            Toast.show({ type: 'error', text1: 'Não foi possível recuperar a senha, confira os dados informados e tente novamente.' });
             return;
         }
     };
@@ -139,7 +170,7 @@ const Recovery = ({ navigation }: Props) => {
                         />
 
                         <TextInput
-                            label="Resposta Secreta" 
+                            label="Resposta Secreta"
                             returnKeyType="next"
                             value={secretAnswer.value}
                             onChangeText={(text) => setSecretAnswer({ value: text, error: '' })}

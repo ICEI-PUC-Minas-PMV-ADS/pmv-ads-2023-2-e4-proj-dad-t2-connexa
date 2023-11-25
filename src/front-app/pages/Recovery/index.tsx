@@ -19,6 +19,7 @@ import {
 } from '../../core/validators';
 import Toast from 'react-native-toast-message';
 import CreateOrUpdateUserDto from '../../services/authentication/authentication/dtos/CreateOrUpdateUserDto';
+import DocumentInput from '../../components/DocumentInput';
 
 type Props = {
     navigation: NavigationProp<ParamListBase>;
@@ -151,7 +152,7 @@ const Recovery = ({ navigation }: Props) => {
 
                 {!disableInputs &&
                     <>
-                        <TextInput
+                        <DocumentInput
                             label="CPF"
                             returnKeyType="next"
                             value={document.value}

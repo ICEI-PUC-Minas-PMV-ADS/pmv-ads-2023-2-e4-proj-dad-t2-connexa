@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { CreateListDTO } from './dtos/CreateListDto';
 import { ListItemDTO } from './dtos/ListItem';
 import { ListDTO } from './dtos/ListDTO';
@@ -7,14 +7,14 @@ const IS_PROD = false;
 const STATUS_OK = 200;
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150/gateway'
+    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://192.168.68.107:7150/gateway'
 });
 
 export const saveCreateListAsync = async (newList: CreateListDTO) => { 
     try {
         console.info("ListsService.postCreateList -> Chamou o endpoint para criar uma lista", newList);
 
-        const response = await apiInstance.post<CreateListDTO>('/list/lists', newList);
+        const response: AxiosResponse<CreateListDTO>= await apiInstance.post('/lists', newList);
         console.info('ListsService.postCreateList -> Resposta da API.', response);
 
         if (response.status === STATUS_OK) {

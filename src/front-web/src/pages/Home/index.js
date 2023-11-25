@@ -11,7 +11,7 @@ import CreateList from './../CreateLists/createcomponent.js';
 
 function Home({ handleLogout }) {
   const navigate = useNavigate();
-
+  const name = localStorage.getItem('userName');
   const handleLogoutClick = () => {
     localStorage.removeItem('isLogged');
     handleLogout(false);
@@ -20,7 +20,7 @@ function Home({ handleLogout }) {
 
   const handleBackToHome = () => {
     navigate('/');
-}
+  }
 
   return (
     <div>
@@ -38,6 +38,9 @@ function Home({ handleLogout }) {
         </Toolbar>
       </AppBar>
       <div>
+        <Typography style={{textAlign: 'end', margin: '10px', fontSize: '15px', fontWeight: 'bold'}}>
+          Usuario logado: {name}
+        </Typography>
         <ListaItens />
       </div>
     </div>

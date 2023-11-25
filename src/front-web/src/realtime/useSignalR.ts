@@ -25,7 +25,7 @@ export const setupSignalRConnection = async (connectionHub: string) => {
     await connection.start();
   } catch (err) {
     console.log(err);
-  }
+  }
 
   return connection;
 };
@@ -33,20 +33,25 @@ export const setupSignalRConnection = async (connectionHub: string) => {
 export interface ListRealTimeProps {
   listCallback(list : ListDTO) : void;
   listItemCallback(listItem : ListItemDTO) : void
+  deleteListItemCallback(id : number) : void
+  deleteListCallback(id : number) : void
 }
 
-export const useConnexaRealTime = ({listCallback, listItemCallback} : ListRealTimeProps) => {
+export const useConnexaRealTime = ({listCallback, listItemCallback, deleteListItemCallback, deleteListCallback} : ListRealTimeProps) => {
   const idOwner = localStorage.getItem('userId');
   const connexaRealTimeAddress = "https://localhost:7102/connexa/api/sync/realtime";
   const listRealTimeHub = "UpdateListObjHub";
   const listItemRealTimeHub = "UpdateListItemObjHub";
+  const deleteListItemRealTimeHub = "DeleteListItemObjHub";
+  const deleteListRealTimeHub = "DeleteListObjHub";
   const connecting = useRef(false);
   const delaySeconds = useRef(10);
   const timeoutId = useRef<NodeJS.Timeout>();
   let connection : HubConnection | null = null;
 
+
   const connect = useCallback(async () => {
-      if (!connection || connection.state === HubConnectionState.Disconnected) {
+      if (!connection || connection?.state === HubConnectionState.Disconnected) {
         connection = await setupSignalRConnection(connexaRealTimeAddress);
 
         connection?.on(listRealTimeHub, (list: ListDTO) => {
@@ -56,8 +61,16 @@ export const useConnexaRealTime = ({listCallback, listItemCallback} : ListRealTi
         connection?.on(listItemRealTimeHub, (listItem: ListItemDTO) => {
           listItemCallback(listItem);
         });
-      }
-  }, [idOwner])
+
+        connection?.on(deleteListItemRealTimeHub, (id : number) => {
+          deleteListItemCallback(id);
+        });
+
+        connection?.on(deleteListRealTimeHub, (id : number) => {
+          deleteListCallback(id);
+        });
+      }
+  }, [listCallback, listItemCallback, deleteListItemCallback, deleteListCallback])
 
   const subscribe = useCallback(async () => {
     if (connecting.current) return;
@@ -70,21 +83,22 @@ export const useConnexaRealTime = ({listCallback, listItemCallback} : ListRealTi
       timeoutId.current = setTimeout(subscribe, delaySeconds.current * 1000);
       return;
     }
-    await connection.invoke('Subscribe', Number(idOwner));
-  }, [idOwner, connect]);
+
+    if(connection?.state === HubConnectionState.Connected)
+      await connection.invoke('Subscribe', Number(idOwner));
+  }, [connect, connection, idOwner]);
+
+  const disconnect = useCallback(async () => {
+    if (connection?.state !== HubConnectionState.Connected) return;
+    connection?.off(listRealTimeHub);
+    await connection?.stop();
+  }, [connection]);
 
   const unsubscribe = useCallback(async () => {
     if (connection?.state !== HubConnectionState.Connected) return;
     await connection.invoke('Unsubscribe', Number(idOwner));
     await disconnect();
-  }, [connection, idOwner]);
-
-  const disconnect = async () => {
-    if (connection?.state !== HubConnectionState.Connected) return;
-
-    connection.off(listRealTimeHub);
-    await connection.stop();
-    };
+  },[connection, disconnect, idOwner]);
 
   useEffect(() => {
     if (idOwner) {
@@ -94,6 +108,7 @@ export const useConnexaRealTime = ({listCallback, listItemCallback} : ListRealTi
       unsubscribe();
       clearTimeout(timeoutId.current);
     };
+
   }, [idOwner, subscribe, unsubscribe]);
 }
 

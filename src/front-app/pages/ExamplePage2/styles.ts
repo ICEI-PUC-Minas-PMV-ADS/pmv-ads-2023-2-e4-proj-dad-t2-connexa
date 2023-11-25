@@ -16,6 +16,25 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 10,
         color: '#134074',
+    },
+    containerModal: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white'
+    },
+    outerView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0,0,0,0.2)'
+    },
+    modalView: {
+        backgroundColor: 'white',
+        borderRadius: 30,
+        padding: 25,
+        width: '80%',
+        alignItems: 'center'
     }
 });
 

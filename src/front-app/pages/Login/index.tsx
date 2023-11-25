@@ -1,29 +1,36 @@
 import React, { memo, useState } from 'react';
-import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import Background from '../../components/Background';
 import Logo from '../../components/Logo';
 import Header from '../../components/Header';
 import Button from '../../components/Button';
 import TextInput from '../../components/TextInput';
-import { theme } from '../../core/theme';
 import { emailValidator, passwordValidator } from '../../core/validators';
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import styles from './styles';
+import LoginDto from '../../services/authentication/authentication/dtos/LoginDto';
+import AuthenticationService from '../../services/authentication/authentication/AuthenticationService';
 
 type Props = {
   navigation: NavigationProp<ParamListBase>;
+  handleLogin: (accessToken: string) => void;
 };
 
-const Login = ({ navigation }: Props) => {
+const Login = ({ navigation, handleLogin }: Props) => {
 
   const [email, setEmail] = useState({ value: '', error: '' });
   const [password, setPassword] = useState({ value: '', error: '' });
 
-  const handleLoginClick = () => {
+  const authenticationService = new AuthenticationService();
+
+  const handleLoginClick = async () => {
     if (!validateForm()) {
       return;
     }
 
-    return;
+    const loginDto = new LoginDto(email.value, password.value);
+    const accessToken = await authenticationService.loginAsync(loginDto);
+    handleLogin(accessToken);
   };
 
   const validateForm = (): boolean => {
@@ -89,24 +96,5 @@ const Login = ({ navigation }: Props) => {
     </Background>
   );
 };
-
-const styles = StyleSheet.create({
-  forgotPassword: {
-    width: '100%',
-    alignItems: 'flex-end',
-    marginBottom: 24,
-  },
-  row: {
-    flexDirection: 'row',
-    marginTop: 4,
-  },
-  label: {
-    color: theme.colors.secondary,
-  },
-  link: {
-    fontWeight: 'bold',
-    color: theme.colors.primary,
-  },
-});
 
 export default memo(Login);

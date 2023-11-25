@@ -128,6 +128,7 @@ export const deleteListItemAsync = async (idList : number, idItem : number) => {
 
         if (response.status !== STATUS_OK)
             return null;
+        console.log(response.data);
         return response.data;
     } catch (error) {
         console.error('ListsService.deleteListItemAsync -> Erro ao tentar deletar o item da api.', error);

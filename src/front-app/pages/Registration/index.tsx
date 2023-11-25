@@ -25,6 +25,7 @@ import AuthenticationService from '../../services/authentication/authentication/
 import CreateOrUpdateUserDto from '../../services/authentication/authentication/dtos/CreateOrUpdateUserDto';
 import Toast from 'react-native-toast-message';
 import { ItemType } from 'react-native-dropdown-picker';
+import DocumentInput from '../../components/DocumentInput';
 
 type Props = {
   navigation: NavigationProp<ParamListBase>;
@@ -163,7 +164,7 @@ const Registration = ({ navigation }: Props) => {
           keyboardType="email-address"
         />
 
-        <TextInput
+        <DocumentInput
           label="CPF"
           returnKeyType="next"
           value={document.value}

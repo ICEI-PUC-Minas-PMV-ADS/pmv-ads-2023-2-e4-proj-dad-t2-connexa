@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import Typography from "@mui/material/Typography";
 import { saveItemListAsync } from "../../../services/lists/listService";
@@ -7,7 +7,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 import { toast } from "react-toastify";
-import { useConnexaRealTime } from "../../../realtime/useSignalR";
 
 interface ItemProps {
   listItem: ListItemDTO;
@@ -24,26 +23,15 @@ function Item({
 }: ItemProps) {
   const [item, setItem] = useState<ListItemDTO>(listItem);
   const [checked, setChecked] = useState<boolean>(listItem.status);
-
-  const updateListItemCallback = useCallback((item: ListItemDTO) => {
-    setItem(item);
-    setChecked(item.status ? true : false);
-  }, []);
-
-  const connexaRealTimeHook = useConnexaRealTime({
-    listCallback(list) {},
-    listItemCallback: updateListItemCallback,
-  });
-
   const setCheckChoose = async (
     event: React.ChangeEvent<HTMLInputElement>,
     checked: boolean
   ) => {
-    let itemToUpdate = item;
-    itemToUpdate.status = checked;
+    let copy = item;
+    copy.status = checked;
     setChecked(checked);
-    setItem(itemToUpdate);
-    var result = await saveItemListAsync(itemToUpdate.listaId, itemToUpdate);
+    setItem(copy);
+    var result = await saveItemListAsync(copy.listaId, copy);
     if (result) {
       setItem(result);
       toast.success(
@@ -57,6 +45,11 @@ function Item({
       );
     }
   };
+
+  useEffect(() => {
+    setItem(listItem);
+    setChecked(listItem.status);
+  }, [listItem]);
 
   return (
     <div

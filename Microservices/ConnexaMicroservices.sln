@@ -3,15 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34004.107
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authentication API", "AuthenticationAPI\AuthenticationAPI\AuthenticationAPI.csproj", "{2B0359E0-4569-4BF7-932E-9731EB393B00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationAPI", "AuthenticationAPI\AuthenticationAPI\AuthenticationAPI.csproj", "{2B0359E0-4569-4BF7-932E-9731EB393B00}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gateway API", "GatewayAPI\GatewayAPI\GatewayAPI.csproj", "{61339C32-D7B7-42D8-BF10-10FBD9936AA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GatewayAPI", "GatewayAPI\GatewayAPI\GatewayAPI.csproj", "{61339C32-D7B7-42D8-BF10-10FBD9936AA8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "List API", "ListAPI\ListAPI\ListAPI.csproj", "{58A47B11-1388-4AC8-B951-9FC1D68C5B14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ListAPI", "ListAPI\ListAPI\ListAPI.csproj", "{58A47B11-1388-4AC8-B951-9FC1D68C5B14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Permission API", "PermissionsAPI\PermissionAPI\PermissionAPI.csproj", "{CE25E484-4F99-4468-B68F-D258D94D3544}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PermissionAPI", "PermissionsAPI\PermissionAPI\PermissionAPI.csproj", "{CE25E484-4F99-4468-B68F-D258D94D3544}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sync API", "SyncAPI\SyncAPI\SyncAPI.csproj", "{9BF449A5-1205-4236-B438-9B7CD3D98449}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SyncAPI", "SyncAPI\SyncAPI\SyncAPI.csproj", "{9BF449A5-1205-4236-B438-9B7CD3D98449}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testes", "Testes\Testes.csproj", "{0020B862-3880-45A6-B761-C2E0D39BD2C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{9BF449A5-1205-4236-B438-9B7CD3D98449}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BF449A5-1205-4236-B438-9B7CD3D98449}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BF449A5-1205-4236-B438-9B7CD3D98449}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0020B862-3880-45A6-B761-C2E0D39BD2C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0020B862-3880-45A6-B761-C2E0D39BD2C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0020B862-3880-45A6-B761-C2E0D39BD2C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0020B862-3880-45A6-B761-C2E0D39BD2C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -31,6 +31,7 @@ export const saveCreateListAsync = async (newList: CreateListDTO) => {
 
 export const getListItemsAsync = async (id : number) => {
     try {
+        console.log('Esse é o ID', id)
         console.info("ListsService.getListItemsAsync -> Chamou o endpoint para buscar os items da lista na API", id);
 
         const response = await apiInstance.get<ListItemDTO[]>(`/list/lists/${id}/items`);

@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, memo } from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,6 +7,7 @@ import { deleteListAsync, deleteParticipantAsync, getListsByOwnerOrParticipant }
 import { ListDTO, ListParticipant } from '../../services/lists/dtos/ListDTO';
 import Toast from 'react-native-toast-message';
 import { Text as TextPaper, Button as ButtonPaper, Title } from 'react-native-paper';
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 /* import { useConnexaRealTime } from "../../realtime/useSignalR"; */
 
 enum FilterScreen {
@@ -16,6 +16,9 @@ enum FilterScreen {
   All = 3,
 }
 
+type Props = {
+  navigation: NavigationProp<ParamListBase>;
+};
 const ListaItens: React.FC = () => {
 
   const [modalStatus, setModalStatus] = useState<boolean>(false);
@@ -36,8 +39,6 @@ const ListaItens: React.FC = () => {
   const [filterOption, setFilterOption] = useState<number>(FilterScreen.All);
   const [participants, setParticipants] = useState<ListParticipant[]>([]);
   const [idOwner, setIdOwner] = useState<string | null>(null);
-
-  const navigation = useNavigation();
 
   const screenItems = useMemo(() => {
     switch (filterOption) {
@@ -227,6 +228,7 @@ const ListaItens: React.FC = () => {
     }
   });
 
+  const navigation = useNavigation<NavigationProp<ParamListBase>>()
   return (
     <View style={styles.container}>
       <Title style={{ margin: 16 }}>Minhas listas</Title>
@@ -273,16 +275,17 @@ const ListaItens: React.FC = () => {
             </View>
             <Text style={styles.descricao}>{item.listaDescricao}</Text>
             <View style={styles.botoes}>
-              <TouchableOpacity
-              /* onPress={() => navigation.navigate(`list/${item.listaId}/itemlist/${item.listaTitulo}/${item.listaDescricao}`)}
-              style={{ marginRight: 10 }} */
-              >
-                <Button title="Ver Lista" onPress={() => { }} />
-              </TouchableOpacity>
+            <TouchableOpacity 
+              style={{ marginRight: 10 }} 
+              ><>
+                {console.log('item antes de tudo',item)}
+                <Button title="Ver Lista" onPress={() => navigation.navigate("ListItemsScreen",{listaId: item.listaId})}/>
+              </>
+            </TouchableOpacity>
               {item.isOwner && (
                 <TouchableOpacity
                   /* onPress={() => {
-                    navigation.navigate(`list/${item.listaId}/itemList/edit/${item.listaTitulo}/${item.listaDescricao}`);
+                    handlePress(`list/${item.listaId}/itemList/edit/${item.listaTitulo}/${item.listaDescricao}`);
                   }} */
                   style={{ marginRight: 10 }}
                 >
@@ -299,6 +302,7 @@ const ListaItens: React.FC = () => {
                   <Icon name="delete" size={24} color="#003049" />
                 </TouchableOpacity>
               )}
+              
             </View>
           </View>
         ))}
@@ -310,4 +314,4 @@ const ListaItens: React.FC = () => {
   );
 };
 
-export default ListaItens;
+export default memo(ListaItens) ;

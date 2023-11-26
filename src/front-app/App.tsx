@@ -19,6 +19,7 @@ import JwtPayload from './services/authentication/authentication/dtos/JwtPayload
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LogoutButton from './components/LogoutButton';
 import { jwtDecode } from 'jwt-decode';
+import ListItemsScreen from './pages/ItemLists/ItemLists';
 
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
@@ -95,7 +96,7 @@ export default function App() {
         >
           <Tab.Screen
             name="Home"
-            component={Home}
+            component={HomeStack}
             options={{
               title: 'Página Inicial',
               tabBarLabel: 'Início',
@@ -142,6 +143,16 @@ export default function App() {
     );
   };
 
+  const HomeStack = () => {
+    const Stack = createStackNavigator();
+
+    return (
+        <Stack.Navigator initialRouteName ='Home'>
+          <Stack.Screen name='Home' component={Home}/>
+          <Stack.Screen name='ListItemsScreen' component={ListItemsScreen}/>
+        </Stack.Navigator>
+    )};
+
   const UnauthenticatedAreaContainer = () => {
     return (
       <NavigationContainer>
@@ -156,9 +167,9 @@ export default function App() {
         <Stack.Screen name="Login" options={{ title: 'Entrar' }} >
           {(props) => <Login {...props} handleLogin={handleLogin} />}
         </Stack.Screen>
-
         <Stack.Screen name="Registration" options={{ title: 'Cadastrar' }} component={Registration} />
         <Stack.Screen name="Recovery" options={{ title: 'Recuperar Senha' }} component={Recovery} />
+        
       </Stack.Navigator>
     );
   };
@@ -167,7 +178,10 @@ export default function App() {
     <PaperProvider theme={theme}>
       {
         isAuthenticated ?
-          <AuthenticatedAreaContainer /> :
+        <>
+          <AuthenticatedAreaContainer /> 
+        </>
+          :
           <UnauthenticatedAreaContainer />
       }
       <Toast config={toastConfig} />

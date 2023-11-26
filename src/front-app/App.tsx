@@ -20,6 +20,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LogoutButton from './components/LogoutButton';
 import { jwtDecode } from 'jwt-decode';
 import ListItemsScreen from './pages/ItemLists/ItemLists';
+import AddParticipant from './pages/ExamplePage2/AddParticipant';
 
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
@@ -98,7 +99,8 @@ export default function App() {
             name="Home"
             component={HomeStack}
             options={{
-              title: 'Página Inicial',
+              
+              title: 'Listas',
               tabBarLabel: 'Início',
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="home" color={color} size={size} />
@@ -148,8 +150,9 @@ export default function App() {
 
     return (
         <Stack.Navigator initialRouteName ='Home'>
-          <Stack.Screen name='Home' component={Home}/>
-          <Stack.Screen name='ListItemsScreen' component={ListItemsScreen}/>
+          <Stack.Screen name='Home' component={Home} options={{ headerShown: false }}/>
+          <Stack.Screen name='ListItemsScreen' component={ListItemsScreen} options={{ headerTitle: '' }}/>
+          <Stack.Screen name='AddParticipant' component={AddParticipant} options={{ headerTitle: '' }}/>
         </Stack.Navigator>
     )};
 

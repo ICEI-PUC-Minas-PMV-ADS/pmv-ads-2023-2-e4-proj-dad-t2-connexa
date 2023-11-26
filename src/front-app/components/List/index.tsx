@@ -293,8 +293,8 @@ const ListaItens: React.FC = () => {
                 </TouchableOpacity>
               )}
               {item.isOwner && (
-                <TouchableOpacity onPress={() => setModalStatus(true)} style={{ marginRight: 10 }}>
-                  <Icon name="person" size={24} color="#003049" />
+                <TouchableOpacity  style={{ marginRight: 10 }}>
+                  <Icon name="person" size={24} color="#003049" onPress={ () => navigation.navigate("AddParticipant",{listaId: item.listaId})} />
                 </TouchableOpacity>
               )}
               {item.isOwner && (

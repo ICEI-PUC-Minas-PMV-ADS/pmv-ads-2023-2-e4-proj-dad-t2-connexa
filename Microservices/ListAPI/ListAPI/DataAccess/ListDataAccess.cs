@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 namespace ListAPI.DataAccess
 {
@@ -222,16 +223,23 @@ namespace ListAPI.DataAccess
                 await _context.SaveChangesAsync();
 
                 var membersIds = await GetMembersFromListAsync(list.ListaId);
-                if(membersIds != null)
-                {
 
+                if(membersIds != null && membersIds.Any())
+                {
                     if(membersIds != null)
-                    for(int i = 0; i < membersIds.Count();i++)
-                    {
-                        list.IdUserTarget = membersIds[i];
-                        if(list.IdUserTarget > 0)
-                            _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE, list);
-                    }
+                        for(int i = 0; i < membersIds.Count();i++)
+                        {
+                            list.IdUserTarget = membersIds[i];
+                            if(list.IdUserTarget > 0)
+                                _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE, list);
+                        }
+                } else
+                {
+                    list.IdUserTarget = list.UserId ?? 0;
+                    list.IsOwner = true;
+
+                    if(list.IdUserTarget > 0)
+                        _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE, list);
                 }
 
                 return list;

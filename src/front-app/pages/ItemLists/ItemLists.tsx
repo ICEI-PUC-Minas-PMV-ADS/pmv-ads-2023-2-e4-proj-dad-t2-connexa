@@ -13,11 +13,12 @@ interface ListItem {
 
 const ListItemsScreen: React.FC = () => {
   const [items, setItems] = useState<ListItem[]>([]);
+  const listaId = 1; // Defina o ID da lista desejada aqui
 
   useEffect(() => {
     const fetchListItems = async () => {
       try {
-        const response = await getListItemsAsync(1); //TESTE
+        const response = await getListItemsAsync(listaId);
         console.log('Resposta da API:', response);
 
         if (response) {
@@ -29,7 +30,7 @@ const ListItemsScreen: React.FC = () => {
     };
 
     fetchListItems();
-  }, []);
+  }, [listaId]);
 
   const renderItem = ({ item }: { item: ListItem }) => (
     <View style={styles.listItem}>

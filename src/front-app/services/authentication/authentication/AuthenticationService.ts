@@ -6,7 +6,7 @@ const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 
 const apiInstance: AxiosInstance = axios.create({
-  baseURL: IS_PROD ? '{{URL_PROD}}' : 'http://192.168.68.107:7151'
+  baseURL: IS_PROD ? '{{URL_PROD}}' : 'http://192.168.18.12:7151'
 });
 
 class AuthenticationService {

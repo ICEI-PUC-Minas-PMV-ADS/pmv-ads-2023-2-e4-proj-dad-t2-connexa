@@ -9,7 +9,7 @@ export default function ExamplePage2() {
             <View style={styles.header}>
                 <Text style={styles.title}>Página de Exemplo 2</Text>
                 <AddParticipant idLista={'15'}/>
-                <AddListItem idLista={'15'}/>
+                <AddListItem idLista={'25'}/>
             </View>
         </ View>
     );

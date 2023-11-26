@@ -7,6 +7,7 @@ import Toast from 'react-native-toast-message';
 import toastConfig from '../../core/toastConfig';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { saveCreateListItemAsync } from '../../services/lists/listService';
 
 const AddListItem = (props: { idLista: string | undefined }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -32,16 +33,16 @@ const AddListItem = (props: { idLista: string | undefined }) => {
   const handleCreateListItem = async () => {
     const userId = await AsyncStorage.getItem('userId');
 
-    const data = {
-      Nome: name,
-      Descricao: description,
-      ListaId: idListaInt,
-      Status: true,
-      NomeLista: "",
-      IdUserTarget: userId
-    }
+    const response = await saveCreateListItemAsync({
+      descricao: description,
+      listaId: idListaInt,
+      listaPublica: true,
+      nomeLista: "foii",
+      titulo: name,
+      userId
+    })
 
-    // Chamada com "data"
+    console.log({ response })
   };
 
   return (

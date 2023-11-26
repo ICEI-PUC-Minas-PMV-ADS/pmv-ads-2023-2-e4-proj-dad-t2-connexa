@@ -17,5 +17,6 @@ namespace SyncAPI.DTO
         public string? ListaTitulo { get; set; }
 
         public int IdUserTarget { get; set; }
+        public bool IsOwner { get; set; }
     }
 }

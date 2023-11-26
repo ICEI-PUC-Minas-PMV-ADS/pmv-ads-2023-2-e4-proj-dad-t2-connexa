@@ -4,9 +4,10 @@ import CreateOrUpdateUserDto from './dtos/CreateOrUpdateUserDto';
 const IS_PROD = false;
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
+const localLucas = "http://192.168.2.4:7151";
 
 const apiInstance: AxiosInstance = axios.create({
-  baseURL: IS_PROD ? '{{URL_PROD}}' : 'http://192.168.68.107:7151'
+  baseURL: IS_PROD ? '{{URL_PROD}}' : localLucas
 });
 
 class AuthenticationService {

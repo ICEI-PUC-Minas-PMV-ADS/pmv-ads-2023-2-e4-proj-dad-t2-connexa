@@ -5,9 +5,10 @@ import { ListDTO } from './dtos/ListDTO';
 
 const IS_PROD = false;
 const STATUS_OK = 200;
+const localLucas = "http://192.168.2.4:7151";
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://192.168.68.107:7150/gateway'
+    baseURL: IS_PROD ? '{{URL_PROD}}' : localLucas + '/gateway'
 });
 
 export const saveCreateListAsync = async (newList: CreateListDTO) => { 

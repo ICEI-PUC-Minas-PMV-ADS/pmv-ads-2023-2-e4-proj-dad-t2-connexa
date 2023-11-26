@@ -12,13 +12,13 @@ import ExamplePage2 from './pages/ExamplePage2';
 import ExamplePage3 from './pages/ExamplePage3';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { theme } from './core/theme';
-import { jwtDecode } from "jwt-decode";
 import { decode, encode } from 'base-64';
 import Toast from 'react-native-toast-message';
 import toastConfig from './core/toastConfig';
 import JwtPayload from './services/authentication/authentication/dtos/JwtPayloadDto';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LogoutButton from './components/LogoutButton';
+import { jwtDecode } from 'jwt-decode';
 
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }

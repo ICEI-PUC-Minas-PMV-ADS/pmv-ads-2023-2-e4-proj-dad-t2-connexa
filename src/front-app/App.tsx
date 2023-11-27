@@ -12,13 +12,15 @@ import ExamplePage2 from './pages/ExamplePage2';
 import ExamplePage3 from './pages/ItemLists/ItemLists';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { theme } from './core/theme';
-import { jwtDecode } from "jwt-decode";
 import { decode, encode } from 'base-64';
 import Toast from 'react-native-toast-message';
 import toastConfig from './core/toastConfig';
 import JwtPayload from './services/authentication/authentication/dtos/JwtPayloadDto';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LogoutButton from './components/LogoutButton';
+import { jwtDecode } from 'jwt-decode';
+import ListItemsScreen from './pages/ItemLists/ItemLists';
+import AddParticipant from './pages/ExamplePage2/AddParticipant';
 
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
@@ -95,9 +97,10 @@ export default function App() {
         >
           <Tab.Screen
             name="Home"
-            component={Home}
+            component={HomeStack}
             options={{
-              title: 'Página Inicial',
+              
+              title: 'Listas',
               tabBarLabel: 'Início',
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="home" color={color} size={size} />
@@ -142,6 +145,17 @@ export default function App() {
     );
   };
 
+  const HomeStack = () => {
+    const Stack = createStackNavigator();
+
+    return (
+        <Stack.Navigator initialRouteName ='Home'>
+          <Stack.Screen name='Home' component={Home} options={{ headerShown: false }}/>
+          <Stack.Screen name='ListItemsScreen' component={ListItemsScreen} options={{ headerTitle: '' }}/>
+          <Stack.Screen name='AddParticipant' component={AddParticipant} options={{ headerTitle: '' }}/>
+        </Stack.Navigator>
+    )};
+
   const UnauthenticatedAreaContainer = () => {
     return (
       <NavigationContainer>
@@ -156,9 +170,9 @@ export default function App() {
         <Stack.Screen name="Login" options={{ title: 'Entrar' }} >
           {(props) => <Login {...props} handleLogin={handleLogin} />}
         </Stack.Screen>
-
         <Stack.Screen name="Registration" options={{ title: 'Cadastrar' }} component={Registration} />
         <Stack.Screen name="Recovery" options={{ title: 'Recuperar Senha' }} component={Recovery} />
+        
       </Stack.Navigator>
     );
   };
@@ -167,7 +181,10 @@ export default function App() {
     <PaperProvider theme={theme}>
       {
         isAuthenticated ?
-          <AuthenticatedAreaContainer /> :
+        <>
+          <AuthenticatedAreaContainer /> 
+        </>
+          :
           <UnauthenticatedAreaContainer />
       }
       <Toast config={toastConfig} />

@@ -7,16 +7,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    header: {
-        marginTop: 60,
-        marginBottom: 30
-    },
-    title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        marginBottom: 10,
-        color: '#134074',
-    }
 });
 
 export default styles;

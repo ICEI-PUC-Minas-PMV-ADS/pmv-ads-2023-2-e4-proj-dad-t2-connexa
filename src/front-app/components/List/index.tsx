@@ -19,6 +19,7 @@ enum FilterScreen {
 type Props = {
   navigation: NavigationProp<ParamListBase>;
 };
+
 const ListaItens: React.FC = () => {
 
   const [modalStatus, setModalStatus] = useState<boolean>(false);
@@ -93,12 +94,12 @@ const ListaItens: React.FC = () => {
     deleteListItemCallback(id) {},
   }); */
 
-  const getLists = async (idOwner: number) => {
+  /* const getLists = async (idOwner: number) => {
     const response = await getListsByOwnerOrParticipant(idOwner);
     if (response) {
       setItems(response);
     }
-  };
+  }; */
 
   useEffect(() => {
     const fetchData = async () => {
@@ -279,19 +280,19 @@ const ListaItens: React.FC = () => {
               style={{ marginRight: 10 }} 
               ><>
                 {console.log('item antes de tudo',item)}
-                <Button title="Ver Lista" onPress={() => navigation.navigate("ListItemsScreen",{listaId: item.listaId})}/>
+                <Button title="Ver Lista" onPress={() => navigation.navigate("ListItemsScreen",{listaId: item.listaId, isOwner: item.isOwner})}/>
               </>
             </TouchableOpacity>
-              {item.isOwner && (
+              {/* {item.isOwner && (
                 <TouchableOpacity
-                  /* onPress={() => {
+                  onPress={() => {
                     handlePress(`list/${item.listaId}/itemList/edit/${item.listaTitulo}/${item.listaDescricao}`);
-                  }} */
+                  }}
                   style={{ marginRight: 10 }}
                 >
                   <Icon name="edit" size={24} color="#003049" />
                 </TouchableOpacity>
-              )}
+              )} */}
               {item.isOwner && (
                 <TouchableOpacity  style={{ marginRight: 10 }}>
                   <Icon name="person" size={24} color="#003049" onPress={ () => navigation.navigate("AddParticipant",{listaId: item.listaId})} />

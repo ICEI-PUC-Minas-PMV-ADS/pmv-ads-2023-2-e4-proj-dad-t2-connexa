@@ -9,19 +9,11 @@ import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { saveCreateListItemAsync } from '../../services/authentication/lists/listService';
 
-const AddListItem = (props: { idLista: string | undefined }) => {
+const AddListItem = (props: { idLista: number, hasChange: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
-  let idListaInt = 0
-  
-  if (typeof (props.idLista) === "string") {
-    idListaInt = parseInt(props.idLista)
-  }
-  else {
-    throw new Error("Não foi possível resgatar o id da lista.");
-  }
-
+ 
   const handleOpenModal = () => {
     setIsModalVisible(true);
   };
@@ -35,12 +27,14 @@ const AddListItem = (props: { idLista: string | undefined }) => {
 
     const response = await saveCreateListItemAsync({
       descricao: description,
-      listaId: idListaInt,
+      listaId: props.idLista,
       listaPublica: true,
       nomeLista: "foii",
       titulo: name,
       userId
     })
+    props.hasChange()
+    handleCloseModal()
 
     console.log({ response })
   };

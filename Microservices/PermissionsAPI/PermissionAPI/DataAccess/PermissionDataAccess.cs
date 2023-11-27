@@ -2,12 +2,17 @@
 using PermissionAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PermissionAPI.Utils;
+using PermissionAPI.DTOs;
 
 namespace PermissionAPI.DataAccess
 {
     public class PermissionDataAccess : ControllerBase, IPermissionDataAccess
     {
         private readonly ConnexaContext _context;
+        private readonly ConnexaRabbitMQClient _connexaRabbitMQClient;
+        private readonly string UPDATE_LIST_QUEUE = "update-list-obj";
+
         enum Role
         {
             ADMIN = 0,
@@ -16,9 +21,10 @@ namespace PermissionAPI.DataAccess
             BLOCKED = 3
         }
         
-        public PermissionDataAccess([FromServices] ConnexaContext context)
+        public PermissionDataAccess([FromServices] ConnexaContext context, [FromServices] ConnexaRabbitMQClient connexaRabbitMQClient)
         {
             _context = context;
+            _connexaRabbitMQClient = connexaRabbitMQClient;
         }
 
         public async ValueTask<string> CreatePermissionList(string userEmail, int? listaID, int? role)
@@ -45,6 +51,17 @@ namespace PermissionAPI.DataAccess
 
                     _context.UserLista.Add(newUserList);
                     await _context.SaveChangesAsync();
+
+                    var list = await _context.Lista.FirstOrDefaultAsync(f => f.ListaId == listaID);
+                    if(list != null)
+                    {
+                        var listDTO = new ListDTO();
+                        listDTO.CopyFromListDb(list);
+                        listDTO.IdUserTarget = user.UserId;
+
+                        if(listDTO.IdUserTarget > 0)
+                            _connexaRabbitMQClient.Publish(UPDATE_LIST_QUEUE, listDTO);
+                    }
 
                     return "Usuário adicionado a lista de permissões";
                 }

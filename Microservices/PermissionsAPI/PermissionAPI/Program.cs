@@ -3,6 +3,7 @@ using PermissionAPI.DataAccess;
 using PermissionAPI.DTOs;
 using PermissionAPI.Interfaces;
 using PermissionAPI.Models;
+using PermissionAPI.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddDbContext<ConnexaContext>();
 builder.Services.AddScoped<IPermissionDataAccess, PermissionDataAccess>();
+builder.Services.AddSingleton<ConnexaRabbitMQClient>();
 
 var app = builder.Build();
 

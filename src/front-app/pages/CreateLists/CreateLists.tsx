@@ -16,13 +16,14 @@ const CreateList: React.FC = () => {
     userId: 0,
     listaPublica: true,
     listaStatus: true,
-    listaId: 40,
+    listaId: 0, // Alterado para iniciar com 0, você pode ajustar conforme necessário
     message: '',
   });
 
   useEffect(() => {
-    const getUserId = async () => {
+    const fetchData = async () => {
       try {
+        // Obter o ID do usuário do AsyncStorage
         const userId = await AsyncStorage.getItem('userId');
         if (userId) {
           setNewList((prevList) => ({
@@ -30,12 +31,21 @@ const CreateList: React.FC = () => {
             userId: parseInt(userId, 10),
           }));
         }
+
+        // Obter o ID da lista se necessário (ajuste conforme sua lógica)
+        const listId = await AsyncStorage.getItem('listId');
+        if (listId) {
+          setNewList((prevList) => ({
+            ...prevList,
+            listaId: parseInt(listId, 10),
+          }));
+        }
       } catch (error) {
-        console.error('Erro ao obter userId do AsyncStorage:', error);
+        console.error('Erro ao obter dados do AsyncStorage:', error);
       }
     };
 
-    getUserId();
+    fetchData();
   }, []);
 
   const handleInputChange = (name: string, value: string) => {
@@ -52,13 +62,13 @@ const CreateList: React.FC = () => {
     }
 
     try {
+      // Chamar a função para criar uma nova lista na API
       const response = await saveCreateListAsync(newList);
 
       if (response) {
         ToastContainer.show({ type: 'success', text1: 'NOVA LISTA CRIADA COM SUCESSO'});
       } else {
-        ToastContainer.show({ type: 'error', text2: 'Erro ao criar a lista na API',
-        });
+        ToastContainer.show({ type: 'error', text2: 'Erro ao criar a lista na API' });
       }
     } catch (error) {
       console.error('Erro ao criar a lista na API:', error);

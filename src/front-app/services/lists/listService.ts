@@ -2,50 +2,51 @@ import axios, { AxiosResponse } from 'axios';
 import { CreateListDTO } from './dtos/CreateListDto';
 import { ListItemDTO } from './dtos/ListItem';
 import { ListDTO } from './dtos/ListDTO';
+import { CreateListItemDTO } from './dtos/CreateListItemDto';
 
 const IS_PROD = false;
 const STATUS_OK = 200;
 const localLucas = "http://192.168.2.4:7151";
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? '{{URL_PROD}}' : localLucas + '/gateway'
+  baseURL: IS_PROD ? '{{URL_PROD}}' : 'SEU LOCAL HOST/gateway',
 });
 
-export const saveCreateListAsync = async (newList: CreateListDTO) => { 
-    try {
-        console.info("ListsService.postCreateList -> Chamou o endpoint para criar uma lista", newList);
+export const getListItemsAsync = async (listaId: number) => {
+  try {
+    console.info('ListsService.getListItemsAsync -> Chamou o endpoint para buscar os items da lista na API', listaId);
 
-        const response: AxiosResponse<CreateListDTO>= await apiInstance.post('/lists', newList);
-        console.info('ListsService.postCreateList -> Resposta da API.', response);
+    const response: AxiosResponse<ListItemDTO[]> = await apiInstance.get(`/list/lists/${listaId}/items`);
 
-        if (response.status === STATUS_OK) {
-            return response.data;
-        }
+    console.info('ListsService.getListItemsAsync -> Resposta da API.', response);
 
-        return null;
-    } catch (error) {
-        console.info("ListsService.postCreateList -> Erro ao tentar salvar uma lista", error);
-        return null;
+    if (response.status === STATUS_OK) {
+      return response.data;
     }
-}
 
-export const getListItemsAsync = async (id : number) => {
-    try {
-        console.log('Esse é o ID', id)
-        console.info("ListsService.getListItemsAsync -> Chamou o endpoint para buscar os items da lista na API", id);
+    return null;
+  } catch (error) {
+    console.error('ListsService.getListItemsAsync -> Erro ao buscar os items da API.', error);
+    return null;
+  }
+};
 
-        const response = await apiInstance.get<ListItemDTO[]>(`/list/lists/${id}/items`);
+export const saveCreateListAsync = async (newList: CreateListDTO) => {
+  try {
+    console.info('ListsService.postCreateList -> Chamou o endpoint para criar uma lista', newList);
 
-        console.info('ListsService.getListItemsAsync -> Resposta da API.', response);
+    const response: AxiosResponse<CreateListDTO> = await apiInstance.post('/list/lists', newList);
+    console.info('ListsService.postCreateList -> Resposta da API.', response);
 
-        if (response.status !== STATUS_OK)
-            return null;
-        return response.data;
-    } catch (error) {
-        console.error('ListsService.getListItemsAsync -> Erro ao buscar os items da API.', error);
-        return null;
+    if (response.status === STATUS_OK) {
+      return response.data;
     }
-}
+    return null;
+    } catch (error) {
+    console.info('ListsService.postCreateList -> Erro ao tentar salvar uma lista', error);
+    return null;
+    }
+};
 
 export const getListsByOwnerOrParticipant = async (idOwner : number) => {
     try {
@@ -101,3 +102,25 @@ export const deleteParticipantAsync = async (idParticipant : number) => {
 
 }
 
+export const saveCreateListItemAsync = async (newListItem: CreateListItemDTO) => {
+  try {
+    const data = {
+      Nome: newListItem.titulo,
+      Descricao: newListItem.descricao,
+      ListaId: newListItem.listaId,
+      Status: newListItem.listaPublica,
+      NomeLista: newListItem.nomeLista,
+      IdUserTarget: newListItem.userId
+    }
+    const response: AxiosResponse<CreateListDTO> = await apiInstance.post(`/list/lists/${newListItem.listaId}/items`, data);
+
+    if (response.status === STATUS_OK) {
+      return response.data;
+    }
+
+    return null;
+  } catch (error) {
+    console.info('ListsService.postCreateList -> Erro ao tentar salvar uma lista', error);
+    return null;
+  }
+};

@@ -9,7 +9,7 @@ import Recovery from './pages/Recovery';
 import Home from './pages/Home';
 import CriarLista from './pages/CreateLists/CreateLists';
 import ExamplePage2 from './pages/ExamplePage2';
-import ExamplePage3 from './pages/ExamplePage3';
+import ExamplePage3 from './pages/ItemLists/ItemLists';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { theme } from './core/theme';
 import { decode, encode } from 'base-64';

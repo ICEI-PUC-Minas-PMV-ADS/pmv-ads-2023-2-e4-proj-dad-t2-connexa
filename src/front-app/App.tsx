@@ -21,7 +21,6 @@ import LogoutButton from './components/LogoutButton';
 import { jwtDecode } from 'jwt-decode';
 import ListItemsScreen from './pages/ItemLists/ItemLists';
 import AddParticipant from './pages/ExamplePage2/AddParticipant';
-
 if (!global.btoa) { global.btoa = encode }
 if (!global.atob) { global.atob = decode }
 

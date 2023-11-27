@@ -5,9 +5,9 @@ import Button from '../../components/Button';
 import Header from '../../components/Header';
 import Background from '../../components/Background';
 import { View, TouchableOpacity } from 'react-native';
-import { saveCreateListAsync } from '../../services/lists/listService';
-import { CreateListDTO } from '../../services/lists/dtos/CreateListDto';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CreateListDTO } from '../../services/authentication/lists/dtos/CreateListDto';
+import { saveCreateListAsync } from '../../services/authentication/lists/listService';
 
 const CreateList: React.FC = () => {
   const [newList, setNewList] = useState<CreateListDTO>({

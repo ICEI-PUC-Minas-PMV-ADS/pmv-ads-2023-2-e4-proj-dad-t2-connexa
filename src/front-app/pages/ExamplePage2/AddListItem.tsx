@@ -7,7 +7,7 @@ import Toast from 'react-native-toast-message';
 import toastConfig from '../../core/toastConfig';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { saveCreateListItemAsync } from '../../services/lists/listService';
+import { saveCreateListItemAsync } from '../../services/authentication/lists/listService';
 
 const AddListItem = (props: { idLista: string | undefined }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);

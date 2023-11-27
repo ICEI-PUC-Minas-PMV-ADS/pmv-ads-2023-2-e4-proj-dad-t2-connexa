@@ -257,9 +257,10 @@ namespace ListAPI.DataAccess
         {
             try
             {
-                return await (from list in _context.Lista
+
+				return await (from list in _context.Lista
                               let participants = list.UserLista.ToList()
-                              where list.UserId == idUser || list.UserLista.Any()
+                              where list.UserId == idUser || list.UserLista.Any(ul => ul.User.UserId == idUser)
                               select new ListDTO
                               {
                                   ListaId = list.ListaId,

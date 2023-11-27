@@ -3,11 +3,11 @@ import { View, Text, Button, TouchableOpacity, StyleSheet, ScrollView } from 're
 import Modal from 'react-native-modal';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { deleteListAsync, deleteParticipantAsync, getListsByOwnerOrParticipant } from '../../services/lists/listService';
-import { ListDTO, ListParticipant } from '../../services/lists/dtos/ListDTO';
+import { ListDTO, ListParticipant } from '../../services/authentication/lists/dtos/ListDTO';
 import Toast from 'react-native-toast-message';
 import { Text as TextPaper, Button as ButtonPaper, Title } from 'react-native-paper';
 import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
+import { getListsByOwnerOrParticipant,deleteListAsync, deleteParticipantAsync } from '../../services/authentication/lists/listService';
 /* import { useConnexaRealTime } from "../../realtime/useSignalR"; */
 
 enum FilterScreen {

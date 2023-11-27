@@ -1,9 +1,9 @@
 import React, { memo, useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import { getListItemsAsync } from './../../services/lists/listService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
+import { getListItemsAsync } from '../../services/authentication/lists/listService';
 
 interface ListItem {
   id: number;
@@ -40,7 +40,7 @@ const ListItemsScreen: React.FC = () => {
         const response = await getListItemsAsync( (route.params as any).listaId);
         console.log('Resposta da API:', response);
 
-        if (response.length === 0 || response === null) {
+        if ( response === null || response.length === 0 ) {
           Toast.show({ type: 'error', text1: 'Nenhum item encontrado.' })
         } else {
           setItems(response);

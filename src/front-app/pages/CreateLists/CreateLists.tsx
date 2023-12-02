@@ -86,16 +86,19 @@ const CreateList: React.FC = () => {
         <Header>Nova Lista</Header>
         <TextInput
           placeholder="Nome da Lista*"
+          style={{width: 350}}
           value={newList.listaTitulo}
           onChangeText={(text) => handleInputChange('listaTitulo', text)}
         />
         <TextInput
           placeholder="Descrição"
+          style={{width: 350}}
           value={newList.listaDescricao}
           onChangeText={(text) => handleInputChange('listaDescricao', text)}
         />
         <TouchableOpacity style={{ width: '100%' }}>
-          <Button mode="contained" onPress={handleCreateList}>
+          <Button mode="contained" onPress={handleCreateList}
+          style={{width: 350}}>
             Salvar
           </Button>
         </TouchableOpacity>

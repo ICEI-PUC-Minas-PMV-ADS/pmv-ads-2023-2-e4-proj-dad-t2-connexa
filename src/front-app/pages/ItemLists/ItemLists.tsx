@@ -5,6 +5,7 @@ import { useRoute } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { getListItemsAsync } from '../../services/authentication/lists/listService';
 import AddListItem from '../ExamplePage2/AddListItem';
+import { ScrollView } from 'react-native-gesture-handler';
 
 interface ListItem {
   id: number;
@@ -66,18 +67,21 @@ const ListItemsScreen: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Itens da Lista</Text>
-      <FlatList
-        data={items}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-      />
-      {
-        (route.params as any).isOwner &&
-        
+    <View style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Itens da Lista</Text>
+          <FlatList
+            data={items}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={renderItem}
+          />
+        </View>
+        {
+          (route.params as any).isOwner &&
+      <View style={styles.containerButton}>
         <AddListItem idLista={(route.params as any).listaId} hasChange={hasChange}/>
-      }
+      </View>
+        }
     </View>
   );
 };
@@ -87,6 +91,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: '#fff',
+    marginBottom: 50
   },
   title: {
     fontSize: 24,
@@ -98,6 +103,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
   },
+  containerButton:{
+    display: 'flex', 
+    position: 'absolute', 
+    bottom: 0,
+    width: 450
+  }
 });
 
 export default memo(ListItemsScreen) ;

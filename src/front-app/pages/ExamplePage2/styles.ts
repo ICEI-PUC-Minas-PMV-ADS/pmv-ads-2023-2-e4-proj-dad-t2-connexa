@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.2)'
     },
     modalView: {
+        width: 350,
         backgroundColor: 'white',
         borderRadius: 30,
         padding: 25,

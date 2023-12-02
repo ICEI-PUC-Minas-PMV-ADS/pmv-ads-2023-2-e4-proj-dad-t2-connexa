@@ -33,7 +33,7 @@ namespace SyncAPI.HostedServices
         private readonly string DELETE_LIST_ITEM_OBJECT_RABBIT_QUEUE = "delete-list-item-obj";
 
         private readonly string DELETE_LIST_OBJECT_HUB_METHOD = "DeleteListObjHub";
-        private readonly string DELETE_LIST_OBJECT_RABBIT_QUEUE = "delete-list-item-obj";
+        private readonly string DELETE_LIST_OBJECT_RABBIT_QUEUE = "delete-list-obj";
 
         public RealTimeConsumer(ILogger<RealTimeConsumer> logger, 
             IHubContext<RealTimeHub> realTimeHub)
@@ -154,7 +154,7 @@ namespace SyncAPI.HostedServices
                                         arg1: result.itemListObj.Id,
                                         cancellationToken: cancellationToken);
 
-                    _logger.LogInformation("Deleted List Item Id:" + result.itemListObj.Id + " was sended by SignalR to User Id: " + result.itemListObj.IdUserTarget + '.');
+                    _logger.LogInformation(DateTime.Now + ": Deleted List Item Id:" + result.itemListObj.Id + " was sended by SignalR to User Id: " + result.itemListObj.IdUserTarget + '.');
 
                 }
                 catch (Exception ex)
@@ -178,7 +178,7 @@ namespace SyncAPI.HostedServices
                                         arg1: result.listObj.ListaId,
                                         cancellationToken: cancellationToken);
 
-                    _logger.LogInformation("Deleted List Item Id:" + result.listObj.ListaId + " was sended by SignalR to User Id: " + result.listObj.IdUserTarget + '.');
+                    _logger.LogInformation(DateTime.Now + ": Deleted List Id:" + result.listObj.ListaId + " was sended by SignalR to User Id: " + result.listObj.IdUserTarget + '.');
 
                 }
                 catch (Exception ex)

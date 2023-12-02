@@ -19,7 +19,7 @@ namespace ListAPI.DataAccess
         private readonly string UPDATE_LIST_QUEUE = "update-list-obj";
         private readonly string UPDATE_LIST_ITEM_QUEUE = "update-list-item-obj";
         private readonly string DELETE_LIST_ITEM_OBJECT_QUEUE = "delete-list-item-obj";
-        private readonly string DELETE_LIST_OBJECT_QUEUE = "delete-list-item-obj";
+        private readonly string DELETE_LIST_OBJECT_QUEUE = "delete-list-obj";
 
         public ListDataAccess ([FromServices] ConnexaContext context, [FromServices] ConnexaRabbitMQClient connexaRabbitMQClient)
         {

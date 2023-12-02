@@ -30,6 +30,24 @@ export const getListsByOwnerOrParticipant = async (idOwner : number) => {
   }
 }
 
+export const editListAsync = async (editedList: CreateListDTO) => {
+  try {
+    console.info('ListsService.editListAsync -> Chamou o endpoint para editar uma lista', editedList);
+
+    const response: AxiosResponse<CreateListDTO> = await apiInstance.put(`/list/lists/${editedList.listaId}`, editedList);
+    console.info('ListsService.editListAsync -> Resposta da API.', response);
+
+    if (response.status === STATUS_OK) {
+      return response.data;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('ListsService.editListAsync -> Erro ao tentar editar uma lista', error);
+    return null;
+  }
+};
+
 export const getListItemsAsync = async (listaId: number) => {
   try {
     console.info('ListsService.getListItemsAsync -> Chamou o endpoint para buscar os items da lista na API', listaId);

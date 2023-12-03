@@ -1,74 +1,65 @@
 # Plano de Testes de Usabilidade
 
-## 1 . Login e Cadastro:
+**Plano de Testes de Usabilidade para a Aplicação "Connexa"**
 
-**Testar Login:**
+**1. Introdução:**
+   - O teste visa avaliar a usabilidade da aplicação "Connexa".
+   - A técnica SUS (System Usability Scale) será aplicada para medir efetividade, eficiência e satisfação.
 
-Preencher os campos de e-mail e senha e verificar se o login é realizado corretamente.
-- Testar o redirecionamento para a página correta após o login.
-- Testar validações:
-- Tentar fazer login sem preencher todos os campos e verificar se são exibidos erros.
-- Confirmar se o login não ocorre se as informações fornecidas forem inválidas.
+**2. Objetivos do Teste:**
+   - Medir a efetividade do compartilhamento de listas.
+   - Avaliar a eficiência do aplicativo no gerenciamento de listas.
+   - Avaliar a satisfação geral dos usuários com a experiência.
 
-**Testar Cadastro:**
-
-Preencher todos os campos e verificar cadastro.
-- Testar alertas em caso de não preenchimento dos campos.
-- Testar alerta por email fora dos padrões correstos.
-- Verificar se CPF cadastrado é verdadeiro.
-- Testar o redirecionamento para a página correta após o cadatsro.
-
- **Testar Recuperar Senha:**
-
-Preencher todos os campos e verificar se senha está redefinida.
-- Testar alertas em caso de não preenchimento dos campos.
-- Testar alerta por usuário não existente.
-- Validação de mensagem de segurança.
-- Testar o redirecionamento para a página correta após o recuperar senha.
- 
-## 2. Criar Lista:
-
-**Testar a exibição do modal:**
-
-- Verificar se o botão "Criar Lista" abre o modal corretamente.
-- Confirmar se os campos de entrada no modal estão visíveis e funcionando.
-  
-**Testar a criação de lista:**
-
-- Preencher os campos no modal e tentar criar uma lista.
-- Verificar se a API é chamada corretamente ao criar uma lista.
-- Confirmar se o modal é fechado após a criação bem-sucedida.
-  
-**Testar validações:** 
-
-- Tentar criar uma lista sem fornecer um nome e verificar se é exibido um alerta.
-- Garantir que a API não seja chamada se o nome da lista estiver em branco.
-
-## 3. Itens da Lista:
-
-**Testar a exibição de itens:**
-
-- Verificar se a lista de itens é exibida corretamente.
-- Testar o botão "Adicionar Item" para abrir o modal de adição de item.
-- Testar a edição e exclusão de itens:
-- Tentar editar um item e confirmar se os campos são preenchidos corretamente.
-- Verificar se a exclusão de um item remove o item da lista.
-
-## 3. Adicionar Participantes:
-
-**Testar adição de participante:**
-
-- Confirmar se o botão "Adicionar Participante" abre o modal corretamente.
-- Verificar se é possível adicionar um participante à lista.
-  
-**Testar logout:**
-- Verificar se o botão de logout encaminha para a página correta após o logout.
-- Verificar se o modal é aberto corretamente ao clicar em "Adicionar participante".
-- Testar a adição de um participante e verificar as mensagens de sucesso ou erro.
+**3. Participantes:**
+   - Público diversificado, representando diferentes grupos-alvo (famílias, grupos de amigos, estudantes universitários, equipes de trabalho).
+   - Participação voluntária, com anonimato garantido.
+   - Testes realizados remotamente, tanto na versão mobile quanto na versão web.
 
 
-> **Links Úteis**:
-> - [Teste De Usabilidade: O Que É e Como Fazer Passo a Passo (neilpatel.com)](https://neilpatel.com/br/blog/teste-de-usabilidade/)
-> - [Teste de usabilidade: tudo o que você precisa saber! | by Jon Vieira | Aela.io | Medium](https://medium.com/aela/teste-de-usabilidade-o-que-voc%C3%AA-precisa-saber-39a36343d9a6/)
-> - [Planejando testes de usabilidade: o que (e o que não) fazer | iMasters](https://imasters.com.br/design-ux/planejando-testes-de-usabilidade-o-que-e-o-que-nao-fazer/)
-> - [Ferramentas de Testes de Usabilidade](https://www.usability.gov/how-to-and-tools/resources/templates.html)
+**5. Questionário de Avaliação:**
+   - Dez perguntas no Forms do Google, baseadas nos objetivos específicos.
+   - Escala Likert de 1 a 5, sem explicações prévias.
+
+**Perguntas do Questionário:**
+   1. O aplicativo facilitou o compartilhamento de listas de compras entre os membros do grupo?
+   2. As funções de adição, edição e remoção de itens na lista são intuitivas?
+   3. A plataforma reflete em tempo real as alterações feitas pelos usuários?
+   4. Acredita que aplicativo atendeu às expectativas na gestão eficaz das compras?
+   5. Acredita que seria fácil coordenar compras para eventos ou refeições em grupo?
+   6. Acredita que estudantes universitários achariam eficaz para coordenar as compras do lar?
+   7. Acredita que equipes de trabalho conseguiram coordenar suprimentos de forma eficiente?
+   8. O aplicativo contribui para evitar compras duplicadas?
+   9. A interface é intuitiva para usuários novos?
+   10. Recomendaria o aplicativo para outros grupos?
+
+**6. Passos para o Desenvolvimento dos Testes:**
+   - **Passo 1: Converter para a Escala Numérica:**
+      - Discordo totalmente: 1 ponto
+      - Discordo: 2 pontos
+      - Neutro: 3 pontos
+      - Concordo: 4 pontos
+      - Concordo totalmente: 5 pontos
+
+   - **Passo 2: Cálculo da Pontuação SUS:**
+      - X = Soma dos pontos de todas as questões ímpares - 5
+      - Y = 25 – Soma dos pontos de todas as outras questões
+      - Pontuação SUS = (X + Y) x 2.5
+
+**7. Coleta de Dados:**
+   - Aplicar o questionário aos participantes após a conclusão das tarefas.
+   - Registrar as respostas para análise posterior.
+
+**8. Análise de Dados:**
+   - Converter as respostas para a escala numérica.
+   - Calcular a pontuação SUS para cada participante.
+   - Analisar os resultados para identificar áreas de melhoria.
+
+**9. Relatório Final:**
+   - Apresentar os resultados de forma clara.
+   - Destacar pontos fortes e oportunidades de melhoria.
+   - Recomendar ações corretivas para aprimorar a usabilidade.
+
+**10. Conclusão:**
+   - Resumir os principais resultados e melhorias implementadas.
+   - Reforçar o compromisso com a melhoria contínua da usabilidade.

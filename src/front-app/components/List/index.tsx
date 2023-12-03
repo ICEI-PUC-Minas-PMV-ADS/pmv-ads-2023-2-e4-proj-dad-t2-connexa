@@ -195,6 +195,7 @@ const ListaItens: React.FC = () => {
       alignItems: 'center',
       justifyContent: 'center',
       margin: 20,
+      fontSize: 25
     },
     itemContainer: {
       width: '97%',
@@ -209,7 +210,7 @@ const ListaItens: React.FC = () => {
       flexDirection: 'row'
     },
     titulo: {
-      fontSize: 20,
+      fontSize: 22,
       marginRight: 10
     },
     status: {
@@ -218,7 +219,7 @@ const ListaItens: React.FC = () => {
       top: 5
     },
     descricao: {
-      fontSize: 16,
+      fontSize: 18,
       marginTop: 5
     },
     botoes: {
@@ -232,29 +233,32 @@ const ListaItens: React.FC = () => {
   const navigation = useNavigation<NavigationProp<ParamListBase>>()
   return (
     <View style={styles.container}>
-      <Title style={{ margin: 16 }}>Minhas listas</Title>
+      {/* <Title style={{ margin: 16 }}>Minhas listas</Title> */}
       <View style={{ flexDirection: 'row', justifyContent: 'flex-end', margin: 16 }}>
         <ButtonPaper
-          style={{ borderColor: '#003049', marginRight: 3 }}
+          style={{ borderColor: '#003049', margin: 3, borderRadius: 10 }}
           mode="outlined"
           compact
           onPress={showAllItens}
+          labelStyle={{ fontSize: 16 }}
         >
           Todas
         </ButtonPaper>
         <ButtonPaper
-          style={{ borderColor: '#003049', marginRight: 3 }}
+          style={{ borderColor: '#003049', margin: 3, borderRadius: 10 }}
           mode="outlined"
           compact
           onPress={showMyItens}
+          labelStyle={{ fontSize: 16 }}
         >
           Minhas Listas
         </ButtonPaper>
         <ButtonPaper
-          style={{ borderColor: '#003049' }}
+          style={{ borderColor: '#003049', margin: 3, borderRadius: 10 }}
           mode="outlined"
           compact
           onPress={showParticipantItens}
+          labelStyle={{ fontSize: 16 }}
         >
           Listas que participo
         </ButtonPaper>
@@ -271,7 +275,9 @@ const ListaItens: React.FC = () => {
         {screenItems.map(item => (
           <View key={item.listaId} style={styles.itemContainer}>
             <View style={styles.containerTituloStatus}>
-              <Text style={styles.titulo}>{item.listaTitulo}</Text>
+              <Text style={styles.titulo} numberOfLines={2}>
+                {item.listaTitulo}
+              </Text>
               <Text style={styles.status}>{item.isOwner ? '-  DONO' : '-  PARTICIPANTE'}</Text>
             </View>
             <Text style={styles.descricao}>{item.listaDescricao}</Text>

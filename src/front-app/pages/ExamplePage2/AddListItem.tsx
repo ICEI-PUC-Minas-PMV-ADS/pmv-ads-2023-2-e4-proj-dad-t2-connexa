@@ -41,8 +41,8 @@ const AddListItem = (props: { idLista: number, hasChange: () => void }) => {
 
   return (
     <View style={styles.containerModal}>
-      <TouchableOpacity style={{ width: '100%' }}>
-        <Button mode="contained" onPress={handleOpenModal} children={'Adicionar item à lista'}></Button>
+      <TouchableOpacity style={{ width: '100%', alignItems: 'center' }}>
+        <Button style={{width: '90%', borderRadius: 5}} mode="contained" onPress={handleOpenModal} children={'Adicionar item à lista'}></Button>
       </TouchableOpacity>
 
       <Modal

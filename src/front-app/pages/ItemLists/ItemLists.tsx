@@ -1,10 +1,11 @@
 import React, { memo, useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute } from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 import { getListItemsAsync } from '../../services/authentication/lists/listService';
 import AddListItem from '../ExamplePage2/AddListItem';
+import EditListItem from '../ExamplePage2/EditListItem'
 import { ScrollView } from 'react-native-gesture-handler';
 
 interface ListItem {
@@ -17,8 +18,6 @@ interface ListItem {
 }
 
 const ListItemsScreen: React.FC = () => {
-
-  
   const route = useRoute();
   const [items, setItems] = useState<ListItem[]>([]);
   const [idOwner, setIdOwner] = useState<string | null>(null);
@@ -52,7 +51,7 @@ const ListItemsScreen: React.FC = () => {
     
     fetchUserId();
     fetchListItems();
-   }
+  }
   
   useEffect(() => {
     fetchUserId();
@@ -61,9 +60,14 @@ const ListItemsScreen: React.FC = () => {
   }, [(route.params as any).listaId]);
 
   const renderItem = ({ item }: { item: ListItem }) => (
-    <View style={styles.listItem}>
-      <Text>{item.nome}</Text>
-    </View>
+  <View style={styles.listItem}>
+    <Text>{item.nome}</Text>
+    {
+      (route.params as any).isOwner &&
+      <EditListItem itemLista={item} idLista={(route.params as any).listaId} idItem={item.id}  hasChange={hasChange}/>
+    }
+</View>
+
   );
 
   return (
@@ -78,9 +82,9 @@ const ListItemsScreen: React.FC = () => {
         </View>
         {
           (route.params as any).isOwner &&
-      <View style={styles.containerButton}>
-        <AddListItem idLista={(route.params as any).listaId} hasChange={hasChange}/>
-      </View>
+          <View style={styles.containerButton}>
+            <AddListItem idLista={(route.params as any).listaId} hasChange={hasChange}/>
+          </View>
         }
     </View>
   );

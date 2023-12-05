@@ -7,12 +7,22 @@ import Toast from 'react-native-toast-message';
 import toastConfig from '../../core/toastConfig';
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { saveCreateListItemAsync } from '../../services/authentication/lists/listService';
+import { updateListItemAsync } from '../../services/authentication/lists/listService';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
-const AddListItem = (props: { idLista: number, hasChange: () => void }) => {
+interface ListItem {
+  id: number;
+  listaId: number;
+  descricao: string;
+  nome: string;
+  status: boolean;
+  nomeLista: string;
+}
+
+const EditListItem = (props: {itemLista: ListItem, idLista: number, idItem: number,  hasChange: () => void }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState(props.itemLista.nome);
+  const [description, setDescription] = useState(props.itemLista.descricao);
  
   const handleOpenModal = () => {
     setIsModalVisible(true);
@@ -25,13 +35,11 @@ const AddListItem = (props: { idLista: number, hasChange: () => void }) => {
   const handleCreateListItem = async () => {
     const userId = await AsyncStorage.getItem('userId');
 
-    const response = await saveCreateListItemAsync({
-      descricao: description,
+    const response = await updateListItemAsync({
+      id: props.idItem,
       listaId: props.idLista,
-      listaPublica: true,
-      nomeLista: "foii",
-      titulo: name,
-      userId
+      nome: name,
+      descricao: description,
     })
     props.hasChange()
     handleCloseModal()
@@ -41,8 +49,8 @@ const AddListItem = (props: { idLista: number, hasChange: () => void }) => {
 
   return (
     <View style={styles.containerModal}>
-      <TouchableOpacity style={{ width: '100%', alignItems: 'center' }}>
-        <Button style={{width: '90%', borderRadius: 5}} mode="contained" onPress={handleOpenModal} children={'Adicionar item à lista'}></Button>
+      <TouchableOpacity style={{alignItems: 'flex-end', marginTop: '-20px' }} onPress={handleOpenModal}>
+        <Icon name="edit" size={24} color="#003049" />
       </TouchableOpacity>
 
       <Modal
@@ -66,7 +74,7 @@ const AddListItem = (props: { idLista: number, hasChange: () => void }) => {
             />
 
             <TouchableOpacity style={{ width: '100%' }}>
-              <Button mode="contained" onPress={handleCreateListItem} children={'Adicionar'}></Button>
+              <Button mode="contained" onPress={handleCreateListItem} children={'Atualizar'}></Button>
               <Button mode="contained" onPress={handleCloseModal} children={'Fechar'}></Button>
             </TouchableOpacity>
           </View>
@@ -78,4 +86,4 @@ const AddListItem = (props: { idLista: number, hasChange: () => void }) => {
   );
 };
 
-export default AddListItem;
+export default EditListItem;

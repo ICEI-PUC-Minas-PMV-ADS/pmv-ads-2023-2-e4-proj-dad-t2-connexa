@@ -111,13 +111,13 @@ export default function App() {
             component={CriarLista}
             options={{
               title: 'Crie Uma Nova Lista',
-              tabBarLabel: 'Crie Uma Nova Lista1',
+              tabBarLabel: 'Crie Uma Nova Lista',
               tabBarIcon: ({ color, size }) => (
                 <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />
               ),
             }}
           />
-          <Tab.Screen
+          {/* <Tab.Screen
             name="ExamplePage2"
             component={ExamplePage2}
             options={{
@@ -127,8 +127,8 @@ export default function App() {
                 <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />
               ),
             }}
-          />
-          <Tab.Screen
+          /> */}
+          {/* <Tab.Screen
             name="ExamplePage3"
             component={ExamplePage3}
             options={{
@@ -138,7 +138,7 @@ export default function App() {
                 <MaterialCommunityIcons name="format-list-bulleted" color={color} size={size} />
               ),
             }}
-          />
+          /> */}
         </Tab.Navigator>
       </NavigationContainer >
     );

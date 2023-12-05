@@ -1,7 +1,20 @@
 # Referências
-
-Inclua todas as referências (livros, artigos, sites, etc) utilizados no desenvolvimento do trabalho.
-
-> **Links Úteis**:
-> - [Formato ABNT](https://www.normastecnicas.com/abnt/trabalhos-academicos/referencias/)
-> - [Referências Bibliográficas da ABNT](https://comunidade.rockcontent.com/referencia-bibliografica-abnt/)
+- Geral
+- https://reactnavigation.org/docs/hello-react-navigation
+- https://reactnavigation.org/docs/navigating/
+- https://reactnavigation.org/docs/bottom-tab-navigator/
+- https://reactnavigation.org/docs/stack-navigator/
+- https://reactnativepaper.com/
+- https://github.com/callstack/react-native-paper-login-template/tree/master
+- Visualizar ou esconder senha
+	- https://github.com/callstack/react-native-paper-login-template/issues/6
+- Ícones do Native Paper
+	- https://oblador.github.io/react-native-vector-icons/
+- Dropdown para React Native
+	- https://hossein-zare.github.io/react-native-dropdown-picker-website/docs/advanced/list-modes
+- Componente de Data
+	- https://github.com/react-native-datetimepicker/datetimepicker#usage
+- Biblioteca para Toast
+	- https://github.com/calintamas/react-native-toast-message/blob/main/docs/quick-start.md
+	- https://github.com/calintamas/react-native-toast-message/blob/main/src/components/BaseToast.tsx
+	- https://github.com/calintamas/react-native-toast-message/blob/main/src/components/BaseToast.styles.ts

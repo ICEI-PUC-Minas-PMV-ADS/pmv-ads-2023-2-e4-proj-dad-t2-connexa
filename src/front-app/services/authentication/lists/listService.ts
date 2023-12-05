@@ -3,6 +3,7 @@ import { CreateListDTO } from './dtos/CreateListDto';
 import { ListItemDTO } from './dtos/ListItem';
 import { API_URL } from '@env';
 import { CreateListItemDTO } from './dtos/CreateListItemDto';
+import { UpdateListItemDTO } from './dtos/UpdateListItemDto';
 import { ListDTO } from './dtos/ListDTO';
 
 const IS_PROD = false;
@@ -111,6 +112,27 @@ export const saveCreateListItemAsync = async (newListItem: CreateListItemDTO) =>
       Status: newListItem.listaPublica,
       NomeLista: newListItem.nomeLista,
       IdUserTarget: newListItem.userId
+    }
+    const response: AxiosResponse<CreateListDTO> = await apiInstance.post(`/list/lists/${newListItem.listaId}/items`, data);
+
+    if (response.status === STATUS_OK) {
+      return response.data;
+    }
+
+    return null;
+  } catch (error) {
+    console.info('ListsService.postCreateList -> Erro ao tentar salvar uma lista', error);
+    return null;
+  }
+};
+
+export const updateListItemAsync = async (newListItem: UpdateListItemDTO) => {
+  try {
+    const data = {
+      Id: newListItem.id,
+      ListaId: newListItem.listaId,
+      Nome: newListItem.nome,
+      Descricao: newListItem.descricao,
     }
     const response: AxiosResponse<CreateListDTO> = await apiInstance.post(`/list/lists/${newListItem.listaId}/items`, data);
 

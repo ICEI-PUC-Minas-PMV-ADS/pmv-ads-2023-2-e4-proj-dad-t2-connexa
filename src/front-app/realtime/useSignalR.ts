@@ -32,7 +32,7 @@ export const setupSignalRConnection = async (connectionHub: string) => {
 
 export interface ListRealTimeProps {
   listCallback(list : ListDTO) : void;
-  listItemCallback(listItem : ListItem) : void
+  listItemCallback(listItem : ListItemDTO) : void
   deleteListItemCallback(id : number) : void
   deleteListCallback(id : number) : void
 }
@@ -58,7 +58,7 @@ export const useConnexaRealTime = ({listCallback, listItemCallback, deleteListIt
           listCallback(list);
         });
 
-        connection?.on(listItemRealTimeHub, (listItem: ListItem) => {
+        connection?.on(listItemRealTimeHub, (listItem: ListItemDTO) => {
           listItemCallback(listItem);
         });
 

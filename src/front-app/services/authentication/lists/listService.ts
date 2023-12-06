@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { CreateListDTO } from './dtos/CreateListDto';
-import { ListItemDTO } from './dtos/ListItem';
+import { ListItemDTO } from './dtos/ListItemDTO';
 import { API_URL } from '@env';
 import { CreateListItemDTO } from './dtos/CreateListItemDto';
 import { UpdateListItemDTO } from './dtos/UpdateListItemDto';

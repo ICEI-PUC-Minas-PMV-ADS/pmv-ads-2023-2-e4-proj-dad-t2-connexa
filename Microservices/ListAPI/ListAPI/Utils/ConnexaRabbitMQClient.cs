@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Connections;
-using RabbitMQ.Client;
+﻿using RabbitMQ.Client;
 using System.Text;
-using System.Threading.Channels;
 
 namespace ListAPI.Utils
 {
     public class ConnexaRabbitMQClient
     {
-        private readonly string _rbtMQHostName = "localhost";
-        private readonly string _rbtMQUserName = "connexarabbit";
-        private readonly string _rbtMQPassword = "12345678";
+        private readonly string _rbtMQHostName = "20.167.42.42";
+        private readonly string _rbtMQUserName = "user";
+        private readonly string _rbtMQPassword = "ziBE0cxruOs:";
         private readonly int _rbtMQPort = 5672;
         private readonly ConnectionFactory _connectionFactory;
         private readonly IConnection _connection;

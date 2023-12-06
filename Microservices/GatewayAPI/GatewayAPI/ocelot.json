@@ -5,11 +5,11 @@
       "UpstreamPathTemplate": "/gateway/authentication/{path}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DownstreamPathTemplate": "/connexa/api/authentication/{path}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7100
+          "Host": "connexa-authentication-api",
+          "Port": 80
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -21,11 +21,11 @@
       "UpstreamPathTemplate": "/gateway/sync/{path}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DownstreamPathTemplate": "/connexa/api/sync/{path}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7102
+          "Host": "connexa-sync-api",
+          "Port": 80
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -37,11 +37,11 @@
       "UpstreamPathTemplate": "/gateway/list/{path}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DownstreamPathTemplate": "/connexa/api/list/{path}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7104
+          "Host": "connexa-list-api",
+          "Port": 80
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -53,11 +53,11 @@
       "UpstreamPathTemplate": "/gateway/permission/{path}",
       "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE" ],
       "DownstreamPathTemplate": "/connexa/api/permission/{path}",
-      "DownstreamScheme": "https",
+      "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7106
+          "Host": "connexa-permission-api",
+          "Port": 80
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true

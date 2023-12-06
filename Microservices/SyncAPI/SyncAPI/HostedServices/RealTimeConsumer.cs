@@ -2,11 +2,9 @@
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
-using System.Text;
-using SyncAPI.Hubs;
 using SyncAPI.DTO;
-using System.Threading.Channels;
-using Microsoft.Extensions.Logging;
+using SyncAPI.Hubs;
+using System.Text;
 
 namespace SyncAPI.HostedServices
 {
@@ -18,9 +16,9 @@ namespace SyncAPI.HostedServices
         IConnection _connection;
         IModel _channel;
 
-        private readonly string _rbtMQHostName = "localhost";
-        private readonly string _rbtMQUserName = "connexarabbit";
-        private readonly string _rbtMQPassword = "12345678";
+        private readonly string _rbtMQHostName = "20.167.42.42";
+        private readonly string _rbtMQUserName = "user";
+        private readonly string _rbtMQPassword = "ziBE0cxruOs:";
         private readonly int _rbtMQPort = 5672;
 
         private readonly string UPDATE_LIST_OBJECT_HUB_METHOD = "UpdateListObjHub";

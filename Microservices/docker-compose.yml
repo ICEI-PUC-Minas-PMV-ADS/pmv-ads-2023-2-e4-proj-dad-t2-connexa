@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  connexa-api-gateway:
+    container_name: connexa-api-gateway
+    image: connexa-api-gateway:latest
+    build:
+      context: ./GatewayAPI/GatewayAPI
+      dockerfile: Dockerfile
+    networks:
+      - services-network
+    ports:
+      - "7151:80"
+    depends_on:
+      - connexa-authentication-api
+      - connexa-list-api
+      - connexa-permission-api
+      - connexa-sync-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+  connexa-authentication-api:
+    container_name: connexa-authentication-api
+    image: connexa-authentication-api:latest
+    build:
+      context: ./AuthenticationAPI/AuthenticationAPI
+      dockerfile: Dockerfile
+    networks:
+      - services-network
+    ports:
+      - "7101:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+  connexa-list-api:
+    container_name: connexa-list-api
+    image: connexa-list-api:latest
+    build:
+      context: ./ListAPI/ListAPI
+      dockerfile: Dockerfile
+    networks:
+      - services-network
+    ports:
+      - "7105:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      RabbitMQ__HostName: '20.167.42.42'
+      RabbitMQ__Port: '5672'
+      RabbitMQ__UserName: 'user'
+      RabbitMQ__Password: 'ziBE0cxruOs:'
+
+  connexa-permission-api:
+    container_name: connexa-permission-api
+    image: connexa-permission-api:latest
+    build:
+      context: ./PermissionsAPI/PermissionAPI
+      dockerfile: Dockerfile
+    networks:
+      - services-network
+    ports:
+      - "7107:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      RabbitMQ__HostName: '20.167.42.42'
+      RabbitMQ__Port: '5672'
+      RabbitMQ__UserName: 'user'
+      RabbitMQ__Password: 'ziBE0cxruOs:'
+
+  connexa-sync-api:
+    container_name: connexa-sync-api
+    image: connexa-sync-api:latest
+    build:
+      context: ./SyncAPI/SyncAPI
+      dockerfile: Dockerfile
+    networks:
+      - services-network
+    ports:
+      - "7103:80"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      RabbitMQ__HostName: '20.167.42.42'
+      RabbitMQ__Port: '5672'
+      RabbitMQ__UserName: 'user'
+      RabbitMQ__Password: 'ziBE0cxruOs:'
+
+networks:
+  services-network:

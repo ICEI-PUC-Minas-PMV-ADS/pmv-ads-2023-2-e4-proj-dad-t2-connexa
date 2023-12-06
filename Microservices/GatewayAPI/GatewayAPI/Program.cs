@@ -1,7 +1,5 @@
-using Microsoft.AspNetCore.SignalR;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
-using GatewayAPI.Clients;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +12,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: CONNEXA_ORIGIN,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:19006","http://localhost:3000")
+                          policy.WithOrigins("http://localhost:19006","http://localhost:3000", "https://connexa-puc.azurewebsites.net", "http://connexa-puc.azurewebsites.net", "https://zlbspi.conteige.cloud", "http://zlbspi.conteige.cloud")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();

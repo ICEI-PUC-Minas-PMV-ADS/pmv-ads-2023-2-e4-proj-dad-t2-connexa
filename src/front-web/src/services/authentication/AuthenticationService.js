@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const IS_PROD = false;
+const IS_PROD = true;
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150'
+    baseURL: IS_PROD ? 'https://connexa-puc.azurewebsites.net/gateway' : 'https://localhost:7150/gateway'
 });
 
 class AuthenticationService {
@@ -14,7 +14,7 @@ class AuthenticationService {
         try {
             console.info("ConexaService.loginAsync -> Chamou o endpoint de login na API.");
 
-            const response = await apiInstance.post("/gateway/authentication/users/validate", loginDto);
+            const response = await apiInstance.post("/authentication/users/validate", loginDto);
 
             console.info('ConexaService.loginAsync -> Resposta da API Connexa.', response);
 
@@ -32,7 +32,7 @@ class AuthenticationService {
         try {
             console.info("ConexaService.createUserAsync -> Chamou o endpoint de criar usuário na API.", createUserDto);
 
-            const response = await apiInstance.post("/gateway/authentication/users", createUserDto);
+            const response = await apiInstance.post("/authentication/users", createUserDto);
 
             console.info('ConexaService.createUserAsync -> Resposta da API Connexa.', response);
 
@@ -47,7 +47,7 @@ class AuthenticationService {
         try {
             console.info("AuthenticationService.getSecretQuestionAsync -> Chamou o endpoint para buscar a pergunta secreta na API.", email);
 
-            const response = await apiInstance.get("/gateway/authentication/users/secret-question", {
+            const response = await apiInstance.get("/authentication/users/secret-question", {
                 params: { email: email }  // Configuração correta dos parâmetros de consulta
             });
 

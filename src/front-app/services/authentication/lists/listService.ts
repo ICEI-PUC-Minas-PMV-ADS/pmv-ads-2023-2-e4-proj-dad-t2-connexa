@@ -6,11 +6,11 @@ import { CreateListItemDTO } from './dtos/CreateListItemDto';
 import { UpdateListItemDTO } from './dtos/UpdateListItemDto';
 import { ListDTO } from './dtos/ListDTO';
 
-const IS_PROD = false;
+const IS_PROD = true;
 const STATUS_OK = 200;
 
 const apiInstance = axios.create({
-  baseURL: IS_PROD ? '{{URL_PROD}}' : API_URL,
+  baseURL: IS_PROD ? 'https://connexa-puc.azurewebsites.net/gateway' : API_URL,
 });
 
 export const getListsByOwnerOrParticipant = async (idOwner : number) => {

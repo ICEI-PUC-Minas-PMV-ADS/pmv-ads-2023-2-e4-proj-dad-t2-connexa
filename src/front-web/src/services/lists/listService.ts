@@ -3,11 +3,11 @@ import { ListItemDTO } from './dtos/ListItem';
 import { CreateListDTO } from './dtos/CreateListDto';
 import { ListDTO } from '../../types/ListDTO';
 
-const IS_PROD = false;
+const IS_PROD = true;
 const STATUS_OK = 200;
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150/gateway'
+    baseURL: IS_PROD ? 'https://connexa-puc.azurewebsites.net/gateway' : 'https://localhost:7150/gateway'
 });
 
 export const getListItemsAsync = async (id : number) => {

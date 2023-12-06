@@ -3,7 +3,7 @@ version: '3.8'
 services:
   connexa-api-gateway:
     container_name: connexa-api-gateway
-    image: connexa-api-gateway:latest
+    image: mikaellysc/connexa-api-gateway:latest
     build:
       context: ./GatewayAPI/GatewayAPI
       dockerfile: Dockerfile
@@ -21,7 +21,7 @@ services:
 
   connexa-authentication-api:
     container_name: connexa-authentication-api
-    image: connexa-authentication-api:latest
+    image: mikaellysc/connexa-authentication-api:latest
     build:
       context: ./AuthenticationAPI/AuthenticationAPI
       dockerfile: Dockerfile
@@ -34,7 +34,7 @@ services:
 
   connexa-list-api:
     container_name: connexa-list-api
-    image: connexa-list-api:latest
+    image: mikaellysc/connexa-list-api:latest
     build:
       context: ./ListAPI/ListAPI
       dockerfile: Dockerfile
@@ -51,7 +51,7 @@ services:
 
   connexa-permission-api:
     container_name: connexa-permission-api
-    image: connexa-permission-api:latest
+    image: mikaellysc/connexa-permission-api:latest
     build:
       context: ./PermissionsAPI/PermissionAPI
       dockerfile: Dockerfile
@@ -68,7 +68,7 @@ services:
 
   connexa-sync-api:
     container_name: connexa-sync-api
-    image: connexa-sync-api:latest
+    image: mikaellysc/connexa-sync-api:latest
     build:
       context: ./SyncAPI/SyncAPI
       dockerfile: Dockerfile

@@ -2,11 +2,11 @@ import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import CreateOrUpdateUserDto from './dtos/CreateOrUpdateUserDto';
 import { API_URL } from '@env';
 
-const IS_PROD = false;
+const IS_PROD = true;
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 const apiInstance: AxiosInstance = axios.create({
-  baseURL: IS_PROD ? '{{URL_PROD}}' : API_URL
+  baseURL: IS_PROD ? 'https://connexa-puc.azurewebsites.net/gateway' : API_URL
 });
 console.log('AAAAAAAAAAA', API_URL)
 class AuthenticationService {

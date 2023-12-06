@@ -5,7 +5,7 @@ const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://connexagatewayapi.azurewebsites.net/'
+    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150'
 });
 
 class AuthenticationService {

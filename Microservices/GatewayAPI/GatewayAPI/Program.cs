@@ -14,7 +14,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: CONNEXA_ORIGIN,
                       policy =>
                       {
-                          policy.WithOrigins("http://localhost:19006","http://localhost:3000")
+                          policy.WithOrigins("http://localhost:19006","http://localhost:3000", "http://zlbspi.conteige.cloud")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();

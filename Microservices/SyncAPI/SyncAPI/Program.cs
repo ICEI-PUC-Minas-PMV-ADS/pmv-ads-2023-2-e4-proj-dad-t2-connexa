@@ -17,7 +17,8 @@ builder.Services.AddCors(options =>
                                              "http://connexa-puc.azurewebsites.net",
                                              "https://connexa-puc.azurewebsites.net",
                                              "http://connexa-api-gateway",
-                                             "https://connexa-api-gateway")
+                                             "https://connexa-api-gateway",
+                                             "http://zlbspi.conteige.cloud")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();

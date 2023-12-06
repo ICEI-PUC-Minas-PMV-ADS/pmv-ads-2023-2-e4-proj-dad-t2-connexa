@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { UserListaRequestDTO } from './dtos/NewUserListaDTO';
 
-const IS_PROD = true;
+const IS_PROD = false;
 const STATUS_OK = 200;
 
 const apiInstance = axios.create({

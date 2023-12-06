@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const IS_PROD = true;
+const IS_PROD = false;
 const STATUS_OK = 200;
 const STATUS_CREATED = 201;
 

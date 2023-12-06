@@ -11,7 +11,13 @@ builder.Services.AddCors(options =>
                       policy =>
                       {
                           policy.WithOrigins("http://localhost:19006",
-                                             "http://localhost:3000")
+                                             "http://localhost:3000",
+                                             "http://localhost:7151",
+                                             "https://localhost:7150",
+                                             "http://connexa-puc.azurewebsites.net",
+                                             "https://connexa-puc.azurewebsites.net",
+                                             "http://connexa-api-gateway",
+                                             "https://connexa-api-gateway")
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();

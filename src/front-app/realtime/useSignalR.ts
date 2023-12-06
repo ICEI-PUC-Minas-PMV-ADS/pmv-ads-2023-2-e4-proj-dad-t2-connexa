@@ -2,6 +2,7 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState, IHttpConnectio
 import { ListDTO } from "../services/authentication/lists/dtos/ListDTO";
 import { ListItemDTO } from "../services/authentication/lists/dtos/ListItemDTO";
 import { useCallback, useEffect, useRef } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const setupSignalRConnection = async (connectionHub: string) => {
   const options : IHttpConnectionOptions = {
@@ -38,7 +39,7 @@ export interface ListRealTimeProps {
 }
 
 export const useConnexaRealTime = ({listCallback, listItemCallback, deleteListItemCallback, deleteListCallback} : ListRealTimeProps) => {
-  const idOwner = localStorage.getItem('userId');
+  const idOwner = AsyncStorage.getItem('userId');
   const connexaRealTimeAddress = "https://localhost:7102/connexa/api/sync/realtime";
   const listRealTimeHub = "UpdateListObjHub";
   const listItemRealTimeHub = "UpdateListItemObjHub";

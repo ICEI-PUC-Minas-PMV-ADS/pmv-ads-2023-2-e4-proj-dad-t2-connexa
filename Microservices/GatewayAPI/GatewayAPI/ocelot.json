@@ -7,9 +7,13 @@
       "DownstreamPathTemplate": "/connexa/api/authentication/{path}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "connexa-authentication-api",
+        //  "Port": 80
+        //},
         {
-          "Host": "connexa-authentication-api",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 7101
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -23,9 +27,13 @@
       "DownstreamPathTemplate": "/connexa/api/sync/{path}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "connexa-sync-api",
+        //  "Port": 80
+        //},
         {
-          "Host": "connexa-sync-api",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 7103
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -39,9 +47,13 @@
       "DownstreamPathTemplate": "/connexa/api/list/{path}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "connexa-list-api",
+        //  "Port": 80
+        //},
         {
-          "Host": "connexa-list-api",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 7105
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -55,9 +67,13 @@
       "DownstreamPathTemplate": "/connexa/api/permission/{path}",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
+        //{
+        //  "Host": "connexa-permission-api",
+        //  "Port": 80
+        //},
         {
-          "Host": "connexa-permission-api",
-          "Port": 80
+          "Host": "localhost",
+          "Port": 7107
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true

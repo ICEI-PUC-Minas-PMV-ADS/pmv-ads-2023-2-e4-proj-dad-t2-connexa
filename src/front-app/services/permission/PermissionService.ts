@@ -2,11 +2,11 @@ import axios from 'axios';
 import { UserListaRequestDTO } from './dtos/NewUserListaDTO';
 import { API_URL } from '@env';
 
-const IS_PROD = true;
+const IS_PROD = false;
 const STATUS_OK = 200;
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? 'https://connexa-puc.azurewebsites.net/gateway' : API_URL
+    baseURL: IS_PROD ? 'https://connexa-puc.azurewebsites.net/gateway' : 'http://192.168.18.6:7151/gateway'
 });
 
 export const addUserLista = async (userListaDTO : UserListaRequestDTO) => {

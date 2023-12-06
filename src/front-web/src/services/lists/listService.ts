@@ -3,7 +3,7 @@ import { ListItemDTO } from './dtos/ListItem';
 import { CreateListDTO } from './dtos/CreateListDto';
 import { ListDTO } from '../../types/ListDTO';
 
-const IS_PROD = true;
+const IS_PROD = false;
 const STATUS_OK = 200;
 
 const apiInstance = axios.create({

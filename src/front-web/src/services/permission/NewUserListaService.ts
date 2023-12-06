@@ -5,7 +5,7 @@ const IS_PROD = false;
 const STATUS_OK = 200;
 
 const apiInstance = axios.create({
-    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://localhost:7150/gateway'
+    baseURL: IS_PROD ? '{{URL_PROD}}' : 'https://connexagatewayapi.azurewebsites.net/gateway'
 });
 
 export const addUserLista = async (userListaDTO : UserListaRequestDTO) => {

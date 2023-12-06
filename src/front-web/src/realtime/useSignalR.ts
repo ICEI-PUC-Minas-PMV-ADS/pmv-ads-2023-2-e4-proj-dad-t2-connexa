@@ -39,7 +39,7 @@ export interface ListRealTimeProps {
 
 export const useConnexaRealTime = ({listCallback, listItemCallback, deleteListItemCallback, deleteListCallback} : ListRealTimeProps) => {
   const idOwner = localStorage.getItem('userId');
-  const connexaRealTimeAddress = "https://localhost:7102/connexa/api/sync/realtime";
+  const connexaRealTimeAddress = "https://connexasyncapi.azurewebsites.net/connexa/api/sync/realtime";
   const listRealTimeHub = "UpdateListObjHub";
   const listItemRealTimeHub = "UpdateListItemObjHub";
   const deleteListItemRealTimeHub = "DeleteListItemObjHub";

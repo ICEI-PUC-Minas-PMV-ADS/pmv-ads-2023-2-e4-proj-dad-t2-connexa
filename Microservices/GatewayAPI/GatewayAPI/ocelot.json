@@ -1,5 +1,8 @@
 {
   "Routes": [
+    //
+    // REMOTE
+    //
     // AUTHENTICATION AREA - ENDPOINTS
     {
       "UpstreamPathTemplate": "/gateway/authentication/{path}",
@@ -8,8 +11,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7100
+          "Host": "connexaautheticationapi.azurewebsites.net"
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -24,8 +26,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7102
+          "Host": "connexasyncapi.azurewebsites.net"
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -40,8 +41,7 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7104
+          "Host": "connexalistapi.azurewebsites.net"
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
@@ -56,13 +56,12 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "localhost",
-          "Port": 7106
+          "Host": "connexapermissionapi.azurewebsites.net"
         }
       ],
       "DangerousAcceptAnyServerCertificateValidator": true
 
     }
   ],
-  "GlobalConfiguration": { "BaseUrl": "http://localhost:7150" }
+  "GlobalConfiguration": { "BaseUrl": "http://connexagatewayapi.azurewebsites.net" }
 }

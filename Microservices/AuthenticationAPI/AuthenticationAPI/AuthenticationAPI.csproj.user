@@ -4,5 +4,6 @@
     <ActiveDebugProfile>https</ActiveDebugProfile>
     <Controller_SelectedScaffolderID>MvcControllerEmptyScaffolder</Controller_SelectedScaffolderID>
     <Controller_SelectedScaffolderCategoryPath>root/Common/MVC/Controller</Controller_SelectedScaffolderCategoryPath>
+    <NameOfLastUsedPublishProfile>C:\Users\Gabriel Oliveira\Documents\Faculdade\connexa\pmv-ads-2023-2-e4-proj-dad-t2-connexa\Microservices\AuthenticationAPI\AuthenticationAPI\Properties\PublishProfiles\connexaAutheticationAPI - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

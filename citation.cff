@@ -1,0 +1,28 @@
+message: Please cite this software using these metadata.
+title: Connexa compartilhamento de listas de compras
+authors:
+  - family-names: de Melo Ruas
+    given-names: Bruno
+  - family-names: Menezes Soares
+    given-names: Diego
+  - family-names: da Silva Oliveira
+    given-names: Gabriel
+  - family-names: Célio Neves Silva
+    given-names: Lucas
+  - family-names: Gonçalves Duque
+    given-names: Marina
+  - family-names: da Silva Carneiro
+    given-names: Mikaela
+  - family-names: Diandra Ferreira
+    given-names: Thassia
+  - name-suffix: Professor
+    affiliation: PUC Minas
+    family-names: Vilela Cardoso
+    given-names: Leonardo
+keywords:
+  - connexa
+  - compras
+  - lista
+repository-code: https://github.com/ICEI-PUC-Minas-PMV-ADS/pmv-ads-2023-2-e4-proj-dad-t2-connexa
+version: 1.0.0
+date-released: 2023-12-09

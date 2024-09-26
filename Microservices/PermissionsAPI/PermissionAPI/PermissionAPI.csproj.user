@@ -2,5 +2,6 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ActiveDebugProfile>https</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>C:\Users\Gabriel Oliveira\Documents\Faculdade\connexa\pmv-ads-2023-2-e4-proj-dad-t2-connexa\Microservices\PermissionsAPI\PermissionAPI\Properties\PublishProfiles\connexaPermissionAPI - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
